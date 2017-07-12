@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eleks.Yurii.Fozekosh.CoreQuizz.WebService", "Eleks.Yurii.Fozekosh.CoreQuizz.WebService\Eleks.Yurii.Fozekosh.CoreQuizz.WebService.csproj", "{55CCEEE6-AB9C-4805-A745-EEE1396B5C4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess", "Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess\Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.csproj", "{9B852FE8-4E68-40BA-A0DA-70FDE2E9797A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eleks.Yurii.Fozekosh.CoreQuizz.Shared", "Eleks.Yurii.Fozekosh.CoreQuizz.Shared\Eleks.Yurii.Fozekosh.CoreQuizz.Shared.csproj", "{07767E52-8F5A-423F-9816-08D55BB852C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Eleks.Yurii.Fozekosh.CoreQuizz._Tests", "Eleks.Yurii.Fozekosh.CoreQuizz._Tests", "{AA7919B4-716B-4A32-B01C-53DAFF0FAB13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eleks.Yurii.Fozekosh.CoreQuizz.UnitTests", "Eleks.Yurii.Fozekosh.CoreQuizz._Tests\Eleks.Yurii.Fozekosh.CoreQuizz.UnitTests\Eleks.Yurii.Fozekosh.CoreQuizz.UnitTests.csproj", "{6356AD0A-D9BB-4A24-BAF4-EFA8225880D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55CCEEE6-AB9C-4805-A745-EEE1396B5C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CCEEE6-AB9C-4805-A745-EEE1396B5C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CCEEE6-AB9C-4805-A745-EEE1396B5C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CCEEE6-AB9C-4805-A745-EEE1396B5C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B852FE8-4E68-40BA-A0DA-70FDE2E9797A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B852FE8-4E68-40BA-A0DA-70FDE2E9797A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B852FE8-4E68-40BA-A0DA-70FDE2E9797A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B852FE8-4E68-40BA-A0DA-70FDE2E9797A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07767E52-8F5A-423F-9816-08D55BB852C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07767E52-8F5A-423F-9816-08D55BB852C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07767E52-8F5A-423F-9816-08D55BB852C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07767E52-8F5A-423F-9816-08D55BB852C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6356AD0A-D9BB-4A24-BAF4-EFA8225880D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6356AD0A-D9BB-4A24-BAF4-EFA8225880D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6356AD0A-D9BB-4A24-BAF4-EFA8225880D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6356AD0A-D9BB-4A24-BAF4-EFA8225880D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6356AD0A-D9BB-4A24-BAF4-EFA8225880D6} = {AA7919B4-716B-4A32-B01C-53DAFF0FAB13}
+	EndGlobalSection
+EndGlobal
