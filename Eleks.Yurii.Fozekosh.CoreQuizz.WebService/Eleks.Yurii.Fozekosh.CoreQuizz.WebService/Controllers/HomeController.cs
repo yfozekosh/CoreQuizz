@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService.Controllers
@@ -16,7 +17,12 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService.Controllers
         public ActionResult Index()
         {
             _logger.LogInformation("accessing home");
-            return Ok("this is home index");
+            var user = HttpContext.Session.GetString("login");
+            if (user != null)
+            {
+                return View((object)user);
+            }
+            return RedirectToAction("Login", "Account");
         }
     }
 }

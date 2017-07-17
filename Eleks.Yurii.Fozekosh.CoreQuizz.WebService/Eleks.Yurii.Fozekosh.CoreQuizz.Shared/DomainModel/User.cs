@@ -2,18 +2,19 @@
 
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel
 {
-    public class User
+    public class User : BaseEntity
     {
-        [Required()]
+        [Required]
         public string Name { get; set; }
         
-        [Required()]
+        [Required]
         public string SecondName { get; set; }
  
         public string MiddleName { get; set; } = null;
         
         public string FullName => $"{Name} {MiddleName} {SecondName}";
         
+        [Required]
         public string Email { get; set; } 
     }
 }

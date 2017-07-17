@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess
+namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts
 {
     public interface IRepository<T>
     {

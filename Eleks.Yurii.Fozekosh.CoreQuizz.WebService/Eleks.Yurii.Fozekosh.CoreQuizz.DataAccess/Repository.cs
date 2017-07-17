@@ -1,32 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts;
 
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess
 {
-    public interface IDataSaver<T>
+    public class EfRepository<T> : IRepository<T>
     {
-        void Save(IList<T> data);
-        IList<T> Read();
-    }
+        private readonly Microsoft.EntityFrameworkCore.DbContext _context;
 
-    class DataSaver<T> : IDataSaver<T>
-    {
-        public void Save(IList<T> data)
+        public EfRepository(Microsoft.EntityFrameworkCore.DbContext context)
         {
-            
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public IList<T> Read()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class InMemoryRepository<T> : IRepository<T>
-    {
-        
-        
         public T Get<T2>(T2 id)
         {
             throw new NotImplementedException();
