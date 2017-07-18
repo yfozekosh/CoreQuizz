@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel
 {

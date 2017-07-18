@@ -1,14 +1,23 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts
 {
-    public interface IRepository<T>
+    public interface IRepository<TEntity>
     {
-        T Get<T2>(T2 id);
-        void Update(T item);
-        void Delete(T item);
-        void Delete(Func<T, bool> predicate);
-        void Add(T item);
-        void Save();
+        TEntity Get(params object[] id);
+
+        IEnumerable GetAll();
+
+        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
+
+        void Update(TEntity item);
+
+        void Delete(TEntity item);
+
+        void Delete(Func<TEntity, bool> predicate);
+
+        void Add(TEntity item);
     }
 }

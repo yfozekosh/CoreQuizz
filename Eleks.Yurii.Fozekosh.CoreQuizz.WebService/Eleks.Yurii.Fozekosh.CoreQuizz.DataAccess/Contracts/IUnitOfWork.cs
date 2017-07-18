@@ -1,10 +1,8 @@
-﻿using Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel;
-
-namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts
+﻿namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts
 {
     public interface IUnitOfWork
     {
-        IRepository<T> Get<T>() where T:BaseEntity;
+        IRepository<T> Get<T>() where T:class ;
         void Save();
         void Rollback();
     }

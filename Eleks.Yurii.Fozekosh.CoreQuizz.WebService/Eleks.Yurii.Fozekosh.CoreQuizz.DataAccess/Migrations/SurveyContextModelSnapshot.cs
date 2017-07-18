@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess;
+using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.DbContext;
 
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Migrations
 {
@@ -18,25 +18,28 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Migrations
 
             modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Email")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<int>("Id");
 
                     b.Property<string>("MiddleName");
 
                     b.Property<DateTime>("ModifieDateTime");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
-                    b.Property<string>("SecondName")
-                        .IsRequired();
+                    b.Property<string>("PasswordHash");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Salt");
+
+                    b.Property<string>("SecondName");
+
+                    b.HasKey("Email");
+
+                    b.HasAlternateKey("Id");
 
                     b.ToTable("Users");
                 });

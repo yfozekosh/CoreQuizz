@@ -40,6 +40,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Eleks.Yurii.Fozekosh.CoreQuizz.BAL\Eleks.Yurii.Fozekosh.CoreQuizz.BAL.csproj" />
     <ProjectReference Include="..\Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess\Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.csproj" />
   </ItemGroup>
 </Project>
