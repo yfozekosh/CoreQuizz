@@ -16,7 +16,7 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        // GET
+        [HttpGet]
         public ActionResult Index()
         {
             _logger.LogInformation("accessing home");
