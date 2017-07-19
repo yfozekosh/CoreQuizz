@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Eleks.Yurii.Fozekosh.CoreQuizz.BAL;
 using Eleks.Yurii.Fozekosh.CoreQuizz.BAL.Contracts;
 using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts;
 using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.DbContext;
 using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.EfDAL;
+using Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +41,7 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService
             services.AddTransient<IAccountManager, AccountManager>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole();
             loggerFactory.AddNLog();
@@ -59,6 +61,16 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService
                     action = "index"
                 });
             });
+
+            if (env.IsDevelopment())
+            {
+                var accountManager = serviceProvider.GetService<IAccountManager>();
+                var email = "yfozekosh@gmail.com";
+                if (!accountManager.IsUserExists(email))
+                {
+                    accountManager.RegisterUser("yfozekosh@gmail.com", "1234");
+                }
+            }
         }
     }
 }

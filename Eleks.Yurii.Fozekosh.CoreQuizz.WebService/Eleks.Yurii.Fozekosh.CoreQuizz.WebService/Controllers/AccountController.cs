@@ -1,4 +1,5 @@
-﻿using Eleks.Yurii.Fozekosh.CoreQuizz.BAL.Contracts;
+﻿using System;
+using Eleks.Yurii.Fozekosh.CoreQuizz.BAL.Contracts;
 using Eleks.Yurii.Fozekosh.CoreQuizz.WebService.ViewModel.Account;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,23 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService.Controllers
         public ActionResult Login(LoginViewModel loginInfo)
         {
             _logger.LogInformation($"Login info: {loginInfo.Login} ");
-            if (_manager.IsUserExists(loginInfo.Login))
+            bool isLoggedIn;
+            try
             {
-                _logger.LogInformation($"Login {loginInfo.Login} not exists in db");
-                _manager.RegisterUser(loginInfo.Login, loginInfo.Password);
+                isLoggedIn = _manager.LogInUser(loginInfo.Login, loginInfo.Password);
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogInformation(e.Message);
+                isLoggedIn = false;
+            }
+
+            if (!isLoggedIn)
+            {
+                return View(new LoginViewModel
+                {
+                    IsIncorrect = true
+                });
             }
 
             _logger.LogInformation($"Login {loginInfo.Login} exists in db");

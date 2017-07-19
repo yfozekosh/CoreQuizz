@@ -4,6 +4,6 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel
 {
     public class CheckboxQuestion : Question
     {
-        public IList<CheckboxQuestion> Questions { get; set; }
+        public IList<QuestionOption> Options { get; set; }
     }
 }

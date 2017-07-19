@@ -2,7 +2,7 @@
 {
     public interface IUnitOfWork
     {
-        IRepository<T> Get<T>() where T:class ;
+        IRepository<T> GetRepository<T>() where T:class ;
         void Save();
         void Rollback();
     }

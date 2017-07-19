@@ -9,6 +9,10 @@
     <div class="col-md-4">
         <form asp-controller="Account" asp-action="Login" method="post" class="login-form">
             <h4>Login into system.</h4>
+            @if (Model!=null && Model.IsIncorrect)
+            {
+                <h3 style="color: red">Login or password is incorrect!</h3>
+            }
             <hr />
             <div class="form-group">
                 <label asp-for="Login" class="col-md-2 control-label"></label>
@@ -31,6 +35,9 @@
                     <button type="submit" class="btn btn-default">Login</button>
                 </div>
             </div>
+        </form>
+        <form asp-controller="Home" asp-action="DbTest" method="post">
+            <button type="submit" class="btn btn-default">TestDb</button>
         </form>
     </div>
 </div>

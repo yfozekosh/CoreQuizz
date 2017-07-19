@@ -1,4 +1,8 @@
-﻿using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Contracts;
+using Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,12 +24,58 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.WebService.Controllers
         public ActionResult Index()
         {
             _logger.LogInformation("accessing home");
-            var user = HttpContext.Session.GetString("login");
-            if (user != null)
+            var login = HttpContext.Session.GetString("login");
+            if (login != null)
             {
-                return View((object)user);
+                var user = _unitOfWork.GetRepository<User>().Get(x => x.Email == login).FirstOrDefault();
+                if (user != null)
+                {
+                    var s = new Survey
+                    {
+                        Title = "Title",
+                        Questions = new List<Question>
+                        {
+                            new CheckboxQuestion
+                            {
+                                QuestionLabel = "Checkbox",
+                                Options = new List<QuestionOption>
+                                {
+                                    new QuestionOption {IsSelected = false, Value = "val1"},
+                                    new QuestionOption {IsSelected = false, Value = "val2"},
+                                    new QuestionOption {IsSelected = false, Value = "val3"}
+                                }
+                            },
+                            new RadioQuestion
+                            {
+                                QuestionLabel = "radio",
+                                Options = new List<QuestionOption>
+                                {
+                                    new QuestionOption {Value = "val1"},
+                                    new QuestionOption {Value = "val1"},
+                                    new QuestionOption {Value = "val1"}
+                                }
+                            },
+                            new InputQuestion
+                            {
+                                QuestionLabel = "lol"
+                            }
+                        }
+                    };
+                    _unitOfWork.GetRepository<Survey>().Add(s);
+                    if (user.Surveys == null)
+                        user.Surveys = new List<Survey>();
+                    user.Surveys.Add(s);
+                    _unitOfWork.GetRepository<User>().Update(user);
+                    _unitOfWork.Save();
+                }
+                return View((object)login);
             }
             return RedirectToAction("Login", "Account");
+        }
+
+        public IActionResult DbTest()
+        {
+            throw new NotImplementedException();
         }
     }
 }

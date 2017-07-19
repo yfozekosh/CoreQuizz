@@ -9,9 +9,10 @@ using Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel;
 namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20170719121318_SurveyModel")]
+    partial class SurveyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

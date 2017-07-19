@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Eleks.Yurii.Fozekosh.CoreQuizz.BAL.Contracts;
@@ -19,13 +20,13 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.BAL
 
         public void RegisterUser(string login, string password)
         {
-            IRepository<User> userRepo = _unitOfWork.Get<User>();
+            IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
             Tuple<string, byte[]> hashSaltTuple = HashString(password);
 
-            User user = new User()
+            User user = new User
             {
                 Email = login,
-                Salt = Encoding.ASCII.GetString(hashSaltTuple.Item2),
+                Salt = Convert.ToBase64String(hashSaltTuple.Item2),
                 PasswordHash = hashSaltTuple.Item1,
                 CreatedDate = DateTime.Now,
                 ModifieDateTime = DateTime.Now
@@ -37,8 +38,8 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.BAL
 
         public bool IsUserExists(string login)
         {
-            IRepository<User> userRepo = _unitOfWork.Get<User>();
-            return userRepo.Get(login) == null;
+            IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
+            return userRepo.Get(user=>user.Email==login).Any();
         }
 
         private Tuple<string,byte[]> HashString(string str, byte[] salt = null)
@@ -54,6 +55,21 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.BAL
 
             string hash = Convert.ToBase64String(KeyDerivation.Pbkdf2(str, salt, KeyDerivationPrf.HMACSHA512, 10000, 32));
             return new Tuple<string,byte[]>(hash,salt);
+        }
+
+        public bool LogInUser(string login, string password)
+        {
+            IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
+            User user = userRepo.Get(x => x.Email == login).FirstOrDefault();
+            if (user == null)
+            {
+                throw new ArgumentException($"User {login} do not exists");
+            }
+
+            byte[] salt = Convert.FromBase64String(user.Salt);
+            string hashedPassword = HashString(password, salt).Item1;
+
+            return hashedPassword == user.PasswordHash;
         }
     }
 }

@@ -15,15 +15,16 @@ namespace Eleks.Yurii.Fozekosh.CoreQuizz.DataAccess.EfDAL
             _context = surveyContext;
         }
 
-        IRepository<T> IUnitOfWork.Get<T>()
+        public IRepository<T> GetRepository<T>() where T:class
         {
             try
             {
-                return (IRepository<T>) Activator.CreateInstance(typeof(EfRepository<T>), _context);
+                //TODO: EfRepository Constructor check parameters count
+                return (IRepository<T>)Activator.CreateInstance(typeof(EfRepository<T>), _context);
             }
             catch (Exception e)
             {
-              throw new RepositoryNotFoundException(typeof(T), e);
+                throw new RepositoryNotCreatedException(typeof(T), e);
             }
         }
 
