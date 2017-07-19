@@ -294,3 +294,7 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 Eleks\.Yurii\.Fozekosh\.CoreQuizz\.WebService/Eleks\.Yurii\.Fozekosh\.CoreQuizz\.WebService/bower_components/
+
+CoreQuizz\.WebService/CoreQuizz\.WebService/bower_components/
+
+CoreQuizz\.WebService/CoreQuizz\.WebService/wwwroot/dist/
