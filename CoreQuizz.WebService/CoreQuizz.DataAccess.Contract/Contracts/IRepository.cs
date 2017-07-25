@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace CoreQuizz.DataAccess.Contracts
 {
@@ -10,7 +11,7 @@ namespace CoreQuizz.DataAccess.Contracts
 
         IEnumerable GetAll();
 
-        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
+        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] includes);
 
         void Update(TEntity item);
 

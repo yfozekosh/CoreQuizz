@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.DataAccess", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.BAL", "CoreQuizz.BAL\CoreQuizz.BAL.csproj", "{5F5CE949-6ACE-4042-802D-F203F4453271}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreQuizz.DataAccess.Contract", "CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj", "{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5F5CE949-6ACE-4042-802D-F203F4453271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F5CE949-6ACE-4042-802D-F203F4453271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F5CE949-6ACE-4042-802D-F203F4453271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

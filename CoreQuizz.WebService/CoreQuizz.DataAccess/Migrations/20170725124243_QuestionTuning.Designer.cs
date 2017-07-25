@@ -1,15 +1,16 @@
 ﻿using System;
-using CoreQuizz.DataAccess.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.Shared.DomainModel;
 
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    [Migration("20170719121318_SurveyModel")]
-    partial class SurveyModel
+    [Migration("20170725124243_QuestionTuning")]
+    partial class QuestionTuning
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,7 +18,7 @@ namespace CoreQuizz.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Question", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -46,12 +47,10 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Question");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.QuestionOption", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.QuestionOption", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("CheckboxQuestionId");
 
                     b.Property<DateTime>("CreatedDate");
 
@@ -67,8 +66,6 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CheckboxQuestionId");
-
                     b.HasIndex("QuestionId");
 
                     b.HasIndex("RadioQuestionId");
@@ -76,7 +73,7 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.ToTable("QuestionOptions");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Survey", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Survey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -96,7 +93,7 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.ToTable("Surveys");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.User", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -126,9 +123,9 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.CheckboxQuestion", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.CheckboxQuestion", b =>
                 {
-                    b.HasBaseType("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Question");
+                    b.HasBaseType("CoreQuizz.Shared.DomainModel.Question");
 
 
                     b.ToTable("CheckboxQuestion");
@@ -136,9 +133,9 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("CheckboxQuestion");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.InputQuestion", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.InputQuestion", b =>
                 {
-                    b.HasBaseType("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Question");
+                    b.HasBaseType("CoreQuizz.Shared.DomainModel.Question");
 
                     b.Property<string>("Value");
 
@@ -147,9 +144,9 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("InputQuestion");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.RadioQuestion", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.RadioQuestion", b =>
                 {
-                    b.HasBaseType("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Question");
+                    b.HasBaseType("CoreQuizz.Shared.DomainModel.Question");
 
 
                     b.ToTable("RadioQuestion");
@@ -157,31 +154,27 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("RadioQuestion");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Question", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Question", b =>
                 {
-                    b.HasOne("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Survey", "Survey")
+                    b.HasOne("CoreQuizz.Shared.DomainModel.Survey", "Survey")
                         .WithMany("Questions")
                         .HasForeignKey("SurveyId");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.QuestionOption", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.QuestionOption", b =>
                 {
-                    b.HasOne("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.CheckboxQuestion")
+                    b.HasOne("CoreQuizz.Shared.DomainModel.CheckboxQuestion", "Question")
                         .WithMany("Options")
-                        .HasForeignKey("CheckboxQuestionId");
-
-                    b.HasOne("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Question", "Question")
-                        .WithMany()
                         .HasForeignKey("QuestionId");
 
-                    b.HasOne("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.RadioQuestion")
+                    b.HasOne("CoreQuizz.Shared.DomainModel.RadioQuestion")
                         .WithMany("Options")
                         .HasForeignKey("RadioQuestionId");
                 });
 
-            modelBuilder.Entity("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.Survey", b =>
+            modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Survey", b =>
                 {
-                    b.HasOne("Eleks.Yurii.Fozekosh.CoreQuizz.Shared.DomainModel.User", "CreatedBy")
+                    b.HasOne("CoreQuizz.Shared.DomainModel.User", "CreatedBy")
                         .WithMany("Surveys")
                         .HasForeignKey("CreatedById");
                 });

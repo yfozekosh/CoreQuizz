@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using CoreQuizz.DataAccess.Contracts;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.DataAccess.Exceptions;
@@ -19,7 +20,25 @@ namespace CoreQuizz.DataAccess.DAL
         {
             try
             {
-                //TODO: EfRepository Constructor check parameters count
+                Type efRepoType = typeof(EfRepository<>);
+                ConstructorInfo[] constructors = efRepoType.GetConstructors();
+
+                bool isAnyConstructorSuitable = constructors.Any(constructor =>
+                {
+                    ParameterInfo[] parameters = constructor.GetParameters();
+                    if (parameters.Length != 1)
+                    {
+                        return false;
+                    }
+                    bool isParameterDbContext = parameters[0].ParameterType.IsInstanceOfType(_context);
+                    return isParameterDbContext;
+                });
+
+                if (!isAnyConstructorSuitable)
+                {
+                    throw new NoSuitableConstructorException();
+                }
+
                 return (IRepository<T>)Activator.CreateInstance(typeof(EfRepository<T>), _context);
             }
             catch (Exception e)

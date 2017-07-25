@@ -12,6 +12,7 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.Shared\CoreQuizz.Shared.csproj" />
   </ItemGroup>
 </Project>

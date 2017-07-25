@@ -1,10 +1,11 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoreQuizz.DataAccess.Migrations
 {
-    public partial class SurveyModel : Migration
+    public partial class QuestionTuning : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,7 +83,6 @@ namespace CoreQuizz.DataAccess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CheckboxQuestionId = table.Column<int>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     IsSelected = table.Column<bool>(nullable: true),
                     ModifieDateTime = table.Column<DateTime>(nullable: false),
@@ -93,12 +93,6 @@ namespace CoreQuizz.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_QuestionOptions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuestionOptions_Questions_CheckboxQuestionId",
-                        column: x => x.CheckboxQuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_QuestionOptions_Questions_QuestionId",
                         column: x => x.QuestionId,
@@ -117,11 +111,6 @@ namespace CoreQuizz.DataAccess.Migrations
                 name: "IX_Questions_SurveyId",
                 table: "Questions",
                 column: "SurveyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuestionOptions_CheckboxQuestionId",
-                table: "QuestionOptions",
-                column: "CheckboxQuestionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionOptions_QuestionId",

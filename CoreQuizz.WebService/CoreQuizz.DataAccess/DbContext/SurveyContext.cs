@@ -1,4 +1,5 @@
-﻿using CoreQuizz.Shared.DomainModel;
+﻿using System.Linq;
+using CoreQuizz.Shared.DomainModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.DataAccess.DbContext
@@ -25,19 +26,19 @@ namespace CoreQuizz.DataAccess.DbContext
             });
 
             modelBuilder.Entity<Question>().HasKey(question => question.Id);
-            
+
             modelBuilder.Entity<RadioQuestion>().HasBaseType<Question>();
 
             modelBuilder.Entity<RadioQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasMany(question => question.Options);
+                entity.HasMany(question => question.Options).WithOne(option => (RadioQuestion)option.Question);
             });
 
             modelBuilder.Entity<CheckboxQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasMany(question => question.Options);
+                entity.HasMany(question => question.Options).WithOne(option => (CheckboxQuestion) option.Question);
             });
 
             modelBuilder.Entity<InputQuestion>(entity =>
