@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using CoreQuizz.DataAccess.Contracts;
+using CoreQuizz.DataAccess.Contract;
+using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.DataAccess.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace CoreQuizz.DataAccess.DAL
 {
-    public class EfUnitOfWork : IUnitOfWork, IDisposable
+    public class EfUnitOfWork : IUnitOfWork
     {
         private readonly SurveyContext _context;
+        private readonly ILogger<EfUnitOfWork> _logger;
 
-        public EfUnitOfWork(SurveyContext surveyContext)
+        public EfUnitOfWork(SurveyContext surveyContext, ILogger<EfUnitOfWork> logger)
         {
             _context = surveyContext;
+            this._logger = logger;
         }
 
-        public IRepository<T> GetRepository<T>() where T:class
+        public IRepository<T> GetRepository<T>() where T : class
         {
             try
             {
@@ -47,18 +51,53 @@ namespace CoreQuizz.DataAccess.DAL
             }
         }
 
-        public void Save()
+        public UnitOfWorkActionResult Save()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+                return new UnitOfWorkActionResult()
+                {
+                    Exception = null,
+                    IsSuccessfull = true
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e.StackTrace);
+                return new UnitOfWorkActionResult()
+                {
+                    Exception = e,
+                    IsSuccessfull = false
+                };
+            }
         }
 
-        public void Rollback()
+        public UnitOfWorkActionResult Rollback()
         {
-            _context
-            .ChangeTracker
-            .Entries()
-            .ToList()
-            .ForEach(x => x.Reload());
+            try
+            {
+                _context
+                    .ChangeTracker
+                    .Entries()
+                    .ToList()
+                    .ForEach(x => x.Reload());
+
+                return new UnitOfWorkActionResult()
+                {
+                    Exception = null,
+                    IsSuccessfull = true
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e.StackTrace);
+                return new UnitOfWorkActionResult()
+                {
+                    Exception = e,
+                    IsSuccessfull = false
+                };
+            }
         }
 
         public void Dispose()

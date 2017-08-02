@@ -26,6 +26,7 @@ namespace CoreQuizz.DataAccess.DbContext
             });
 
             modelBuilder.Entity<Question>().HasKey(question => question.Id);
+            modelBuilder.Entity<Question>().HasDiscriminator<string>("Type");
 
             modelBuilder.Entity<RadioQuestion>().HasBaseType<Question>();
 
@@ -33,17 +34,21 @@ namespace CoreQuizz.DataAccess.DbContext
             {
                 entity.HasBaseType<Question>();
                 entity.HasMany(question => question.Options).WithOne(option => (RadioQuestion)option.Question);
+                
+                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Radio.ToString());
             });
 
             modelBuilder.Entity<CheckboxQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
                 entity.HasMany(question => question.Options).WithOne(option => (CheckboxQuestion) option.Question);
+                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Checkbox.ToString());
             });
 
             modelBuilder.Entity<InputQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
+                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Input.ToString());
             });
 
             modelBuilder.Entity<QuestionOption>(entity =>

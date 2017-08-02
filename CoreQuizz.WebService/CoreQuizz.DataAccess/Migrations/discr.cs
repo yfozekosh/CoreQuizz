@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoreQuizz.DataAccess.Migrations
 {
-    public partial class QuestionTuning : Migration
+    public partial class discr : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,12 +58,12 @@ namespace CoreQuizz.DataAccess.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
                     ModifieDateTime = table.Column<DateTime>(nullable: false),
                     QuestionLabel = table.Column<string>(nullable: true),
                     QuestionType = table.Column<int>(nullable: false),
                     ResultId = table.Column<int>(nullable: true),
                     SurveyId = table.Column<int>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

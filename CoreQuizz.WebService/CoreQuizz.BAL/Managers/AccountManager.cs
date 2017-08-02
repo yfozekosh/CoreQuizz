@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
-using CoreQuizz.BAL.Contracts;
-using CoreQuizz.DataAccess.Contracts;
+using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using CoreQuizz.BAL.Contracts;
 
 namespace CoreQuizz.BAL
 {
-    public class AccountManager : IAccountManager
+    public class AccountManager : IAccountManager, IDisposable
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -69,6 +69,11 @@ namespace CoreQuizz.BAL
             string hashedPassword = HashString(password, salt).Item1;
 
             return hashedPassword == user.PasswordHash;
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork?.Dispose();
         }
     }
 }

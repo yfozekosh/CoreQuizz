@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CoreQuizz.DataAccess.DbContext;
-using CoreQuizz.Shared.DomainModel;
 
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    [Migration("20170725124243_QuestionTuning")]
-    partial class QuestionTuning
+    [Migration("20170725195737_QuestionTypeRemove")]
+    partial class QuestionTypeRemove
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,18 +24,16 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<DateTime>("ModifieDateTime");
 
                     b.Property<string>("QuestionLabel");
 
-                    b.Property<int>("QuestionType");
-
                     b.Property<int?>("ResultId");
 
                     b.Property<int?>("SurveyId");
+
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -44,7 +41,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("Questions");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Question");
+                    b.HasDiscriminator<string>("Type").HasValue("Question");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.QuestionOption", b =>
@@ -130,7 +127,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("CheckboxQuestion");
 
-                    b.HasDiscriminator().HasValue("CheckboxQuestion");
+                    b.HasDiscriminator().HasValue("Checkbox");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.InputQuestion", b =>
@@ -141,7 +138,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("InputQuestion");
 
-                    b.HasDiscriminator().HasValue("InputQuestion");
+                    b.HasDiscriminator().HasValue("Input");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.RadioQuestion", b =>
@@ -151,7 +148,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("RadioQuestion");
 
-                    b.HasDiscriminator().HasValue("RadioQuestion");
+                    b.HasDiscriminator().HasValue("Radio");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Question", b =>

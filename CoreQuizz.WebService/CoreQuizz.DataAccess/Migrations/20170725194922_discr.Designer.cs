@@ -4,13 +4,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.Shared.DomainModel;
 
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20170725194922_discr")]
+    partial class discr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -26,6 +28,8 @@ namespace CoreQuizz.DataAccess.Migrations
                     b.Property<DateTime>("ModifieDateTime");
 
                     b.Property<string>("QuestionLabel");
+
+                    b.Property<int>("QuestionType");
 
                     b.Property<int?>("ResultId");
 

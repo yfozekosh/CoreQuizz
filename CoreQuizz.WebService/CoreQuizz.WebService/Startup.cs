@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoreQuizz.BAL;
 using CoreQuizz.BAL.Contracts;
-using CoreQuizz.DataAccess.Contracts;
+using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.DataAccess.DAL;
 using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.Shared.DomainModel;
+using CoreQuizz.WebService.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +40,12 @@ namespace CoreQuizz.WebService
             services.AddTransient<IUnitOfWork, EfUnitOfWork>();            
 
             services.AddTransient<IAccountManager, AccountManager>();
+            services.AddTransient<ISurveyManager, SurveyManager>();
+            services.AddTransient<IQuestionManager, QuestionManager>();
+
+            services.AddTransient<ISessionManagerFactory, SessionManagerFactory>();
+
+            services.AddTransient<IQuestionChainFactory, QuestionChainFactory>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
@@ -62,11 +71,68 @@ namespace CoreQuizz.WebService
 
             if (env.IsDevelopment())
             {
-                var accountManager = serviceProvider.GetService<IAccountManager>();
-                var email = "yfozekosh@gmail.com";
+                IAccountManager accountManager = serviceProvider.GetService<IAccountManager>();
+                ISurveyManager surveyManager = serviceProvider.GetService<ISurveyManager>();
+                string email = "yfozekosh@gmail.com";
+
                 if (!accountManager.IsUserExists(email))
                 {
                     accountManager.RegisterUser("yfozekosh@gmail.com", "1234");
+                    surveyManager.CreateSurvey(new Survey()
+                    {
+                        Title = "Title",
+                        Questions = new List<Question>()
+                        {
+                            new CheckboxQuestion()
+                            {
+                                QuestionLabel = "What about checkboxes?",
+                                Options = new List<QuestionOption>()
+                                {
+                                    new QuestionOption()
+                                    {
+                                        IsSelected = true,
+                                        Value = "select1"
+                                    },
+                                    new QuestionOption()
+                                    {
+                                        IsSelected = false,
+                                        Value = "select2"
+                                    },
+                                    new QuestionOption()
+                                    {
+                                        IsSelected = false,
+                                        Value = "select3"
+                                    }
+                                }
+                            },
+                            new RadioQuestion()
+                            {
+                                QuestionLabel = "What about radio?",
+                                Options = new List<QuestionOption>()
+                                {
+                                    new QuestionOption()
+                                    {
+                                        IsSelected = false,
+                                        Value = "select1"
+                                    },
+                                    new QuestionOption()
+                                    {
+                                        IsSelected = false,
+                                        Value = "select2"
+                                    },
+                                    new QuestionOption()
+                                    {
+                                        IsSelected = false,
+                                        Value = "select3"
+                                    }
+                                }
+                            },
+                            new InputQuestion()
+                            {
+                                QuestionLabel = "What about input?"
+                            }
+                        }
+                    }, email);
                 }
             }
         }

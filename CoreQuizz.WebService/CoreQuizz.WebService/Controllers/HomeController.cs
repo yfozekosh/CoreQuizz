@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CoreQuizz.DataAccess.Contracts;
-using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.BAL.Contracts;
+using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace CoreQuizz.WebService.Controllers
@@ -17,13 +14,13 @@ namespace CoreQuizz.WebService.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly SurveyContext _surveyContext;
+        private readonly ISurveyManager _surveyManager;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, SurveyContext surveyContext)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ISurveyManager surveyManager)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
-            _surveyContext = surveyContext;
+            _surveyManager = surveyManager;
         }
 
         [HttpGet]
@@ -82,38 +79,10 @@ namespace CoreQuizz.WebService.Controllers
         public IActionResult DbTest()
         {
             var surveys = _unitOfWork.GetRepository<Survey>()
-                .Get(x => x.CreatedBy.Email == "yfozekosh@gmail.com", survey => survey.CreatedBy,
-                    survey => survey.Questions).ToList();
+                .Get(x => x.CreatedBy.Email == "yfozekosh@gmail.com", survey => survey.CreatedBy).ToList();
 
-            var opts = _unitOfWork.GetRepository<QuestionOption>();
+            _surveyManager.LoadFullSurveys(surveys);
 
-            surveys.ForEach(x =>
-            {
-
-                foreach (var objQuestion in x.Questions)
-                {
-                    RadioQuestion radio = objQuestion as RadioQuestion;
-                    CheckboxQuestion checkbox = objQuestion as CheckboxQuestion;
-                    InputQuestion input = objQuestion as InputQuestion;
-                    if (radio != null)
-                    {
-                        radio.Options = opts.Get(y => y.Question != null && y.Question.Id==radio.Id, option => option.Question).ToList();
-                        _logger.LogInformation($"radio got. Options count = {radio.Options.Count}");
-                    }
-                    if (checkbox != null)
-                    {
-                        checkbox.Options =
-                            opts.Get(y => y.Question != null && y.Question.Id == checkbox.Id, option => option.Question)
-                                .ToList();
-                        _logger.LogInformation($"checbox got. Options count = {checkbox.Options.Count}");
-                    }
-                    if (input != null)
-                    {
-                        input.Value += "_Approved";
-                        _logger.LogInformation("input got. Approved");
-                    }
-                }
-            });
             return Json(surveys, new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore

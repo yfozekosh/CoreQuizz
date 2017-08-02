@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CoreQuizz.DataAccess.Contracts
+namespace CoreQuizz.DataAccess.Contract.Contracts
 {
     public interface IDataSaver<T>
     {

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using CoreQuizz.DataAccess.Contracts;
+using CoreQuizz.DataAccess.Contract.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CoreQuizz.DataAccess.DAL
 {
@@ -15,7 +16,10 @@ namespace CoreQuizz.DataAccess.DAL
 
         public EfRepository(Microsoft.EntityFrameworkCore.DbContext context)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             _context = context;
             _set = _context.Set<TEnity>();
@@ -26,11 +30,6 @@ namespace CoreQuizz.DataAccess.DAL
             if (id == null) throw new ArgumentNullException(nameof(id));
 
             return _set.Find(id);
-        }
-
-        public IEnumerable GetAll()
-        {
-            return _set.AsNoTracking().ToList();
         }
 
         public void Update(TEnity item)
@@ -72,6 +71,16 @@ namespace CoreQuizz.DataAccess.DAL
             }
 
             return query.Where(predicate).ToList();
+        }
+
+        public void Dispose()
+        {
+            
+        }
+
+        public IEnumerable<TEnity> GetAll()
+        {
+            return _set.AsNoTracking().ToList();
         }
     }
 }
