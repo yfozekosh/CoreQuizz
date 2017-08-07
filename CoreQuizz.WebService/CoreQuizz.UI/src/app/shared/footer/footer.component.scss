@@ -1,0 +1,19 @@
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #24292e;
+  color: white;
+}
+
+.fa {
+  color: #c4e4d3;
+  margin: 10px;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+}
