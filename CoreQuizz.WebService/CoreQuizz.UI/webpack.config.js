@@ -13,7 +13,7 @@ const { AotPlugin } = require('@ngtools/webpack');
 
 const nodeModules = path.join(process.cwd(), 'node_modules');
 const realNodeModules = fs.realpathSync(nodeModules);
-const genDirNodeModules = path.join(process.cwd(), 'wwwroot\\src', '$$_gendir', 'node_modules');
+const genDirNodeModules = path.join(process.cwd(), 'src', '$$_gendir', 'node_modules');
 const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
 const minimizeCss = false;
 const baseHref = "";
@@ -77,17 +77,17 @@ module.exports = {
   },
   "entry": {
     "main": [
-      "./wwwroot\\src\\main.ts"
+      "./src\\main.ts"
     ],
     "polyfills": [
-      "./wwwroot\\src\\polyfills.ts"
+      "./src\\polyfills.ts"
     ],
     "styles": [
-      "./wwwroot\\src\\styles.css"
+      "./src\\styles.css"
     ]
   },
   "output": {
-    "path": path.join(process.cwd(), "wwwroot\\dist"),
+    "path": path.join(process.cwd(), "dist"),
     "filename": "[name].bundle.js",
     "chunkFilename": "[id].chunk.js"
   },
@@ -115,7 +115,7 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.css$/,
         "use": [
@@ -138,7 +138,7 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.scss$|\.sass$/,
         "use": [
@@ -169,7 +169,7 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.less$/,
         "use": [
@@ -198,7 +198,7 @@ module.exports = {
       },
       {
         "exclude": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.styl$/,
         "use": [
@@ -228,7 +228,7 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.css$/,
         "use": [
@@ -251,7 +251,7 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.scss$|\.sass$/,
         "use": [
@@ -282,7 +282,7 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.less$/,
         "use": [
@@ -311,7 +311,7 @@ module.exports = {
       },
       {
         "include": [
-          path.join(process.cwd(), "wwwroot\\src\\styles.css")
+          path.join(process.cwd(), "src\\styles.css")
         ],
         "test": /\.styl$/,
         "use": [
@@ -353,15 +353,15 @@ module.exports = {
         "favicon.ico"
       ],
       "globOptions": {
-        "cwd": path.join(process.cwd(), "wwwroot\\src"),
+        "cwd": path.join(process.cwd(), "src"),
         "dot": true,
         "ignore": "**/.gitkeep"
       }
     }),
     new ProgressPlugin(),
     new HtmlWebpackPlugin({
-      "template": "./wwwroot\\src\\index.html",
-      "filename": "./wwroot\\index.html",
+      "template": "./src\\index.html",
+      "filename": "./index.html",
       "hash": false,
       "inject": true,
       "compile": true,
@@ -425,7 +425,7 @@ module.exports = {
         "environments\\environment.ts": "environments\\environment.ts"
       },
       "exclude": [],
-      "tsConfigPath": "wwwroot\\src\\tsconfig.app.json",
+      "tsConfigPath": "src\\tsconfig.app.json",
       "skipCodeGeneration": true
     })
   ],
