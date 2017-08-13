@@ -1,0 +1,3 @@
+﻿{
+  "survey_connection": "Server=(localdb)\\mssqllocaldb;Database=CoreQuizz.SurveyDB;Trusted_Connection=True;"
+}

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {ISignInFormModel} from './signInModel.interface';
 import {FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {UserService} from '../../../services/user.service';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -14,11 +15,14 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
 export class SignInFormComponent {
     @Output() onSubmit: EventEmitter<ISignInFormModel> = new EventEmitter<ISignInFormModel>();
 
-    public model: ISignInFormModel;
+    public model: ISignInFormModel = {
+        email: 'te',
+        password: '',
+        password2: ''
+    };
     public isSubmitted = false;
 
-    constructor(private router: Router) {
-
+    constructor(private router: Router, private userService: UserService) {
     }
 
     emailFormControl = new FormControl('', [
@@ -39,7 +43,8 @@ export class SignInFormComponent {
     }
 
     handleSubmit() {
+        this.userService.login(this.emailFormControl.value, this.passwordFromControl.value).subscribe(d => console.log(`auth: ${d}`));
         this.isSubmitted = true;
-        this.router.navigateByUrl('/main');
+        // this.router.navigateByUrl('/main');
     }
 }

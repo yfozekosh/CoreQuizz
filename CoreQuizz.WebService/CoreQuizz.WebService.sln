@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.DataAccess", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.BAL", "CoreQuizz.BAL\CoreQuizz.BAL.csproj", "{5F5CE949-6ACE-4042-802D-F203F4453271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreQuizz.DataAccess.Contract", "CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj", "{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.DataAccess.Contract", "CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj", "{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreQuizz.IdentityProvider", "CoreQuizz.IdentityProvider\CoreQuizz.IdentityProvider.csproj", "{B112E7F0-1C6F-48D9-A50B-5748EB2DF6F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2AFA23B-F456-49F8-A00F-9EA2C37F2D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B112E7F0-1C6F-48D9-A50B-5748EB2DF6F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B112E7F0-1C6F-48D9-A50B-5748EB2DF6F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B112E7F0-1C6F-48D9-A50B-5748EB2DF6F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B112E7F0-1C6F-48D9-A50B-5748EB2DF6F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

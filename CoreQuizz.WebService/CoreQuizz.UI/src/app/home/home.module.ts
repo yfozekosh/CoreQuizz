@@ -6,6 +6,7 @@ import {SharedModule} from '../shared/shared.module';
 import {JumbotronComponent} from './start/jumbotron/jumbotron.component';
 import {SignInFormModule} from '../components/sign-in-form/sign-in-form.module';
 import {NotFoundComponent} from './not-found/not-found.component';
+import {UserService} from '../../services/user.service';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
         RouterModule.forRoot(routes)
     ],
     declarations: [HomeComponent, JumbotronComponent, NotFoundComponent],
+    providers: [UserService],
     exports: [RouterModule]
 })
 export class HomeModule {

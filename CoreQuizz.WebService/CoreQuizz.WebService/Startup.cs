@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoreQuizz.BAL;
 using CoreQuizz.BAL.Contracts;
+using CoreQuizz.BAL.Extensions;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.DataAccess.DAL;
 using CoreQuizz.DataAccess.DbContext;
@@ -10,6 +11,7 @@ using CoreQuizz.WebService.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
@@ -19,37 +21,44 @@ namespace CoreQuizz.WebService
 {
     public class Startup
     {
+        public IConfigurationRoot Configuration { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
             env.ConfigureNLog("nlog.config");
+            var builder = new ConfigurationBuilder()
+                           .SetBasePath(env.ContentRootPath)
+                           .AddJsonFile("appconfig.json", optional: true, reloadOnChange: true);
+
+            Configuration = builder.Build();
         }
+
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SurveyContext>(options => options.UseSqlServer(Configuration["survey_connection"]));
+
+            services.AddTransient<DbContext, SurveyContext>();
+            services.AddTransient<IUnitOfWork, EfUnitOfWork>();
+            services.AddTransient<ISessionManagerFactory, SessionManagerFactory>();
+
+            services.AddBAL();
+
             services.AddMvc();
+
             services.AddDistributedMemoryCache();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromHours(1);
                 options.CookieHttpOnly = true;
+                options.CookieSecure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
             });
-
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=CoreQuizz.SurveyDB;Trusted_Connection=True;";
-            services.AddDbContext<SurveyContext>(options => options.UseSqlServer(connection));
-            services.AddTransient<DbContext,SurveyContext>();
-            services.AddTransient<IUnitOfWork, EfUnitOfWork>();            
-
-            services.AddTransient<IAccountManager, AccountManager>();
-            services.AddTransient<ISurveyManager, SurveyManager>();
-            services.AddTransient<IQuestionManager, QuestionManager>();
-
-            services.AddTransient<ISessionManagerFactory, SessionManagerFactory>();
-
-            services.AddTransient<IQuestionChainFactory, QuestionChainFactory>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
+
             loggerFactory.AddConsole();
             loggerFactory.AddNLog();
 
@@ -60,6 +69,7 @@ namespace CoreQuizz.WebService
 
             app.UseSession();
             app.UseStaticFiles();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}", defaults: new
@@ -75,13 +85,19 @@ namespace CoreQuizz.WebService
                 ISurveyManager surveyManager = serviceProvider.GetService<ISurveyManager>();
                 string email = "yfozekosh@gmail.com";
 
-                if (!accountManager.IsUserExists(email))
+                SeedDatabaseIfDevelop(accountManager, surveyManager, email);
+            }
+        }
+
+        private static void SeedDatabaseIfDevelop(IAccountManager accountManager, ISurveyManager surveyManager, string email)
+        {
+            if (!accountManager.IsUserExists(email))
+            {
+                accountManager.RegisterUser("yfozekosh@gmail.com", "1234");
+                surveyManager.CreateSurvey(new Survey()
                 {
-                    accountManager.RegisterUser("yfozekosh@gmail.com", "1234");
-                    surveyManager.CreateSurvey(new Survey()
-                    {
-                        Title = "Title",
-                        Questions = new List<Question>()
+                    Title = "Title",
+                    Questions = new List<Question>()
                         {
                             new CheckboxQuestion()
                             {
@@ -132,8 +148,7 @@ namespace CoreQuizz.WebService
                                 QuestionLabel = "What about input?"
                             }
                         }
-                    }, email);
-                }
+                }, email);
             }
         }
     }

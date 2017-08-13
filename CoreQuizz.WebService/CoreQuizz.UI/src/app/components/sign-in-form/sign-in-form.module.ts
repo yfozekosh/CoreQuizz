@@ -4,6 +4,7 @@ import {SignInFormComponent} from './sign-in-form.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {UserService} from '../../../services/user.service';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import {RouterModule} from '@angular/router';
         RouterModule
     ],
     declarations: [SignInFormComponent],
+    providers: [UserService],
     exports: [SignInFormComponent]
 })
 export class SignInFormModule {
