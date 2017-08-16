@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreQuizz.BAL;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Extensions;
-using CoreQuizz.DataAccess.Contract.Contracts;
-using CoreQuizz.DataAccess.DAL;
-using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.DataAccess.Extensions;
+using CoreQuizz.Queries.PageQueries.Extensions;
+using CoreQuizz.Shared;
 using CoreQuizz.Shared.DomainModel;
 using CoreQuizz.WebService.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,13 +34,13 @@ namespace CoreQuizz.WebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SurveyContext>(options => options.UseSqlServer(Configuration["survey_connection"]));
+            services.AddDAL(Configuration);
 
-            services.AddTransient<DbContext, SurveyContext>();
-            services.AddTransient<IUnitOfWork, EfUnitOfWork>();
             services.AddTransient<ISessionManagerFactory, SessionManagerFactory>();
+            services.AddTransient<IDependencyResolver, AspNetCoreDependencyResolver>();
 
             services.AddBAL();
+            services.AddQueries();
 
             services.AddMvc();
 

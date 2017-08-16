@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CoreQuizz.BAL.Contracts;
+﻿using CoreQuizz.BAL.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreQuizz.BAL.Extensions

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace CoreQuizz.DataAccess.Contract.Contracts
@@ -10,6 +10,8 @@ namespace CoreQuizz.DataAccess.Contract.Contracts
         TEntity Get(params object[] id);
 
         IEnumerable<TEntity> GetAll();
+
+        IQueryable<TEntity> GetAllQueryable();
 
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] includes);
 

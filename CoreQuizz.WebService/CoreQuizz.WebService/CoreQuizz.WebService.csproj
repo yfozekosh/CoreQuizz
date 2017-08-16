@@ -17,7 +17,6 @@
     <None Remove="wwwroot\js\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -52,5 +51,6 @@
     <ProjectReference Include="..\CoreQuizz.BAL\CoreQuizz.BAL.csproj" />
     <ProjectReference Include="..\CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.DataAccess\CoreQuizz.DataAccess.csproj" />
+    <ProjectReference Include="..\CoreQuizz.Queries\CoreQuizz.Queries.csproj" />
   </ItemGroup>
 </Project>

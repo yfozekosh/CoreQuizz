@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using CoreQuizz.Shared.DomainModel;
 
 namespace CoreQuizz.BAL.Contracts

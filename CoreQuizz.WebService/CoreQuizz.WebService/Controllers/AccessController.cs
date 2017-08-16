@@ -50,6 +50,7 @@ namespace CoreQuizz.WebService.Controllers
             return BadRequest();
         }
 
+        [Route("api-test")]
         [HttpGet]
         [Authorize]
         public ActionResult AccessTest()

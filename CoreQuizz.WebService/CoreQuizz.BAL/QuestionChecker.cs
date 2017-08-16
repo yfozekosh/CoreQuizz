@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Contracts.QuestionChain;
-using CoreQuizz.BAL.QuestionChain;
 using CoreQuizz.Shared.DomainModel;
 
 namespace CoreQuizz.BAL

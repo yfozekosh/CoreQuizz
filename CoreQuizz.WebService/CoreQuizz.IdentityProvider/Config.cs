@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using IdentityServer4;
 using IdentityServer4.Test;
 using IdentityServer4.Models;
@@ -21,7 +18,9 @@ namespace CoreQuizz.IdentityProvider
 
                 Claims = new List<Claim>()
                 {
-                    new Claim("role","admin")
+                    new Claim("role","admin"),
+                    new Claim("email","frank@email.com"),
+                    new Claim("email_verified","true")
                 }
             },
             new TestUser()
@@ -32,7 +31,9 @@ namespace CoreQuizz.IdentityProvider
 
                 Claims = new List<Claim>()
                 {
-                    new Claim("role","admin")
+                    new Claim("role","user"),
+                    new Claim("email","alice@email.com"),
+                    new Claim("email_verified","true")
                 }
             },
         };
@@ -41,12 +42,9 @@ namespace CoreQuizz.IdentityProvider
         {
             return new List<IdentityResource>()
             {
-                new IdentityResource()
-                {
-                    Name="corequizzapi",
-                    DisplayName="Core Quizz Api",
-                    UserClaims= {"role"}
-                }
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
             };
         }
 
@@ -54,14 +52,37 @@ namespace CoreQuizz.IdentityProvider
         {
             return new List<Client>()
             {
-                new Client()
+                 new Client()
                 {
-                    ClientName = "Quizz",
-                    ClientId = "corequizzweb",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    ClientId = "corequizz_web",
+                    ClientName = "Core Qizz JS Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false,
+
+                    RedirectUris =           { "http://localhost:4200/auth.html" },
+                    PostLogoutRedirectUris = { "http://localhost:4200/index.html" },
+                    AllowedCorsOrigins =     { "http://localhost:4200" },
+
                     AllowedScopes =
                     {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Email,
                         "corequizzapi"
+                    }
+                }
+            };
+        }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>()
+            {
+                new ApiResource("corequizzapi","Core Quizz Api")
+                {
+                    UserClaims =
+                    {
+                        "role"
                     }
                 }
             };

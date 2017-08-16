@@ -1,0 +1,18 @@
+﻿@model CoreQuizz.Queries.PageQueries.SurveyListItem[]
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+@foreach (var surveyListItem in Model)
+{
+    <div>
+        <p>@surveyListItem.SurveyName</p>
+        <p>@surveyListItem.CreatedDate</p>
+        <p>@surveyListItem.ModifiedDate</p>
+        <p>@surveyListItem.QuestionsCount</p>
+        <p>@surveyListItem.Stars</p>
+    </div>
+}

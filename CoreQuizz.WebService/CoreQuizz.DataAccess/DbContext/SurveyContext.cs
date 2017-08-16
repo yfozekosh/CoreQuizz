@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CoreQuizz.Shared.DomainModel;
+﻿using CoreQuizz.Shared.DomainModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.DataAccess.DbContext

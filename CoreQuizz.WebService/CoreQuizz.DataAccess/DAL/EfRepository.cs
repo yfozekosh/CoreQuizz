@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CoreQuizz.DataAccess.DAL
 {
@@ -81,6 +79,11 @@ namespace CoreQuizz.DataAccess.DAL
         public IEnumerable<TEnity> GetAll()
         {
             return _set.AsNoTracking().ToList();
+        }
+
+        public IQueryable<TEnity> GetAllQueryable()
+        {
+            return _set.AsNoTracking();
         }
     }
 }

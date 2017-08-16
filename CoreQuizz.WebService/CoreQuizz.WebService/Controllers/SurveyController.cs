@@ -4,7 +4,6 @@ using CoreQuizz.WebService.Session;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 

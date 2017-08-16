@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.DataAccess.Contract.Contracts;
-using CoreQuizz.Shared.DomainModel;
 using CoreQuizz.BAL.Contracts.QuestionChain;
 using CoreQuizz.BAL.QuestionChain;
 using CoreQuizz.BAL.QuestionChain.ChainElements;
