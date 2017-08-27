@@ -31,6 +31,8 @@ namespace CoreQuizz.WebService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppConfig>(Configuration);
+
             services.AddDAL(Configuration);
             
             services.AddTransient<IDependencyResolver, AspNetCoreDependencyResolver>();
@@ -48,10 +50,10 @@ namespace CoreQuizz.WebService
             loggerFactory.AddConsole();
             loggerFactory.AddNLog();
 
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
-            }
+            //}
 
             app.UseSession();
             app.UseStaticFiles();

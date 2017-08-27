@@ -1,4 +1,5 @@
 ﻿{
   "survey_connection": "Server=(localdb)\\mssqllocaldb;Database=CoreQuizz.SurveyDB;Trusted_Connection=True;",
-  "authority": "https://localhost:44360/"
+  "authority": "https://localhost:44360/",
+  "FrontendHostingUrl": "http://localhost:4200"
 }

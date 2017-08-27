@@ -2,17 +2,22 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <TypescriptCompileBlocked>true</TypescriptCompileBlocked>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>1</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="CoreQuizz.UI\node_modules\**" />
     <Compile Remove="wwwroot\css\**" />
     <Compile Remove="wwwroot\js\**" />
+    <Content Remove="CoreQuizz.UI\node_modules\**" />
     <Content Remove="wwwroot\css\**" />
     <Content Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="CoreQuizz.UI\node_modules\**" />
     <EmbeddedResource Remove="wwwroot\css\**" />
     <EmbeddedResource Remove="wwwroot\js\**" />
+    <None Remove="CoreQuizz.UI\node_modules\**" />
     <None Remove="wwwroot\css\**" />
     <None Remove="wwwroot\js\**" />
   </ItemGroup>
