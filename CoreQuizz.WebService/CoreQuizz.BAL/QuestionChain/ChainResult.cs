@@ -1,4 +1,4 @@
-﻿namespace CoreQuizz.BAL
+﻿namespace CoreQuizz.BAL.QuestionChain
 {
     public class ChainResult<TResult>
     {

@@ -1,8 +1,8 @@
 using System;
+using CoreQuizz.BAL.Contracts.QuestionChain;
 using CoreQuizz.BAL.Exceptions;
-using CoreQuizz.BAL.Contracts;
 
-namespace CoreQuizz.BAL
+namespace CoreQuizz.BAL.QuestionChain
 {
     internal abstract class ChainElement<T1, T2> : IChainElement<T1, T2>
     {

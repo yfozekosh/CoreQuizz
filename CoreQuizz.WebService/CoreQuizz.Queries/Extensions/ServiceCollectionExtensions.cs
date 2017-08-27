@@ -1,9 +1,9 @@
 ﻿using System;
-using CoreQuizz.DataAccess.Contract.Contracts;
-using CoreQuizz.Queries.Contracts;
+using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.PageQueries;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoreQuizz.Queries.PageQueries.Extensions
+namespace CoreQuizz.Queries.Extensions
 {
     public static class ServiceCollectionExtensions
     {

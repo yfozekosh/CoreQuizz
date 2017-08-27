@@ -3,7 +3,7 @@ using System.Linq;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
 
-namespace CoreQuizz.BAL.QuestionChain
+namespace CoreQuizz.BAL.QuestionChain.ChainElements
 {
     internal class RadioQuestionChainElemnt : QuestionTypeChainElement
     {

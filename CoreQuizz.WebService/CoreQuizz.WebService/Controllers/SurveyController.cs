@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using CoreQuizz.BAL.Contracts.QuestionChain;
 using Newtonsoft.Json;
 
 namespace CoreQuizz.WebService.Controllers

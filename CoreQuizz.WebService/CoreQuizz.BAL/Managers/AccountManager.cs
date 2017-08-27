@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using CoreQuizz.BAL.Contracts;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using CoreQuizz.BAL.Contracts;
 
-namespace CoreQuizz.BAL
+namespace CoreQuizz.BAL.Managers
 {
     public class AccountManager : IAccountManager, IDisposable
     {

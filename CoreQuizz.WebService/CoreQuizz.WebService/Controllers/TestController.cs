@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoreQuizz.DataAccess.Contract.Contracts;
-using CoreQuizz.Queries.Contracts;
+using CoreQuizz.Queries.Contract;
 using CoreQuizz.Queries.PageQueries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreQuizz.WebService.Controllers
 {
+    [Authorize]
     public class TestController : Controller
     {
         private readonly IQueryDispatcher _queryDispatcher;

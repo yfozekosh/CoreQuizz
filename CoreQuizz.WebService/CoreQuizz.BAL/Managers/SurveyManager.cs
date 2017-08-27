@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreQuizz.BAL.Contracts;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
-using CoreQuizz.BAL.Contracts;
 
-namespace CoreQuizz.BAL
+namespace CoreQuizz.BAL.Managers
 {
     public class SurveyManager : ISurveyManager, IDisposable
     {

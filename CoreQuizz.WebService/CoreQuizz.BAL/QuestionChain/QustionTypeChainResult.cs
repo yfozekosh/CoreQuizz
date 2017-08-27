@@ -1,6 +1,6 @@
 ﻿using CoreQuizz.Shared.DomainModel;
 
-namespace CoreQuizz.BAL
+namespace CoreQuizz.BAL.QuestionChain
 {
     internal class QustionTypeChainResult
     {

@@ -1,4 +1,4 @@
-﻿namespace CoreQuizz.BAL.Contracts
+﻿namespace CoreQuizz.BAL.Contracts.QuestionChain
 {
     internal interface IChainElement
     {

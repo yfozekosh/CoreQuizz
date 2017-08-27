@@ -1,4 +1,4 @@
-﻿namespace CoreQuizz.DataAccess.Contract.Contracts
+﻿namespace CoreQuizz.Commands.Contract
 {
     public interface ICommandDispatcher
     {

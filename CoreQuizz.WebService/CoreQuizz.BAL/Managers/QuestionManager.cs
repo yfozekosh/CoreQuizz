@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CoreQuizz.BAL.Contracts;
+using CoreQuizz.BAL.Contracts.QuestionChain;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
-using CoreQuizz.BAL.Contracts;
 
-namespace CoreQuizz.BAL
+namespace CoreQuizz.BAL.Managers
 {
     public class QuestionManager : IQuestionManager
     {

@@ -2,7 +2,6 @@
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.BAL.Contracts.QuestionChain;
-using CoreQuizz.BAL.QuestionChain;
 using CoreQuizz.BAL.QuestionChain.ChainElements;
 
 namespace CoreQuizz.BAL

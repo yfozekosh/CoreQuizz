@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj" />
+    <ProjectReference Include="..\CoreQuizz.DataAccess\CoreQuizz.DataAccess.csproj" />
+    <ProjectReference Include="..\CoreQuizz.Queries.Contract\CoreQuizz.Queries.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.Shared\CoreQuizz.Shared.csproj" />
   </ItemGroup>
 

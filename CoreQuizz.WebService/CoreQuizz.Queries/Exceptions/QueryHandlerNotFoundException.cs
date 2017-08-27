@@ -1,6 +1,6 @@
 using System;
 
-namespace CoreQuizz.Queries.PageQueries
+namespace CoreQuizz.Queries.Exceptions
 {
     public class QueryHandlerNotFoundException : Exception
     {

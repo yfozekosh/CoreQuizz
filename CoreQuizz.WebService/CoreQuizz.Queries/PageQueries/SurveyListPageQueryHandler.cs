@@ -1,45 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CoreQuizz.DataAccess.Contract.Contracts;
+﻿using System.Linq;
+using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.Queries.Contract;
 using CoreQuizz.Shared.DomainModel;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.Queries.PageQueries
 {
     public class SurveyListPageQueryHandler : IQueryHandler<SurveyListPageQuery, SurveyListItem[]>
     {
-        private readonly IRepository<Survey> _surveyRepository;
-        private IRepository<Question> _questionRepository;
+        private readonly SurveyContext _context;
 
-        public SurveyListPageQueryHandler(IUnitOfWork unitOfWork)
+        public SurveyListPageQueryHandler(SurveyContext context)
         {
-            _surveyRepository = unitOfWork.GetRepository<Survey>();
-            _questionRepository = unitOfWork.GetRepository<Question>();
+            _context = context;
         }
 
         public SurveyListItem[] Execute(SurveyListPageQuery query)
         {
-            var surveys = _surveyRepository.GetAllQueryable().Include(x=>x.CreatedBy).Where(x=>x.CreatedBy.Id == query.UserId);
-            
-            var result = surveys.ToArray().Select(survey => new
+            IQueryable<Survey> usersSureveys = _context.Surveys.Where(survey => survey.CreatedBy.Id == query.UserId);
+
+            SurveyListItem[] result = usersSureveys.Select(survey => new SurveyListItem()
             {
-                Id = survey.Id,
+                QuestionsCount = survey.Questions.Count,
                 CreatedDate = survey.CreatedDate,
                 ModifiedDate = survey.ModifieDateTime,
-                SurveyName = survey.Title,
-                Count = _questionRepository.GetAllQueryable().Count(x => x.Survey.Id==survey.Id),
-                Stars = 0
-            }).ToArray();
-            
-            return result.Select(res=>new SurveyListItem()
-            {
-                CreatedDate = res.CreatedDate,
-                ModifiedDate = res.ModifiedDate,
-                SurveyName = res.SurveyName,
-                QuestionsCount = res.Count,
-                Stars = 0
+                Stars = 0,
+                SurveyName = survey.Title
             }).ToArray();
 
+            return result;
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using CoreQuizz.BAL.Contracts;
+using CoreQuizz.BAL.Contracts.QuestionChain;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoreQuizz.BAL.Extensions
+namespace CoreQuizz.BAL.Managers.Extensions
 {
     public static class ServiceCollectionExtensions
     {

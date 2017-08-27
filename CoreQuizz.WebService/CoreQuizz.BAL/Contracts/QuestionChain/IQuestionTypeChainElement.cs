@@ -1,4 +1,5 @@
-﻿using CoreQuizz.Shared.DomainModel;
+﻿using CoreQuizz.BAL.QuestionChain;
+using CoreQuizz.Shared.DomainModel;
 
 namespace CoreQuizz.BAL.Contracts.QuestionChain
 {

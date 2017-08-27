@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using CoreQuizz.BAL.Contracts;
-using CoreQuizz.BAL.Extensions;
+using CoreQuizz.BAL.Managers.Extensions;
 using CoreQuizz.DataAccess.Extensions;
-using CoreQuizz.Queries.PageQueries.Extensions;
+using CoreQuizz.Queries.Extensions;
 using CoreQuizz.Shared;
-using CoreQuizz.Shared.DomainModel;
-using CoreQuizz.WebService.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,23 +32,14 @@ namespace CoreQuizz.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDAL(Configuration);
-
-            services.AddTransient<ISessionManagerFactory, SessionManagerFactory>();
+            
             services.AddTransient<IDependencyResolver, AspNetCoreDependencyResolver>();
 
             services.AddBAL();
             services.AddQueries();
 
             services.AddMvc();
-
-            services.AddDistributedMemoryCache();
-
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromHours(1);
-                options.CookieHttpOnly = true;
-                options.CookieSecure = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
-            });
+            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
@@ -68,14 +56,7 @@ namespace CoreQuizz.WebService
             app.UseSession();
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}", defaults: new
-                {
-                    controller = "Home",
-                    action = "index"
-                });
-            });
+            app.UseIdentityServer(Configuration);
 
             if (env.IsDevelopment())
             {
@@ -83,70 +64,7 @@ namespace CoreQuizz.WebService
                 ISurveyManager surveyManager = serviceProvider.GetService<ISurveyManager>();
                 string email = "yfozekosh@gmail.com";
 
-                SeedDatabaseIfDevelop(accountManager, surveyManager, email);
-            }
-        }
-
-        private static void SeedDatabaseIfDevelop(IAccountManager accountManager, ISurveyManager surveyManager, string email)
-        {
-            if (!accountManager.IsUserExists(email))
-            {
-                accountManager.RegisterUser("yfozekosh@gmail.com", "1234");
-                surveyManager.CreateSurvey(new Survey()
-                {
-                    Title = "Title",
-                    Questions = new List<Question>()
-                        {
-                            new CheckboxQuestion()
-                            {
-                                QuestionLabel = "What about checkboxes?",
-                                Options = new List<QuestionOption>()
-                                {
-                                    new QuestionOption()
-                                    {
-                                        IsSelected = true,
-                                        Value = "select1"
-                                    },
-                                    new QuestionOption()
-                                    {
-                                        IsSelected = false,
-                                        Value = "select2"
-                                    },
-                                    new QuestionOption()
-                                    {
-                                        IsSelected = false,
-                                        Value = "select3"
-                                    }
-                                }
-                            },
-                            new RadioQuestion()
-                            {
-                                QuestionLabel = "What about radio?",
-                                Options = new List<QuestionOption>()
-                                {
-                                    new QuestionOption()
-                                    {
-                                        IsSelected = false,
-                                        Value = "select1"
-                                    },
-                                    new QuestionOption()
-                                    {
-                                        IsSelected = false,
-                                        Value = "select2"
-                                    },
-                                    new QuestionOption()
-                                    {
-                                        IsSelected = false,
-                                        Value = "select3"
-                                    }
-                                }
-                            },
-                            new InputQuestion()
-                            {
-                                QuestionLabel = "What about input?"
-                            }
-                        }
-                }, email);
+                BAL.AppSeed.SeedDatabaseIfDevelop(accountManager, surveyManager, email);
             }
         }
     }

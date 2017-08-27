@@ -1,4 +1,4 @@
-﻿using CoreQuizz.DataAccess.Contract.Contracts;
+﻿using CoreQuizz.Queries.Contract;
 
 namespace CoreQuizz.Queries.PageQueries
 {
