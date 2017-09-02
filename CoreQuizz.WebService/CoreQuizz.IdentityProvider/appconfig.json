@@ -1,3 +1,3 @@
 ﻿{
-  "connection": "server=(localdb)\\mssqllocaldb;database=CoreqQuizz.IdentityServer4;trusted_connection=yes"
+  "connection": "server=(localdb)\\corequizz;database=CoreqQuizz.IdentityServer4;trusted_connection=yes"
 }

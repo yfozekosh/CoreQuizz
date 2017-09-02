@@ -1,0 +1,15 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<form method="post" asp-controller="Identity" asp-action="Register">
+    <input type="email" placeholder="email" name="Email"/>
+    <input type="password" placeholder="password" name="Password"/>
+    <input type="password" placeholder="password2" name="Password2"/>
+    <input type="submit" value="submit"/>
+</form>
+

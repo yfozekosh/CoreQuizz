@@ -4,13 +4,18 @@ using CoreQuizz.BAL.Managers.Extensions;
 using CoreQuizz.DataAccess.Extensions;
 using CoreQuizz.Queries.Extensions;
 using CoreQuizz.Shared;
+using CoreQuizz.WebService.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CoreQuizz.WebService
 {
@@ -32,15 +37,47 @@ namespace CoreQuizz.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppConfig>(Configuration);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // укзывает, будет ли валидироваться издатель при валидации токена
+                        ValidateIssuer = true,
+                        // строка, представляющая издателя
+                        ValidIssuer = AuthOptions.ISSUER,
+
+                        // будет ли валидироваться потребитель токена
+                        ValidateAudience = true,
+                        // установка потребителя токена
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        // будет ли валидироваться время существования
+                        ValidateLifetime = true,
+
+                        // установка ключа безопасности
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        // валидация ключа безопасности
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+
 
             services.AddDAL(Configuration);
-            
+
             services.AddTransient<IDependencyResolver, AspNetCoreDependencyResolver>();
 
             services.AddBAL();
             services.AddQueries();
 
+            services.AddDbContext<IdentityContext>(options =>
+                options.UseSqlServer(Configuration["survey_connection"]));
+
+            services.AddIdentity<AuthenticationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>();
+
             services.AddMvc();
+
             services.AddSession();
         }
 
@@ -52,13 +89,16 @@ namespace CoreQuizz.WebService
 
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
+            app.UseBrowserLink();
             //}
 
             app.UseSession();
             app.UseStaticFiles();
 
-            app.UseIdentityServer(Configuration);
+            //app.UseIdentityServer(Configuration);
+            app.UseIdentity();
+            app.UseMvcWithDefaultRoute();
 
             if (env.IsDevelopment())
             {

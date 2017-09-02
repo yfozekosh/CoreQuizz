@@ -1,0 +1,12 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+@foreach (var userClaim in User.Claims)
+{
+    <p>@userClaim.Type <span>:</span> @userClaim.Value</p>
+}

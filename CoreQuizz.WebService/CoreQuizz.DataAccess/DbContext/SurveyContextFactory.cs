@@ -7,7 +7,7 @@ namespace CoreQuizz.DataAccess.DbContext
     {
         public SurveyContext Create(DbContextFactoryOptions options)
         {
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=CoreQuizz.SurveyDB;Trusted_Connection=True;";
+            var connection = @"Server=(localdb)\corequizz;Database=CoreQuizz.SurveyDB;Trusted_Connection=True;";
             var builder = new DbContextOptionsBuilder<SurveyContext>();
             builder.UseSqlServer(connection);
             return new SurveyContext(builder.Options);
