@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Managers.Extensions;
 using CoreQuizz.DataAccess.Extensions;
@@ -66,13 +67,23 @@ namespace CoreQuizz.WebService
             loggerFactory.AddConsole();
             loggerFactory.AddNLog();
 
-            //if (env.IsDevelopment())
-            //{
-            app.UseDeveloperExceptionPage();
-            app.UseBrowserLink();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
 
-            app.UserCoreQuizzJwt(serviceProvider);
+            app.UseWhen(context => context.Request.Path.StartsWithSegments("/api") ||
+                                   context.Request.Path.StartsWithSegments("/token"), builder =>
+            {
+                builder.UserCoreQuizzJwt(serviceProvider);
+            });
+
+            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api") &&
+                                   !context.Request.Path.StartsWithSegments("/token"), builder =>
+            {
+                app.UseIdentity();
+            });
 
             app.UseSession();
             app.UseStaticFiles();

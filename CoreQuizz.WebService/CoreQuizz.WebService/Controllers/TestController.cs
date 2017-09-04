@@ -24,5 +24,16 @@ namespace CoreQuizz.WebService.Controllers
 
             return View(result);
         }
+
+        [Route("/api/test")]
+        public IActionResult Index2()
+        {
+            SurveyListItem[] result = _queryDispatcher.Execute<SurveyListPageQuery, SurveyListItem[]>(new SurveyListPageQuery()
+            {
+                UserId = 5
+            });
+
+            return View("Index", result);
+        }
     }
 }

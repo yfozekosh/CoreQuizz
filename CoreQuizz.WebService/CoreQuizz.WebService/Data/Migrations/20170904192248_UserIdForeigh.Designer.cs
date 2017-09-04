@@ -8,9 +8,10 @@ using CoreQuizz.WebService.Identity;
 namespace CoreQuizz.WebService.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    partial class IdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20170904192248_UserIdForeigh")]
+    partial class UserIdForeigh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
