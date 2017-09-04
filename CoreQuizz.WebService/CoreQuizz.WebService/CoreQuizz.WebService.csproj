@@ -9,16 +9,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="CoreQuizz.UI\node_modules\**" />
+    <Compile Remove="Extensions\**" />
     <Compile Remove="wwwroot\**" />
     <Content Remove="CoreQuizz.UI\node_modules\**" />
+    <Content Remove="Extensions\**" />
     <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="CoreQuizz.UI\node_modules\**" />
+    <EmbeddedResource Remove="Extensions\**" />
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="CoreQuizz.UI\node_modules\**" />
+    <None Remove="Extensions\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

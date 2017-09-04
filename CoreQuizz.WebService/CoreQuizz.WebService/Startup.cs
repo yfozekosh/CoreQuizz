@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Managers.Extensions;
 using CoreQuizz.DataAccess.Extensions;
@@ -9,17 +7,14 @@ using CoreQuizz.Shared;
 using CoreQuizz.WebService.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using NLog.Extensions.Logging;
 using NLog.Web;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace CoreQuizz.WebService
 {
@@ -53,7 +48,11 @@ namespace CoreQuizz.WebService
             services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(Configuration["survey_connection"]));
 
-            services.AddIdentity<AuthenticationUser, IdentityRole>()
+            services.AddIdentity<AuthenticationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequiredLength = 8;
+                })
                 .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddMvc();
@@ -73,55 +72,49 @@ namespace CoreQuizz.WebService
             app.UseBrowserLink();
             //}
 
-            string secretKey = "CoreQuizz_key_9352_{wq[[SS]]ds,,.!!";
-            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
-            var options = new TokenProviderOptions
-            {
-                Audience = "ExampleAudience",
-                Issuer = "ExampleIssuer",
-                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
-            };
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                // The signing key must match!
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
-
-                // Validate the JWT Issuer (iss) claim
-                ValidateIssuer = true,
-                ValidIssuer = "ExampleIssuer",
-
-                // Validate the JWT Audience (aud) claim
-                ValidateAudience = true,
-                ValidAudience = "ExampleAudience",
-
-                // Validate the token expiry
-                ValidateLifetime = true,
-
-                // If you want to allow a certain amount of clock drift, set that here:
-                ClockSkew = TimeSpan.Zero
-            };
-            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
-
-            app.UseJwtBearerAuthentication(new JwtBearerOptions()
-            {
-                Audience = "https://localhost:44304/",
-                AutomaticAuthenticate = true,
-                TokenValidationParameters = tokenValidationParameters
-            });
+            app.UserCoreQuizzJwt(serviceProvider);
 
             app.UseSession();
             app.UseStaticFiles();
 
-            //app.UseIdentityServer(Configuration);
-            //app.UseIdentity();
             app.UseMvcWithDefaultRoute();
 
             if (env.IsDevelopment())
             {
                 IAccountManager accountManager = serviceProvider.GetService<IAccountManager>();
                 ISurveyManager surveyManager = serviceProvider.GetService<ISurveyManager>();
+                UserManager<AuthenticationUser> userManager =
+                    serviceProvider.GetService<UserManager<AuthenticationUser>>();
+                RoleManager<IdentityRole> roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
+                var role = roleManager.FindByNameAsync("admin").GetAwaiter().GetResult();
+                if (role == null)
+                {
+                    role = new IdentityRole("admin");
+                    var roleResult = roleManager.CreateAsync(role).GetAwaiter().GetResult();
+                    if (!roleResult.Succeeded)
+                        throw new NotImplementedException(string.Join(",", roleResult.Errors));
+                }
+
+                var user = userManager.FindByEmailAsync("yfozekosh@gmail.com").GetAwaiter().GetResult();
+                if (user == null)
+                {
+                    user = new AuthenticationUser()
+                    {
+                        Email = "yfozekosh@gmail.com",
+                        UserName = "yfozekosh@gmail.com",
+                        EmailConfirmed = true
+                    };
+                    var adminRole = roleManager.FindByNameAsync("admin").GetAwaiter().GetResult();
+                    IdentityResult createResult = userManager.CreateAsync(user, "H25mc1bb").GetAwaiter().GetResult();
+                    if (!createResult.Succeeded)
+                    {
+                        throw new NotImplementedException(string.Join("\r\n", createResult.Errors));
+                    }
+                    var use = userManager.FindByEmailAsync("yfozekosh@gmail.com").GetAwaiter().GetResult();
+                    var res = userManager.AddToRoleAsync(use, "admin").GetAwaiter().GetResult();
+                    if (!res.Succeeded)
+                        throw new NotImplementedException(string.Join("\r\n", res.Errors));
+                }
                 string email = "yfozekosh@gmail.com";
 
                 BAL.AppSeed.SeedDatabaseIfDevelop(accountManager, surveyManager, email);

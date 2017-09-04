@@ -1,7 +1,7 @@
 using System;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CoreQuizz.WebService
+namespace CoreQuizz.WebService.Identity
 {
     public class TokenProviderOptions
     {

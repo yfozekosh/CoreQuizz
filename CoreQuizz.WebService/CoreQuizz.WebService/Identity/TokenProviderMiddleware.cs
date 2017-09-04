@@ -1,35 +1,39 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace CoreQuizz.WebService
+namespace CoreQuizz.WebService.Identity
 {
     public class TokenProviderMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly UserManager<AuthenticationUser> _userManager;
         private readonly TokenProviderOptions _options;
 
         public TokenProviderMiddleware(
             RequestDelegate next,
-            IOptions<TokenProviderOptions> options)
+            IOptions<TokenProviderOptions> options,
+            UserManager<AuthenticationUser> userManager)
         {
             _next = next;
+            _userManager = userManager;
             _options = options.Value;
         }
 
         public Task Invoke(HttpContext context)
         {
-            // If the request path doesn't match, skip
             if (!context.Request.Path.Equals(_options.Path, StringComparison.Ordinal))
             {
                 return _next(context);
             }
 
-            // Request must be POST with Content-Type: application/x-www-form-urlencoded
             if (!context.Request.Method.Equals("POST")
                 || !context.Request.HasFormContentType)
             {
@@ -55,8 +59,7 @@ namespace CoreQuizz.WebService
 
             var now = DateTime.UtcNow;
             var nowSeconds = TimeSpan.FromTicks(DateTime.UtcNow.Ticks);
-            // Specifically add the jti (random nonce), iat (issued timestamp), and sub (subject/user) claims.
-            // You can add other claims here, if you want:
+
             var claims = new Claim[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
@@ -64,7 +67,6 @@ namespace CoreQuizz.WebService
                 new Claim(JwtRegisteredClaimNames.Iat, nowSeconds.ToString(), ClaimValueTypes.Integer64)
             };
 
-            // Create the JWT and write it to a string
             var jwt = new JwtSecurityToken(
                 issuer: _options.Issuer,
                 audience: _options.Audience,
@@ -81,21 +83,25 @@ namespace CoreQuizz.WebService
                 expires_in = (int)_options.Expiration.TotalSeconds
             };
 
-            // Serialize and return the response
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private Task<ClaimsIdentity> GetIdentity(string username, string password)
+        private async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            // DON'T do this in production, obviously!
-            if (username == "TEST" && password == "TEST123")
+            AuthenticationUser user = await _userManager.FindByEmailAsync(username);
+            if (user == null) return null;
+
+            bool isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
+
+            if (isPasswordValid)
             {
-                return Task.FromResult(new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"), new Claim[] { }));
+                return new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"),
+                    user.Claims.Select(x => new Claim(x.ClaimType, x.ClaimValue)));
             }
 
             // Credentials are invalid, or account doesn't exist
-            return Task.FromResult<ClaimsIdentity>(null);
+            return null;
         }
     }
 }
