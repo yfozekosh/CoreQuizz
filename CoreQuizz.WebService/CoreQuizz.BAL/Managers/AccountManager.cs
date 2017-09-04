@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.Shared.DomainModel;
@@ -17,63 +18,53 @@ namespace CoreQuizz.BAL.Managers
             _unitOfWork = unitOfWork;
         }
 
-        public void RegisterUser(string login, string password)
+        public async Task<OperationResult<User>> RegisterUserAsync(string login)
         {
-            IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
-            Tuple<string, byte[]> hashSaltTuple = HashString(password);
-
-            User user = new User
+            try
             {
-                Email = login,
-                Salt = Convert.ToBase64String(hashSaltTuple.Item2),
-                PasswordHash = hashSaltTuple.Item1,
-                CreatedDate = DateTime.Now,
-                ModifieDateTime = DateTime.Now
-            };
+                IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
 
-            userRepo.Add(user);
-            _unitOfWork.Save();
-        }
-
-        public bool IsUserExists(string login)
-        {
-            IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
-            return userRepo.Get(user=>user.Email==login).Any();
-        }
-
-        private Tuple<string,byte[]> HashString(string str, byte[] salt = null)
-        {
-            if (salt == null)
-            {
-                salt = new byte[128 / 8];
-                using (var rng = RandomNumberGenerator.Create())
+                User user = new User
                 {
-                    rng.GetBytes(salt);
-                }
-            }
+                    Email = login,
+                    CreatedDate = DateTime.Now,
+                    ModifieDateTime = DateTime.Now
+                };
 
-            string hash = Convert.ToBase64String(KeyDerivation.Pbkdf2(str, salt, KeyDerivationPrf.HMACSHA512, 10000, 32));
-            return new Tuple<string,byte[]>(hash,salt);
+                await userRepo.AddAsync(user);
+                await _unitOfWork.SaveAsync();
+
+                return new OperationResult<User>()
+                {
+                    IsSuccess = true,
+                    Result = user
+                };
+            }
+            catch (Exception e)
+            {
+                return new OperationResult<User>
+                {
+                    IsSuccess = false,
+                    Exceptions = new[] { e }
+                };
+            }
         }
 
-        public bool LogInUser(string login, string password)
+        public async Task<bool> IsUserExistsAsync(string login)
         {
             IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
-            User user = userRepo.Get(x => x.Email == login).FirstOrDefault();
-            if (user == null)
-            {
-                throw new ArgumentException($"User {login} do not exists");
-            }
-
-            byte[] salt = Convert.FromBase64String(user.Salt);
-            string hashedPassword = HashString(password, salt).Item1;
-
-            return hashedPassword == user.PasswordHash;
+            return (await userRepo.GetAsync(user => user.Email == login)).Any();
         }
 
         public void Dispose()
         {
             _unitOfWork?.Dispose();
+        }
+
+        public Task<User> GetUserByIdAsync(int id)
+        {
+            IRepository<User> userRepo = _unitOfWork.GetRepository<User>();
+            return userRepo.GetAsync(id);
         }
     }
 }

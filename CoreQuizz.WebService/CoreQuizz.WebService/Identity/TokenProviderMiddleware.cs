@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -15,15 +16,18 @@ namespace CoreQuizz.WebService.Identity
     {
         private readonly RequestDelegate _next;
         private readonly UserManager<AuthenticationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly TokenProviderOptions _options;
 
         public TokenProviderMiddleware(
             RequestDelegate next,
             IOptions<TokenProviderOptions> options,
-            UserManager<AuthenticationUser> userManager)
+            UserManager<AuthenticationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _next = next;
             _userManager = userManager;
+            _roleManager = roleManager;
             _options = options.Value;
         }
 
@@ -49,7 +53,8 @@ namespace CoreQuizz.WebService.Identity
             var username = context.Request.Form["username"];
             var password = context.Request.Form["password"];
 
-            var identity = await GetIdentity(username, password);
+            AuthenticationUser user = await _userManager.FindByEmailAsync(username);
+            var identity = await GetIdentity(user, username, password);
             if (identity == null)
             {
                 context.Response.StatusCode = 400;
@@ -60,12 +65,17 @@ namespace CoreQuizz.WebService.Identity
             var now = DateTime.UtcNow;
             var nowSeconds = TimeSpan.FromTicks(DateTime.UtcNow.Ticks);
 
-            var claims = new Claim[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, nowSeconds.ToString(), ClaimValueTypes.Integer64)
             };
+
+            IList<string> roleStrs = await _userManager.GetRolesAsync(user);
+            IEnumerable<Claim> roles = roleStrs.Select(role => new Claim(ClaimTypes.Role, role));
+
+            claims.AddRange(roles);
 
             var jwt = new JwtSecurityToken(
                 issuer: _options.Issuer,
@@ -87,17 +97,15 @@ namespace CoreQuizz.WebService.Identity
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private async Task<ClaimsIdentity> GetIdentity(string username, string password)
+        private async Task<ClaimsIdentity> GetIdentity(AuthenticationUser user, string username, string password)
         {
-            AuthenticationUser user = await _userManager.FindByEmailAsync(username);
             if (user == null) return null;
 
             bool isPasswordValid = await _userManager.CheckPasswordAsync(user, password);
 
             if (isPasswordValid)
             {
-                return new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"),
-                    user.Claims.Select(x => new Claim(x.ClaimType, x.ClaimValue)));
+                return new ClaimsIdentity(new System.Security.Principal.GenericIdentity(username, "Token"), new Claim[] { });
             }
 
             // Credentials are invalid, or account doesn't exist

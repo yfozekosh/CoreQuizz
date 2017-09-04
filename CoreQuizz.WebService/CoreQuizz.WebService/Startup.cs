@@ -93,7 +93,7 @@ namespace CoreQuizz.WebService
             if (env.IsDevelopment())
             {
                 IAccountManager accountManager = serviceProvider.GetService<IAccountManager>();
-                ISurveyManager surveyManager = serviceProvider.GetService<ISurveyManager>();
+
                 UserManager<AuthenticationUser> userManager =
                     serviceProvider.GetService<UserManager<AuthenticationUser>>();
                 RoleManager<IdentityRole> roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
@@ -125,10 +125,11 @@ namespace CoreQuizz.WebService
                     var res = userManager.AddToRoleAsync(use, "admin").GetAwaiter().GetResult();
                     if (!res.Succeeded)
                         throw new NotImplementedException(string.Join("\r\n", res.Errors));
-                }
-                string email = "yfozekosh@gmail.com";
 
-                BAL.AppSeed.SeedDatabaseIfDevelop(accountManager, surveyManager, email);
+                    var quizzUser = accountManager.RegisterUserAsync("yfozekosh@gmail.com").GetAwaiter().GetResult().Result;
+                    user.CoreQuizzUserId = quizzUser.Id;
+                    userManager.UpdateAsync(user).GetAwaiter().GetResult();
+                }
             }
         }
     }

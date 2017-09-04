@@ -1,11 +1,15 @@
-﻿namespace CoreQuizz.BAL.Contracts
+﻿using System.Threading.Tasks;
+using CoreQuizz.BAL.Managers;
+using CoreQuizz.Shared.DomainModel;
+
+namespace CoreQuizz.BAL.Contracts
 {
     public interface IAccountManager
     {
-        void RegisterUser(string login, string password);
+        Task<OperationResult<User>>  RegisterUserAsync(string login);
 
-        bool IsUserExists(string login);
+        Task<bool> IsUserExistsAsync(string login);
 
-        bool LogInUser(string login, string password);
+        Task<User> GetUserByIdAsync(int id);
     }
 }

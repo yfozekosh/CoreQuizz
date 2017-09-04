@@ -16,10 +16,6 @@ namespace CoreQuizz.Shared.DomainModel
         [Required]
         public string Email { get; set; }
 
-        public string PasswordHash { get; set; }
-
-        public string Salt { get; set; }
-
         public IList<Survey> Surveys { get; set; }
     }
 }

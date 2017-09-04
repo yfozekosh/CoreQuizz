@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using CoreQuizz.DataAccess.Contract;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using CoreQuizz.DataAccess.DbContext;
@@ -51,11 +52,11 @@ namespace CoreQuizz.DataAccess.DAL
             }
         }
 
-        public UnitOfWorkActionResult Save()
+        public async Task<UnitOfWorkActionResult> SaveAsync()
         {
             try
             {
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return new UnitOfWorkActionResult()
                 {
                     Exception = null,
@@ -73,14 +74,15 @@ namespace CoreQuizz.DataAccess.DAL
             }
         }
 
-        public UnitOfWorkActionResult Rollback()
+        public async Task<UnitOfWorkActionResult> RollbackAsync()
         {
             try
             {
-                _context
-                    .ChangeTracker
-                    .Entries()
-                    .ToList()
+                (await _context
+                        .ChangeTracker
+                        .Entries()
+                        .ToAsyncEnumerable()
+                        .ToList())
                     .ForEach(x => x.Reload());
 
                 return new UnitOfWorkActionResult()

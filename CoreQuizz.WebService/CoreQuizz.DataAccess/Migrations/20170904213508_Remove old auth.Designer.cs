@@ -8,9 +8,10 @@ using CoreQuizz.DataAccess.DbContext;
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20170904213508_Remove old auth")]
+    partial class Removeoldauth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

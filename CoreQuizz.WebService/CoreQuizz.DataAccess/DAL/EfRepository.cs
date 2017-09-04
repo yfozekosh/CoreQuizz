@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using CoreQuizz.DataAccess.Contract.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions;
 
 namespace CoreQuizz.DataAccess.DAL
 {
@@ -23,11 +25,41 @@ namespace CoreQuizz.DataAccess.DAL
             _set = _context.Set<TEnity>();
         }
 
-        public TEnity Get(params object[] id)
+
+        public void Dispose()
+        {
+            
+        }
+
+
+        public Task<TEnity> GetAsync(params object[] id)
         {
             if (id == null) throw new ArgumentNullException(nameof(id));
 
-            return _set.Find(id);
+            return _set.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<TEnity>> GetAllAsync()
+        {
+            return await _set.AsNoTracking().ToListAsync();
+        }
+
+        public IQueryable<TEnity> GetAllQueryable()
+        {
+            return _set.AsNoTracking();
+        }
+
+        public async Task<IEnumerable<TEnity>> GetAsync(Func<TEnity, bool> predicate, params Expression<Func<TEnity, object>>[] includes)
+        {
+            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+            IQueryable<TEnity> query = _set.AsNoTracking();
+
+            if (includes.Length != 0)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return await query.Where(predicate).ToAsyncEnumerable().ToList();
         }
 
         public void Update(TEnity item)
@@ -44,46 +76,18 @@ namespace CoreQuizz.DataAccess.DAL
             _set.Remove(item);
         }
 
-        public void Delete(Func<TEnity, bool> predicate)
+        public async Task DeleteAsync(Func<TEnity, bool> predicate)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
 
-            _set.RemoveRange(Get(predicate));
+            _set.RemoveRange(await GetAsync(predicate));
         }
 
-        public void Add(TEnity item)
+        public Task AddAsync(TEnity item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
-            _set.Add(item);
-        }
-
-        public IEnumerable<TEnity> Get(Func<TEnity, bool> predicate, params Expression<Func<TEnity, object>>[] includes)
-        {
-            if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-            IQueryable<TEnity> query = _set.AsNoTracking();
-
-            if (includes.Length != 0)
-            {
-                query = includes.Aggregate(query, (current, include) => current.Include(include));
-            }
-
-            return query.Where(predicate).ToList();
-        }
-
-        public void Dispose()
-        {
-            
-        }
-
-        public IEnumerable<TEnity> GetAll()
-        {
-            return _set.AsNoTracking().ToList();
-        }
-
-        public IQueryable<TEnity> GetAllQueryable()
-        {
-            return _set.AsNoTracking();
+            return _set.AddAsync(item);
         }
     }
 }
