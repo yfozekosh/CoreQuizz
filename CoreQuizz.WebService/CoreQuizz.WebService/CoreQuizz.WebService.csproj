@@ -9,25 +9,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="CoreQuizz.UI\node_modules\**" />
-    <Compile Remove="wwwroot\css\**" />
-    <Compile Remove="wwwroot\js\**" />
+    <Compile Remove="wwwroot\**" />
     <Content Remove="CoreQuizz.UI\node_modules\**" />
-    <Content Remove="wwwroot\css\**" />
-    <Content Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="CoreQuizz.UI\node_modules\**" />
-    <EmbeddedResource Remove="wwwroot\css\**" />
-    <EmbeddedResource Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="CoreQuizz.UI\node_modules\**" />
-    <None Remove="wwwroot\css\**" />
-    <None Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extensions\" />
     <Folder Include="Views\Shared\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
