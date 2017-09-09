@@ -1,24 +1,28 @@
 import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {routes} from './routes';
-import {HomeComponent} from './start/home.component';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './start-page/home.component';
 import {SharedModule} from '../shared/shared.module';
-import {JumbotronComponent} from './start/jumbotron/jumbotron.component';
+import {JumbotronComponent} from './start-page/jumbotron/jumbotron.component';
 import {SignInFormModule} from '../components/sign-in-form/sign-in-form.module';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {UserService} from '../../services/user.service';
 import {AuthGuardService} from '../../services/auth-guard.service';
 import {ConsoleModule} from './console/console.module';
+import {StartPageModule} from './start-page/start-page.module';
+
+export const ROUTES: Routes = [
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
+];
+
 
 @NgModule({
   imports: [
-    SharedModule,
-    SignInFormModule,
+    StartPageModule,
     ConsoleModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(ROUTES)
   ],
-  declarations: [HomeComponent, JumbotronComponent, NotFoundComponent],
-  providers: [UserService, AuthGuardService],
+  declarations: [NotFoundComponent],
   exports: [RouterModule]
 })
 export class HomeModule {

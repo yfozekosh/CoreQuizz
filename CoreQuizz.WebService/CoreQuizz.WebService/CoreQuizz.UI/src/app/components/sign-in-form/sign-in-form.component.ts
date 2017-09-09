@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {ISignInFormModel} from './signInModel.interface';
+import {ISignInFormModel} from '../../../classes/signInModel.interface';
 import {FormControl, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user.service';
@@ -12,7 +12,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
   styleUrls: ['sign-in-form.component.scss']
 })
 export class SignInFormComponent {
-  @Output() onSubmit: EventEmitter<ISignInFormModel> = new EventEmitter<ISignInFormModel>();
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter();
   err: string;
 
   public model: ISignInFormModel = {
@@ -47,7 +47,7 @@ export class SignInFormComponent {
       .register(this.emailFormControl.value, this.passwordFromControl.value)
       .subscribe(d => {
         console.log('registered');
-        this.router.navigateByUrl('/home');
+        this.onSubmit.emit();
       });
 
     this.isSubmitted = true;

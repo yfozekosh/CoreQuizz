@@ -17,8 +17,8 @@ function execShell(command, ifSucess) {
     });
 }
 
-if (process.platform !== "linux") {
+//if (process.platform !== "linux") {
     execShell("cd CoreQuizz.UI && npm i && npm run build", function () {
         console.log('copied');
     });
-}
+//}
