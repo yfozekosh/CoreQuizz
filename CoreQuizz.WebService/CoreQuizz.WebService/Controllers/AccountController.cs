@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Managers;
 using CoreQuizz.Shared.DomainModel;
@@ -39,7 +40,7 @@ namespace CoreQuizz.WebService.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, registerViewModel.Password);
                 if (!result.Succeeded)
                 {
-                    return BadRequest(result.Errors);
+                    return BadRequest(new ErrorServiceRespose(String.Join("\r\n",result.Errors)));
                 }
 
                 OperationResult<User> registerResult = await _accountManager.RegisterUserAsync(registerViewModel.Email);
@@ -54,18 +55,10 @@ namespace CoreQuizz.WebService.Controllers
 
                 await _userManager.UpdateAsync(user);
 
-                return Ok();
+                return Ok(true);
             }
 
-            return BadRequest();
-        }
-
-        [Authorize]
-        [Route("test")]
-        [HttpPost]
-        public IActionResult Test()
-        {
-            return Json(User);
+            return BadRequest("register data is not valid");
         }
     }
 }

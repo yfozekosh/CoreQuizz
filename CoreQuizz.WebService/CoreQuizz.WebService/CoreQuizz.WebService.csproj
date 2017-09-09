@@ -56,8 +56,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoreQuizz.BAL\CoreQuizz.BAL.csproj" />
+    <ProjectReference Include="..\CoreQuizz.Commands.Contract\CoreQuizz.Commands.Contract.csproj" />
+    <ProjectReference Include="..\CoreQuizz.Commands\CoreQuizz.Commands.csproj" />
     <ProjectReference Include="..\CoreQuizz.DataAccess.Contract\CoreQuizz.DataAccess.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.DataAccess\CoreQuizz.DataAccess.csproj" />
+    <ProjectReference Include="..\CoreQuizz.Queries.Contract\CoreQuizz.Queries.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.Queries\CoreQuizz.Queries.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Web.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

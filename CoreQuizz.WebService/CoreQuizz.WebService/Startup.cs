@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Diagnostics;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Managers.Extensions;
@@ -15,6 +16,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using CoreQuizz.Commands.Extensions;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NLog.Web;
 
 namespace CoreQuizz.WebService
@@ -44,6 +49,8 @@ namespace CoreQuizz.WebService
             services.AddTransient<IDependencyResolver, AspNetCoreDependencyResolver>();
 
             services.AddBAL();
+            
+            services.AddCommands();
             services.AddQueries();
 
             services.AddDbContext<IdentityContext>(options =>
@@ -56,7 +63,14 @@ namespace CoreQuizz.WebService
                 })
                 .AddEntityFrameworkStores<IdentityContext>();
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.OutputFormatters.Add(new JsonOutputFormatter(new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                }, ArrayPool<char>.Shared));
+            });
 
             services.AddSession();
         }
@@ -88,7 +102,10 @@ namespace CoreQuizz.WebService
             app.UseSession();
             app.UseStaticFiles();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(builder =>
+            {
+                builder.MapRoute("default", "api/{controller}/{action}");
+            });
 
             if (env.IsDevelopment())
             {
@@ -100,10 +117,34 @@ namespace CoreQuizz.WebService
                 var role = roleManager.FindByNameAsync("admin").GetAwaiter().GetResult();
                 if (role == null)
                 {
-                    role = new IdentityRole("admin");
+                    role = new IdentityRole("admin")
+                    {
+                        Claims =
+                        {
+                           AccessClaim(Accessess.QuestionCreation),
+                           AccessClaim(Accessess.SurveyCreation),
+                           AccessClaim(Accessess.SurveyStatistic)
+                        }
+                    };
                     var roleResult = roleManager.CreateAsync(role).GetAwaiter().GetResult();
                     if (!roleResult.Succeeded)
                         throw new NotImplementedException(string.Join(",", roleResult.Errors));
+
+                    role = new IdentityRole("user")
+                    {
+                        Claims =
+                        {
+                            AccessClaim(Accessess.SurveyCreationPerUser),
+                            AccessClaim(Accessess.QuestionCreationPerUser),
+                            AccessClaim(Accessess.QuestionCreationPerSurvey),
+                            AccessClaim(Accessess.SurveyStatisticPerUser),
+                            AccessClaim(Accessess.SurveyStatisticPerSurvey)
+                        }
+                    };
+                    roleResult = roleManager.CreateAsync(role).GetAwaiter().GetResult();
+                    if (!roleResult.Succeeded)
+                        throw new NotImplementedException(string.Join(",", roleResult.Errors));
+
                 }
 
                 var user = userManager.FindByEmailAsync("yfozekosh@gmail.com").GetAwaiter().GetResult();
@@ -131,6 +172,15 @@ namespace CoreQuizz.WebService
                     userManager.UpdateAsync(user).GetAwaiter().GetResult();
                 }
             }
+        }
+
+        private IdentityRoleClaim<string> AccessClaim(string access)
+        {
+            return new IdentityRoleClaim<string>()
+            {
+                ClaimType = CustomClaimType.Access,
+                ClaimValue = access
+            };
         }
     }
 }

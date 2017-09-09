@@ -4,4 +4,26 @@
   a, a:hover {
     color: white;
   }
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .navbar-brand{
+    font-size: 24px;
+  }
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    a {
+      padding: 8px;
+    }
+  }
 }

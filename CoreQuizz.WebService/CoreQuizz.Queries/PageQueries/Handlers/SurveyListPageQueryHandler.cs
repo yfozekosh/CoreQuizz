@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.PageQueries.Queries;
+using CoreQuizz.Queries.PageQueries.Responces;
 using CoreQuizz.Shared.DomainModel;
 
-namespace CoreQuizz.Queries.PageQueries
+namespace CoreQuizz.Queries.PageQueries.Handlers
 {
     public class SurveyListPageQueryHandler : IQueryHandler<SurveyListPageQuery, SurveyListItem[]>
     {
@@ -20,6 +22,7 @@ namespace CoreQuizz.Queries.PageQueries
 
             SurveyListItem[] result = usersSureveys.Select(survey => new SurveyListItem()
             {
+                SurveyId = survey.Id,
                 QuestionsCount = survey.Questions.Count,
                 CreatedDate = survey.CreatedDate,
                 ModifiedDate = survey.ModifieDateTime,

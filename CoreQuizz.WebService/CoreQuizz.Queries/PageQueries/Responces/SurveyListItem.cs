@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace CoreQuizz.Queries.PageQueries
+namespace CoreQuizz.Queries.PageQueries.Responces
 {
     public class SurveyListItem
     {
+        public int SurveyId { get; set; }
         public string SurveyName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }

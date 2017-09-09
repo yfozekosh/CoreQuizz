@@ -4,7 +4,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 import {AuthGuardService} from '../../services/auth-guard.service';
 
 export const routes: Route[] = [
-    {path: '', component: HomeComponent},
-    {path: '404', component: NotFoundComponent, canActivate: [AuthGuardService]},
-    {path: '**', redirectTo: '/404'}
+  {path: '', component: HomeComponent},
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];

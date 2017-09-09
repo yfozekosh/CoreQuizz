@@ -5,7 +5,7 @@ namespace CoreQuizz.WebService.Identity
 {
     public class TokenProviderOptions
     {
-        public string Path { get; set; } = "/token";
+        public string Path { get; set; } = "/api/token";
 
         public string Issuer { get; set; }
 

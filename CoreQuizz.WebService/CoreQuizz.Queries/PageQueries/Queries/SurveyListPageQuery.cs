@@ -1,6 +1,7 @@
 ﻿using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.PageQueries.Responces;
 
-namespace CoreQuizz.Queries.PageQueries
+namespace CoreQuizz.Queries.PageQueries.Queries
 {
     public class SurveyListPageQuery : IQuery<SurveyListItem[]>
     {

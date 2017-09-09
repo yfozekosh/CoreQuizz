@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.WebService", "CoreQuizz.WebService\CoreQuizz.WebService.csproj", "{0C7FA815-1F20-4C80-AF8B-1ED546F63AA7}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.DataAccess.Contra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.Queries", "CoreQuizz.Queries\CoreQuizz.Queries.csproj", "{26A07982-44BA-4CF6-A47F-D7E4DEEF7356}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.Commands.Contract", "CoreQuizz.Commands\CoreQuizz.Commands.Contract.csproj", "{D98D5E6F-F442-4DC2-8600-05AB9AC72E7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreQuizz.Commands.Contract", "CoreQuizz.Commands.Contract\CoreQuizz.Commands.Contract.csproj", "{D98D5E6F-F442-4DC2-8600-05AB9AC72E7E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CQS-DAL", "CQS-DAL", "{00CC10BA-47E9-4521-9638-A69BBAABC8CE}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A28465C2-22BA-4F6C-BAD5-FDFB8CC62CE8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WEB", "WEB", "{A951B5A8-19F4-4C33-8BA1-B4C1CA9BAC21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreQuizz.Commands", "CoreQuizz.Commands\CoreQuizz.Commands.csproj", "{B414384C-CB11-40A9-B14B-B52D92A8390B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{E0B06AF1-EA90-4717-8E55-97860A367A2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0B06AF1-EA90-4717-8E55-97860A367A2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0B06AF1-EA90-4717-8E55-97860A367A2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B414384C-CB11-40A9-B14B-B52D92A8390B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B414384C-CB11-40A9-B14B-B52D92A8390B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B414384C-CB11-40A9-B14B-B52D92A8390B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B414384C-CB11-40A9-B14B-B52D92A8390B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{942464AA-255D-4AB7-AEAC-5508224891AF} = {A28465C2-22BA-4F6C-BAD5-FDFB8CC62CE8}
 		{6E9002DD-77CA-4D64-AA18-EE83664EA470} = {A28465C2-22BA-4F6C-BAD5-FDFB8CC62CE8}
 		{A951B5A8-19F4-4C33-8BA1-B4C1CA9BAC21} = {A28465C2-22BA-4F6C-BAD5-FDFB8CC62CE8}
+		{B414384C-CB11-40A9-B14B-B52D92A8390B} = {00CC10BA-47E9-4521-9638-A69BBAABC8CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D359840-DE48-426C-9763-AD5EBF02DBAC}

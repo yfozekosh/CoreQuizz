@@ -47,7 +47,8 @@ namespace CoreQuizz.WebService.Identity
             {
                 Audience = "https://therium-labs.com",
                 AutomaticAuthenticate = true,
-                TokenValidationParameters = tokenValidationParameters
+                TokenValidationParameters = tokenValidationParameters,
+                RequireHttpsMetadata = true
             });
 
         }

@@ -1,6 +1,9 @@
 ﻿using System;
 using CoreQuizz.Queries.Contract;
 using CoreQuizz.Queries.PageQueries;
+using CoreQuizz.Queries.PageQueries.Handlers;
+using CoreQuizz.Queries.PageQueries.Queries;
+using CoreQuizz.Queries.PageQueries.Responces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreQuizz.Queries.Extensions
