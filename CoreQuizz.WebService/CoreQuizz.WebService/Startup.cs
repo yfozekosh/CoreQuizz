@@ -104,7 +104,7 @@ namespace CoreQuizz.WebService
 
             app.UseMvc(builder =>
             {
-                builder.MapRoute("default", "api/{controller}/{action}");
+                builder.MapRoute("default", "api/{controller=Home}/{action=Index}");
             });
 
             if (env.IsDevelopment())
