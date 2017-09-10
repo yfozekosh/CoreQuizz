@@ -46,7 +46,7 @@ export class UserService {
       })
       .map(data => {
         if (data.isSuccess) {
-          const token = new TokenData(data.accessToken, data.expiresIn);
+          const token = new TokenData(data.value.accessToken, data.value.expiresIn);
           this.token = token;
           return new OkServiceResponse<TokenData>(token);
         }
@@ -57,7 +57,7 @@ export class UserService {
     return httpResult;
   }
 
-  register(username: string, password: string): Observable<boolean> {
+  register(username: string, password: string): Observable<ServiceResponse<string>> {
     const httpResult = this._http.post(ApiRoutes.account.register, {
       Email: username,
       Password: password,
@@ -71,13 +71,14 @@ export class UserService {
         }
         return d;
       });
+
     return httpResult;
   }
 
   isLoggedIn() {
     const token = this.token;
 
-    if (this.token.expiration + this.token.createdAt < (new Date().getUTCDate() / 1000)) {
+    if (!this.token || this.token.expiration + this.token.createdAt < (new Date().getUTCDate() / 1000)) {
       this.token = null;
       return false;
     }

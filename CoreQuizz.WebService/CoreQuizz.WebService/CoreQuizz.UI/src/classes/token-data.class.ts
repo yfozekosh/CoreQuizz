@@ -2,6 +2,6 @@ export class TokenData {
   createdAt: number;
 
   constructor(public token: string, public expiration: number) {
-    this.createdAt = new Date().getUTCDate() / 1000;
+    this.createdAt = new Date().getTime() / 1000;
   }
 }

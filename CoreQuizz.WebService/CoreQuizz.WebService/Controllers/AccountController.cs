@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Managers;
@@ -26,7 +27,7 @@ namespace CoreQuizz.WebService.Controllers
         [Route("register")]
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel registerViewModel)
+        public async Task<ServiceResponse> Register([FromBody]RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid && registerViewModel.Password == registerViewModel.Password2)
             {
@@ -40,14 +41,14 @@ namespace CoreQuizz.WebService.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, registerViewModel.Password);
                 if (!result.Succeeded)
                 {
-                    return BadRequest(new ErrorServiceRespose(String.Join("\r\n",result.Errors)));
+                    return new ErrorServiceRespose(String.Join("\r\n", result.Errors.Select(e => e.Description)));
                 }
 
                 OperationResult<User> registerResult = await _accountManager.RegisterUserAsync(registerViewModel.Email);
 
                 if (!registerResult.IsSuccess)
                 {
-                    return BadRequest(registerResult.Exceptions);
+                    return new ErrorServiceRespose(String.Join("\r\n", registerResult.Exceptions.Select(e=>e.Message)));
                 }
 
                 User quizzUser = registerResult.Result;
@@ -55,10 +56,10 @@ namespace CoreQuizz.WebService.Controllers
 
                 await _userManager.UpdateAsync(user);
 
-                return Ok(true);
+                return new OkServiceResponse<string>("created");
             }
 
-            return BadRequest("register data is not valid");
+            return new ErrorServiceRespose("register data is not valid");
         }
     }
 }

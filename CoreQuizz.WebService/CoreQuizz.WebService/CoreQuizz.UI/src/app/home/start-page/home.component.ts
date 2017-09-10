@@ -5,4 +5,13 @@ import {Component} from '@angular/core';
     styleUrls: ['home.component.scss']
 })
 export class HomeComponent {
+  isRegister = true;
+
+  handleRegisterLink() {
+    this.isRegister = true;
+  }
+
+  handleLoginLink() {
+    this.isRegister = false;
+  }
 }

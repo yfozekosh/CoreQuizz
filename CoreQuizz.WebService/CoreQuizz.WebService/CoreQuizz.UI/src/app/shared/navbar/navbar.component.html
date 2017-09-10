@@ -2,13 +2,13 @@
   <div class="container">
     <nav>
       <div>
-        <a class="navbar-brand" router-link="/console" >CoreQuizz</a>
+        <a class="navbar-brand" [routerLink]="['/console']" >CoreQuizz</a>
       </div>
       <div>
         <app-authentificated>
           <div class="navbar-nav">
-            <a class="nav-link" router-link="/login">Sign in</a>
-            <a class="nav-link" router-link="/register">Sign up</a>
+            <a class="nav-link" (click)="onSignIn.emit()">Sign in</a>
+            <a class="nav-link" (click)="onSignUp.emit()">Sign up</a>
           </div>
         </app-authentificated>
       </div>

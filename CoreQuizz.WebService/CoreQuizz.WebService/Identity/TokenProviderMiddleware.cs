@@ -77,7 +77,7 @@ namespace CoreQuizz.WebService.Identity
 
             if (identity == null)
             {
-                context.Response.StatusCode = 400;
+                context.Response.StatusCode = 200;
                 await context.Response.WriteAsync(
                     SeriaizeErrorResponse("Invalid username or password."));
 

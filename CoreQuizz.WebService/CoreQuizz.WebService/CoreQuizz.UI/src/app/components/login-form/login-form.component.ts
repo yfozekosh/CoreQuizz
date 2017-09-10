@@ -45,8 +45,12 @@ export class LoginFormComponent {
     this.userService
       .login(this.emailFormControl.value, this.passwordFromControl.value)
       .subscribe(d => {
-        console.log('logged in');
-        this.onSubmit.emit();
+        if (d.isSuccess) {
+          console.log('logged in');
+          this.onSubmit.emit();
+        } else {
+          this.err = d.error;
+        }
       });
 
     this.isSubmitted = true;

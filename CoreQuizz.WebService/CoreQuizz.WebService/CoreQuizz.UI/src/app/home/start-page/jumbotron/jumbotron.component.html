@@ -9,6 +9,11 @@
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae quam soluta veritatis. Accusantium asperiores consequatur cupiditate eaque exercitationem expedita quod.
             </p>
         </div>
-        <app-sign-in-form></app-sign-in-form>
+        <ng-container *ngIf="isRegister">
+          <app-sign-in-form (onSubmit)="handleRegister()"></app-sign-in-form>
+        </ng-container>
+        <ng-container *ngIf="!isRegister">
+          <app-login-form (onSubmit)="handleLogin()"></app-login-form>
+        </ng-container>
     </div>
 </div>

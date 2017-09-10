@@ -1,5 +1,5 @@
 <div class="home">
-    <app-navbar></app-navbar>
-    <app-jumbotron></app-jumbotron>
-    <app-footer></app-footer>
+  <app-navbar (onSignIn)="handleLoginLink()" (onSignUp)="handleRegisterLink()"></app-navbar>
+  <app-jumbotron [isRegister]="isRegister"></app-jumbotron>
+  <app-footer></app-footer>
 </div>

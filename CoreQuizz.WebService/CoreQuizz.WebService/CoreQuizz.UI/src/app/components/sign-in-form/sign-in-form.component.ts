@@ -46,8 +46,12 @@ export class SignInFormComponent {
     this.userService
       .register(this.emailFormControl.value, this.passwordFromControl.value)
       .subscribe(d => {
-        console.log('registered');
-        this.onSubmit.emit();
+        if (d.isSuccess) {
+          console.log('registered');
+          this.onSubmit.emit();
+        } else {
+          this.err = d.error;
+        }
       });
 
     this.isSubmitted = true;
