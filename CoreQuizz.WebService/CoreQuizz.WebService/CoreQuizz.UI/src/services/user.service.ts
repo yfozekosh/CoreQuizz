@@ -8,6 +8,7 @@ import {ErrorServiceResponse, OkServiceResponse, ServiceResponse} from '../class
 import 'rxjs/add/operator/do';
 import {TokenData} from '../classes/token-data.class';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class UserService {

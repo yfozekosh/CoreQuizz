@@ -1,24 +1,23 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {ISignInFormModel} from '../../../classes/signInModel.interface';
-import {FormControl, Validators} from '@angular/forms';
+import {LoginFormInterface} from '../../../classes/login-form.interface';
 import {Router} from '@angular/router';
 import {UserService} from '../../../services/user.service';
+import {FormControl, Validators} from '@angular/forms';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 @Component({
-  selector: 'app-sign-in-form',
-  templateUrl: 'sign-in-form.component.html',
-  styleUrls: ['sign-in-form.component.scss']
+  selector: 'app-login-form',
+  templateUrl: 'login-form.component.html',
+  styleUrls: ['login-form.component.scss']
 })
-export class SignInFormComponent {
+export class LoginFormComponent {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
   err: string;
 
-  public model: ISignInFormModel = {
-    email: '',
-    password: '',
-    password2: ''
+  public model: LoginFormInterface = {
+    username: '',
+    password: ''
   };
   public isSubmitted = false;
 
@@ -44,9 +43,9 @@ export class SignInFormComponent {
 
   handleSubmit() {
     this.userService
-      .register(this.emailFormControl.value, this.passwordFromControl.value)
+      .login(this.emailFormControl.value, this.passwordFromControl.value)
       .subscribe(d => {
-        console.log('registered');
+        console.log('logged in');
         this.onSubmit.emit();
       });
 
