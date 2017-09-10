@@ -1,17 +1,19 @@
 <ng-template #tprofile let-user="user">
-  <div class="profile" *ngIf="user">
-    <div class="profile-image">
-      <img [src]="user.photoUrl"/>
-    </div>
-    <div class="profile-username">
-      {{user.username}}
-    </div>
-    <div class="profile-bio">
-      {{user.bio}}
-    </div>
-    <div class="profile-edit">
-      <button md-raised-button>Edit bio</button>
-    </div>
+  <div class="profile">
+    <ng-container *ngIf="user">
+      <div class="profile-image">
+        <img [src]="user.photoUrl"/>
+      </div>
+      <div class="profile-username">
+        {{user.username}}
+      </div>
+      <div class="profile-bio">
+        {{user.bio}}
+      </div>
+      <div class="profile-edit">
+        <button md-raised-button>Edit bio</button>
+      </div>
+    </ng-container>
   </div>
 </ng-template>
 

@@ -6,8 +6,10 @@ import {ConsoleComponent} from './console.component';
 import {UserService} from '../../../services/user.service';
 import {SharedModule} from '../../shared/shared.module';
 import {ProfileComponent} from './profile/profile.component';
-import {MdButtonModule, MdTabsModule} from '@angular/material';
-import {SurveyTabsComponent} from './survey-tabs/survey-tabs.component';
+import {MdButtonModule, MdSelect, MdTabsModule} from '@angular/material';
+import {ConsoleTabsComponent} from './survey-tabs/console-tabs.component';
+import {SurveysTabComponent} from './survey-tabs/surveys-tab/surveys-tab.component';
+import {SurveysToolboxComponent} from './survey-tabs/surveys-tab/surveys-toolbox/surveys-toolbox.component';
 
 const ROUTES: Routes = [
   {path: 'console', component: ConsoleComponent, canActivate: [AuthGuardService]}
@@ -19,12 +21,15 @@ const ROUTES: Routes = [
     SharedModule,
     MdButtonModule,
     MdTabsModule,
+    MdSelect,
     RouterModule.forChild(ROUTES)
   ],
   declarations: [
     ConsoleComponent,
     ProfileComponent,
-    SurveyTabsComponent
+    ConsoleTabsComponent,
+    SurveysToolboxComponent,
+    SurveysTabComponent
   ],
   providers: [UserService, AuthGuardService],
   exports: [RouterModule]
