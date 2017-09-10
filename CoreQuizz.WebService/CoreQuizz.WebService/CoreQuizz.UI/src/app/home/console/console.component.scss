@@ -1,0 +1,18 @@
+.console-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.console-container {
+  flex: 1;
+  display: flex;
+
+  app-survey-tabs {
+    flex: 1;
+  }
+
+  app-profile {
+    padding-left: 32px;
+  }
+}

@@ -1,0 +1,26 @@
+.profile {
+  padding: 8px 8px 8px 8px;
+  max-width: 246px;
+}
+
+.profile-username {
+  font-size: 18px;
+}
+
+.profile-image {
+  img {
+    width: 230px;
+    height: 230px;
+  }
+}
+
+.profile-bio {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.profile-edit {
+  button {
+    width: 100%;
+  }
+}

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import {ApiRoutes} from '../classes/api-routes.config';
 import {ErrorServiceResponse, OkServiceResponse, ServiceResponse} from '../classes/service-response.class';
@@ -9,6 +8,8 @@ import 'rxjs/add/operator/do';
 import {TokenData} from '../classes/token-data.class';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
+import {Router} from '@angular/router';
+import {User} from '../classes/user-data.class';
 
 @Injectable()
 export class UserService {
@@ -29,7 +30,19 @@ export class UserService {
     return null;
   }
 
-  constructor(private _http: Http) {
+  set username(value: string) {
+    if (value === null) {
+      localStorage.removeItem('username');
+    } else {
+      localStorage.setItem('username', value);
+    }
+  }
+
+  get username(): string {
+    return localStorage.getItem('username');
+  }
+
+  constructor(private _http: Http, private _router: Router) {
   }
 
   login(login: string, password: string): Observable<ServiceResponse<void>> {
@@ -48,6 +61,7 @@ export class UserService {
         if (data.isSuccess) {
           const token = new TokenData(data.value.accessToken, data.value.expiresIn);
           this.token = token;
+          this.username = login;
           return new OkServiceResponse<TokenData>(token);
         }
 
@@ -75,6 +89,15 @@ export class UserService {
     return httpResult;
   }
 
+  getUser(username?: string): Observable<User> {
+    return new Observable(subscriber => {
+      const user = new User();
+      user.username = username ? username : this.username;
+      user.bio = 'example bio';
+      setTimeout(() => subscriber.next(user), 1000);
+    });
+  }
+
   isLoggedIn() {
     const token = this.token;
 
@@ -84,5 +107,11 @@ export class UserService {
     }
 
     return true;
+  }
+
+  logOut() {
+    this.token = null;
+    this.username = null;
+    this._router.navigateByUrl('/');
   }
 }

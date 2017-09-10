@@ -1,15 +1,21 @@
 ﻿<div class="navbar-container">
   <div class="container">
     <nav>
-      <div>
+      <div class="left-controls">
         <a class="navbar-brand" [routerLink]="['/console']" >CoreQuizz</a>
+        <div class="search-control">
+          <input type="text" placeholder="Search" />
+        </div>
       </div>
-      <div>
-        <app-authentificated>
+      <div class="right-controls">
+        <app-authentificated type="inverse">
           <div class="navbar-nav">
             <a class="nav-link" (click)="onSignIn.emit()">Sign in</a>
             <a class="nav-link" (click)="onSignUp.emit()">Sign up</a>
           </div>
+        </app-authentificated>
+        <app-authentificated type="straight">
+          <a class="nav-link" (click)="handleLogOut()">Log out</a>
         </app-authentificated>
       </div>
     </nav>
