@@ -8,6 +8,7 @@ using CoreQuizz.Commands.Contract;
 using CoreQuizz.Queries.Contract;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
+using CoreQuizz.WebService.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ namespace CoreQuizz.WebService.Controllers
 
         [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] string title)
+        public async Task<IActionResult> Create([FromBody] SurveyCreateViewModel model)
         {
             var user = User.Identity.Name;
             string userIdStr = User.FindFirstValue(CustomClaimType.UserId);
@@ -63,7 +64,7 @@ namespace CoreQuizz.WebService.Controllers
 
             var createSurveyCommand = new CreateSurveyCommand
             {
-                Title = title,
+                Title = model.Title,
                 UserEmail = user
             };
 

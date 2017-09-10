@@ -1,0 +1,30 @@
+<div class="new-survey-container">
+  <div class="heading">
+    <h1>Create new survey</h1>
+  </div>
+  <form [formGroup]="form">
+    <div class="main-form">
+      <md-input-container>
+        <input mdInput type="text" placeholder="Title" class="title" formControlName="title"/>
+      </md-input-container>
+      <div class="description">
+        <md-input-container>
+          <input mdInput type="text" placeholder="Description(optional)" formControlName="description">
+        </md-input-container>
+      </div>
+    </div>
+
+    <div class="access">
+      <p>Please, select acces level for your survey (can be changed later)</p>
+      <md-radio-group formControlName="access">
+        <md-radio-button value="1">Public</md-radio-button>
+        <md-radio-button value="2">Private (by url)</md-radio-button>
+        <md-radio-button value="2">Private (by grant)</md-radio-button>
+      </md-radio-group>
+    </div>
+
+    <div class="submit">
+      <button md-raised-button color="primary" (click)="handleCreate()">Create!</button>
+    </div>
+  </form>
+</div>

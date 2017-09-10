@@ -87,17 +87,14 @@ namespace CoreQuizz.WebService
                 app.UseBrowserLink();
             }
 
-            app.UseWhen(context => context.Request.Path.StartsWithSegments("/api") ||
-                                   context.Request.Path.StartsWithSegments("/token"), builder =>
-            {
-                builder.UserCoreQuizzJwt(serviceProvider);
-            });
+            app.UserCoreQuizzJwt(serviceProvider);
 
-            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api") &&
-                                   !context.Request.Path.StartsWithSegments("/token"), builder =>
-            {
-                app.UseIdentity();
-            });
+
+//            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api") &&
+//                                   !context.Request.Path.StartsWithSegments("/token"), builder =>
+//            {
+//                app.UseIdentity();
+//            });
 
             app.UseSession();
             app.UseStaticFiles();

@@ -1,4 +1,15 @@
 .surveys-toolbox {
   padding: 8px 0px 4px 0px;
+  color: black;
+  display: flex;
+  flex-direction: row;
 
+  md-input-container {
+    flex: 1;
+    margin-right: 32px;
+  }
+
+  button {
+    margin-left: 32px;
+  }
 }

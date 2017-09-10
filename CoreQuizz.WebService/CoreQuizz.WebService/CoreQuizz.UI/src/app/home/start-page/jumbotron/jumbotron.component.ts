@@ -24,7 +24,9 @@ export class JumbotronComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this._querySubscription.unsubscribe();
+    if (this._querySubscription) {
+      this._querySubscription.unsubscribe();
+    }
   }
 
   handleRegister() {

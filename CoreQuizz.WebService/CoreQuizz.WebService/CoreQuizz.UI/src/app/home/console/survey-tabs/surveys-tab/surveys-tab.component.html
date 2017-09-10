@@ -2,5 +2,5 @@
   <div class="surveys-toolbox">
     <app-surveys-toolbox></app-surveys-toolbox>
   </div>
-  Other
+  <div *ngFor="let survey of surveys | async"><pre>{{survey | json}}</pre></div>
 </div>

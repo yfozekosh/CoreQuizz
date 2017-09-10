@@ -23,10 +23,15 @@ const urljoin = (...args: string[]) => {
 
 const _api_url = '/api';
 const _account = urljoin(_api_url, 'account');
+const _survey = urljoin(_api_url, 'survey');
 
 export const ApiRoutes = {
   account: {
     register: urljoin(_account, 'register')
   },
-  token: urljoin(_api_url, 'token')
+  token: urljoin(_api_url, 'token'),
+  survey: {
+    get: urljoin(_survey, 'get-all'),
+    create: urljoin(_survey, 'create')
+  }
 };

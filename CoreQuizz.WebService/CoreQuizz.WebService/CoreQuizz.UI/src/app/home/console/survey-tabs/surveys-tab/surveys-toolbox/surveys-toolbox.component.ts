@@ -7,8 +7,10 @@ import {Component} from '@angular/core';
 })
 export class SurveysToolboxComponent {
   accessTypes = [
-    'Public',
-    'Private (Not implemented)',
-    ''
-  ]
+    {code: 0, display: 'All'},
+    {code: 1, display: 'Public'},
+    {code: 2, display: 'Private (Not implemented)'}
+  ];
+
+  selectedType = 0;
 }

@@ -4,7 +4,11 @@
     <input mdInput type="text" placeholder="Search surveys..."/>
   </md-input-container>
 
-  <md-select placeholder="">
+  <div class="right-controlls">
+    <md-select ([ngModel])="selectedType" placeholder="Access Type">
+      <md-option *ngFor="let type of accessTypes" [value]="type.code">{{type.display}}</md-option>
+    </md-select>
 
-  </md-select>
+    <button md-button [routerLink]="['/console/new']">New Survey</button>
+  </div>
 </div>

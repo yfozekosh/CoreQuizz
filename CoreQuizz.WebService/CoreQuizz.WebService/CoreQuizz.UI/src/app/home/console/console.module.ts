@@ -6,22 +6,39 @@ import {ConsoleComponent} from './console.component';
 import {UserService} from '../../../services/user.service';
 import {SharedModule} from '../../shared/shared.module';
 import {ProfileComponent} from './profile/profile.component';
-import {MdButtonModule, MdSelect, MdTabsModule} from '@angular/material';
+import {MdButtonModule, MdInputModule, MdRadioModule, MdSelectModule, MdTabsModule} from '@angular/material';
 import {ConsoleTabsComponent} from './survey-tabs/console-tabs.component';
 import {SurveysTabComponent} from './survey-tabs/surveys-tab/surveys-tab.component';
 import {SurveysToolboxComponent} from './survey-tabs/surveys-tab/surveys-toolbox/surveys-toolbox.component';
+import {ConsoleMainComponent} from './console-main/console-main.component';
+import {NewSurveyComponent} from './new-survey/new-survey.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SurveyService} from '../../../services/survey.service';
+import {ExtendableHttp} from '../../../services/extendable-http';
+import {HttpModule} from '@angular/http';
 
 const ROUTES: Routes = [
-  {path: 'console', component: ConsoleComponent, canActivate: [AuthGuardService]}
+  {
+    path: 'console', component: ConsoleComponent, canActivate: [AuthGuardService],
+    children: [
+      {path: '', component: ConsoleMainComponent},
+      {path: 'new', component: NewSurveyComponent}
+    ]
+  }
 ];
 
 @NgModule({
   imports: [
     CommonModule,
+    HttpModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     MdButtonModule,
     MdTabsModule,
-    MdSelect,
+    MdInputModule,
+    MdSelectModule,
+    MdRadioModule,
     RouterModule.forChild(ROUTES)
   ],
   declarations: [
@@ -29,9 +46,11 @@ const ROUTES: Routes = [
     ProfileComponent,
     ConsoleTabsComponent,
     SurveysToolboxComponent,
-    SurveysTabComponent
+    ConsoleMainComponent,
+    SurveysTabComponent,
+    NewSurveyComponent
   ],
-  providers: [UserService, AuthGuardService],
+  providers: [UserService, AuthGuardService, SurveyService, ExtendableHttp],
   exports: [RouterModule]
 })
 export class ConsoleModule {
