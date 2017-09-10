@@ -342,3 +342,5 @@ yarn-error.log
 # System Files
 .DS_Store
 Thumbs.db
+
+CoreQuizz\.WebService/CoreQuizz\.WebService/wwwroot/

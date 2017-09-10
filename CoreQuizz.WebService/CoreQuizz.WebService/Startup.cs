@@ -49,7 +49,7 @@ namespace CoreQuizz.WebService
             services.AddTransient<IDependencyResolver, AspNetCoreDependencyResolver>();
 
             services.AddBAL();
-            
+
             services.AddCommands();
             services.AddQueries();
 
@@ -104,7 +104,11 @@ namespace CoreQuizz.WebService
 
             app.UseMvc(builder =>
             {
-                builder.MapRoute("default", "api/{controller=Home}/{action=Index}");
+                builder.MapRoute("default", "api/{controller}/{action}", new
+                {
+                    Controlle = "HomeController",
+                    Action = "Index"
+                });
             });
 
             if (env.IsDevelopment())
