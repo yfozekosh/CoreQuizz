@@ -32,6 +32,7 @@ export const ApiRoutes = {
   token: urljoin(_api_url, 'token'),
   survey: {
     get: urljoin(_survey, 'get-all'),
-    create: urljoin(_survey, 'create')
+    create: urljoin(_survey, 'create'),
+    getGlobal: urljoin(_survey, 'get-global')
   }
 };

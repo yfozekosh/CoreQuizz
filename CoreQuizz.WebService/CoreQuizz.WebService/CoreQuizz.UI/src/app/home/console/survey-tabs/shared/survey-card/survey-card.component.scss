@@ -10,6 +10,7 @@
 
   .survey-card-content {
     flex: 1;
+    min-height: 40px;
   }
 
   .survey-card-header {
@@ -31,9 +32,15 @@
     }
 
     h1 {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 300;
     }
   }
 
+  .survey-author {
+    font-size: 12px;
+    a {
+      color: black;
+    }
+  }
 }

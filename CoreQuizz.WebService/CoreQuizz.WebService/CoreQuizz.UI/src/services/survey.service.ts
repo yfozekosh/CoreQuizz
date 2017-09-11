@@ -38,6 +38,38 @@ export class SurveyService {
     return httpRespose;
   }
 
+  getGlobalSurveys(searchText?: string, itemsOnPage?: number, pageNumber?: number): Observable<ServiceResponse<Survey[]>> {
+    const params = {};
+    if (searchText) {
+      params['searchText'] = searchText;
+    }
+
+    if (itemsOnPage) {
+      params['itemsOnPage'] = itemsOnPage;
+    }
+
+    if (pageNumber) {
+      params['pageNumber'] = pageNumber;
+    }
+
+    const httpRespose = this._http.get(ApiRoutes.survey.getGlobal, {
+      params
+    }).map(d => d.json())
+      .map(d => {
+        if (d.isCritical) {
+          throw new Error(d.error);
+        }
+
+        if (d.isSuccess) {
+          return new OkServiceResponse(this.processSurveyDate(...d.value));
+        } else {
+          return new ErrorServiceResponse(d.error);
+        }
+      });
+
+    return httpRespose;
+  }
+
   createSurvey(title: string, access: number, description?: string): Observable<ServiceResponse<boolean>> {
     if (!title) {
       throw new Error('title should be specified');

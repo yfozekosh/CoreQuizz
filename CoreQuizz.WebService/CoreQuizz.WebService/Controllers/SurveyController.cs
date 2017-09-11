@@ -59,7 +59,7 @@ namespace CoreQuizz.WebService.Controllers
 
             if (String.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out userId))
             {
-                return BadRequest(new ErrorServiceRespose("User id in token is invalid"));
+                return Ok(new ErrorServiceRespose("User id in token is invalid"));
             }
 
             var createSurveyCommand = new CreateSurveyCommand
@@ -75,7 +75,39 @@ namespace CoreQuizz.WebService.Controllers
                 return Ok(new OkServiceResponse<string>(""));
             }
 
-            return BadRequest(new ErrorServiceRespose(result.Errors));
+            return Ok(new ErrorServiceRespose(result.Errors));
+        }
+
+        [Route("get-global")]
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Search([FromQuery]SurveySearchViewModel model)
+        {
+            if (model == null)
+            {
+                return Ok(new ErrorServiceRespose("parameters was not specified"));
+            }
+
+            if (model.ItemsOnPage > 200)
+            {
+                return Ok(new ErrorServiceRespose("you cannot request more then 200 items on page"));
+            }
+
+            if (model.PageNumber < 0)
+            {
+                return Ok(new ErrorServiceRespose("page number is illegal"));
+            }
+
+            var searchQuery = new SurveySearchPageQuery()
+            {
+                SearchText = model.SearchText ?? "",
+                PageCount = model.ItemsOnPage,
+                PageNumber = model.PageNumber
+            };
+
+            SurveyListItem[] result = _queryDispatcher.Execute<SurveySearchPageQuery, SurveyListItem[]>(searchQuery);
+
+            return Ok(new OkServiceResponse<SurveyListItem[]>(result));
         }
     }
 }

@@ -1,4 +1,7 @@
 <section class="survey-card">
+  <div *ngIf="includeAuthor" class="survey-author">
+    <a [routerLink]="['console/profile/',survey.createdBy]">{{survey.createdBy}}</a>
+  </div>
   <div class="survey-card-header">
     <div>
       <a [routerLink]="['survey/'+survey.surveyId]">

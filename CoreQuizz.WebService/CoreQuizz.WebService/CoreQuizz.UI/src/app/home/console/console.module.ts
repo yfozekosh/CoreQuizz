@@ -16,15 +16,16 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SurveyService} from '../../../services/survey.service';
 import {ExtendableHttp} from '../../../services/extendable-http';
 import {HttpModule} from '@angular/http';
-import {SurveyCardComponent} from './survey-tabs/shared/survey-card/survey-card.component';
 import {ConsoleSharedModule} from './survey-tabs/shared/console-shared.module';
+import {SearchPageComponent} from './search-page/search-page/search-page.component';
 
 const ROUTES: Routes = [
   {
-    path: 'console', component: ConsoleComponent, canActivate: [AuthGuardService],
+    path: 'console', component: ConsoleComponent,
     children: [
-      {path: '', component: ConsoleMainComponent},
-      {path: 'new', component: NewSurveyComponent}
+      {path: '', component: ConsoleMainComponent,  canActivate: [AuthGuardService]},
+      {path: 'new', component: NewSurveyComponent,  canActivate: [AuthGuardService]},
+      {path: 'search', component: SearchPageComponent}
     ]
   }
 ];
@@ -51,7 +52,8 @@ const ROUTES: Routes = [
     SurveysToolboxComponent,
     ConsoleMainComponent,
     SurveysTabComponent,
-    NewSurveyComponent
+    NewSurveyComponent,
+    SearchPageComponent
   ],
   providers: [UserService, AuthGuardService, SurveyService, ExtendableHttp],
   exports: [RouterModule]

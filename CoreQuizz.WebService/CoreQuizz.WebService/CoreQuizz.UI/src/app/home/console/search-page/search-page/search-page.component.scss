@@ -1,0 +1,16 @@
+.search-page {
+  width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .cards {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    app-survey-card {
+      margin: 8px;
+    }
+  }
+}

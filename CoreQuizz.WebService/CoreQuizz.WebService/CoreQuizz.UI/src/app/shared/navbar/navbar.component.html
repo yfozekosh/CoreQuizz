@@ -4,7 +4,7 @@
       <div class="left-controls">
         <a class="navbar-brand" [routerLink]="['/console']" >CoreQuizz</a>
         <div class="search-control">
-          <input type="text" placeholder="Search" />
+          <input type="text" placeholder="Search" [value]="searchText" (input)="searchText = search.value" (keypress)="handleKeyPress($event)" #search/>
         </div>
       </div>
       <div class="right-controls">

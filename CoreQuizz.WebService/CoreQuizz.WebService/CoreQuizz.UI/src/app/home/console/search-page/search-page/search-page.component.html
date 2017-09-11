@@ -1,0 +1,17 @@
+<div class="search-page">
+  <div class="toolbox" style="display: flex;justify-content: center;min-height: 74px">
+    Toolbox here. It is not implemented. Sorry :( I was too tired. It will be awailable asap
+  </div>
+  <div class="cards">
+    <ng-container *ngTemplateOutlet="cards; context:{surveys: surveys | async }">
+
+    </ng-container>
+    <ng-template #cards let-surveys="surveys">
+      <div *ngIf="surveys? !surveys.length : 0">
+        Sorry. There are no elements for query "{{searchText}}"
+      </div>
+      <app-survey-card *ngFor="let survey of surveys" [survey]="survey" includeAuthor="true">
+      </app-survey-card>
+    </ng-template>
+  </div>
+</div>

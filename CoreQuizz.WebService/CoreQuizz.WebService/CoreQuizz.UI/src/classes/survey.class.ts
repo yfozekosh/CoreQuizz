@@ -6,4 +6,5 @@ export class Survey {
   modifiedDate: Date;
   stars: number;
   access: number;
+  createdBy: string;
 }

@@ -8,4 +8,5 @@ import {Survey} from '../../../../../../classes/survey.class';
 })
 export class SurveyCardComponent {
   @Input() survey: Survey;
+  @Input() includeAuthor: boolean;
 }
