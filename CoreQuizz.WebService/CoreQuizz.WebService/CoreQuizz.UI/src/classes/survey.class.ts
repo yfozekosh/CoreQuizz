@@ -1,5 +1,9 @@
 export class Survey {
   surveyId: number;
   surveyName: string;
-  createdAt: string;
+  createdDate: Date;
+  description: string;
+  modifiedDate: Date;
+  stars: number;
+  access: number;
 }

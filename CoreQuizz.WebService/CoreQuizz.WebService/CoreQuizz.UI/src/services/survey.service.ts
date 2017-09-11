@@ -29,7 +29,7 @@ export class SurveyService {
         }
 
         if (d.isSuccess) {
-          return new OkServiceResponse(d.value);
+          return new OkServiceResponse(this.processSurveyDate(...d.value));
         } else {
           return new ErrorServiceResponse(d.error);
         }
@@ -66,5 +66,13 @@ export class SurveyService {
       });
 
     return httpResponse;
+  }
+
+  private processSurveyDate(...args: Survey[]) {
+    return args.map(s => ({
+      ...s,
+      createdDate: new Date(s.createdDate),
+      modifiedDate: new Date(s.modifiedDate)
+    }));
   }
 }

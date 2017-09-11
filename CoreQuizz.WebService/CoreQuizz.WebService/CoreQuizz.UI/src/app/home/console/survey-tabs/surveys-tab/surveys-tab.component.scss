@@ -3,6 +3,11 @@
   flex-direction: column;
 
   .surveys-toolbox {
-    border-bottom: solid 1px #673ab7;
+  }
+
+  .cards-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }

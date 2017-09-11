@@ -1,7 +1,7 @@
-<div class="surveys-toolbox">
+<form class="surveys-toolbox">
 
   <md-input-container>
-    <input mdInput type="text" placeholder="Search surveys..."/>
+    <input mdInput type="text" placeholder="Search surveys..." [formControl]="searchText" (input)="handleChange($event)"/>
   </md-input-container>
 
   <div class="right-controlls">
@@ -11,4 +11,4 @@
 
     <button md-button [routerLink]="['/console/new']">New Survey</button>
   </div>
-</div>
+</form>

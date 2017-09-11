@@ -1,6 +1,8 @@
 <div class="surveys-tab">
   <div class="surveys-toolbox">
-    <app-surveys-toolbox></app-surveys-toolbox>
+    <app-surveys-toolbox [searchBox]="searchBoxText" (searchBoxChange)="searchBoxText = $event"></app-surveys-toolbox>
   </div>
-  <div *ngFor="let survey of surveys | async"><pre>{{survey | json}}</pre></div>
+  <div class="cards-container">
+    <app-survey-card *ngFor="let survey of surveys | async" [survey]="survey"></app-survey-card>
+  </div>
 </div>

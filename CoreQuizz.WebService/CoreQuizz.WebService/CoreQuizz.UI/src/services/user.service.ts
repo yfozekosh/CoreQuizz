@@ -94,6 +94,7 @@ export class UserService {
       const user = new User();
       user.username = username ? username : this.username;
       user.bio = 'example bio';
+      user.photoUrl = '/assets/portfolio.png';
       setTimeout(() => subscriber.next(user), 1000);
     });
   }

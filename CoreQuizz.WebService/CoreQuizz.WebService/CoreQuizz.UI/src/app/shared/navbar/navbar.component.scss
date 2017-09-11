@@ -1,6 +1,12 @@
 ﻿.navbar-container {
   background-color: #24292e;
 
+  .core-container {
+    width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   a, a:hover {
     color: white;
   }
@@ -28,24 +34,24 @@
     }
   }
 
-
   .right-controls, .left-controls {
     display: flex;
     flex-direction: row;
     justify-content: center;
   }
 
-  .left-controls{
-    margin-left: 32px;
-  }
-
   .search-control {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-left: 32px;
+
     input {
+      min-width: 320px;
       border-radius: 3px;
+      border: none;
       padding: 4px;
+      background-color: hsl(0, 0%, 90%);
     }
   }
 

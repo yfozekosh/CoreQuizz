@@ -16,6 +16,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SurveyService} from '../../../services/survey.service';
 import {ExtendableHttp} from '../../../services/extendable-http';
 import {HttpModule} from '@angular/http';
+import {SurveyCardComponent} from './survey-tabs/shared/survey-card/survey-card.component';
+import {ConsoleSharedModule} from './survey-tabs/shared/console-shared.module';
 
 const ROUTES: Routes = [
   {
@@ -32,6 +34,7 @@ const ROUTES: Routes = [
     CommonModule,
     HttpModule,
     SharedModule,
+    ConsoleSharedModule,
     FormsModule,
     ReactiveFormsModule,
     MdButtonModule,

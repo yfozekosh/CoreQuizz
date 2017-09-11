@@ -1,0 +1,19 @@
+<section class="survey-card">
+  <div class="survey-card-header">
+    <div>
+      <a [routerLink]="['survey/'+survey.surveyId]">
+        <h1>{{survey.surveyName}}</h1>
+      </a>
+    </div>
+    <div class="controlls">
+      stars: {{survey.stars}}
+    </div>
+  </div>
+  <div class="survey-card-content">
+    {{survey.description}}
+  </div>
+  <div class="survey-card-footer">
+    <div>Modified: {{survey.modifiedDate.toLocaleDateString()}}</div>
+    <div>Created: {{survey.createdDate.toLocaleDateString()}}</div>
+  </div>
+</section>

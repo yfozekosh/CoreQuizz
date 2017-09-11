@@ -1,0 +1,39 @@
+.survey-card {
+  padding: 16px;
+  width: 350px;
+  border: solid 1px hsl(0, 0%, 64%);
+  margin-bottom: 4px;
+  border-radius: 3px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+
+  .survey-card-content {
+    flex: 1;
+  }
+
+  .survey-card-header {
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .survey-card-footer {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .survey-card-header {
+    a {
+      //color: #673ab7;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 300;
+    }
+  }
+
+}

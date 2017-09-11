@@ -1,7 +1,7 @@
 <form>
   <div fxLayout="column" class="sing-in-form">
     <md-input-container>
-      <input mdInput type="email" placeholder="Email" [formControl]="emailFormControl" ([ngModel])="model.email"/>
+      <input mdInput type="email" placeholder="Email" [formControl]="emailFormControl"/>
 
       <md-error *ngIf="emailFormControl.hasError('pattern')">
         Please enter a valid email address
