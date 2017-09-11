@@ -17,6 +17,8 @@ namespace CoreQuizz.Queries.Extensions
             serviceCollection.AddTransient<IQueryDispatcher, QueryDispatcher>();
             serviceCollection.AddTransient<IQueryHandler<SurveyListPageQuery, SurveyListItem[]>,
                 SurveyListPageQueryHandler>();
+            serviceCollection
+                .AddTransient<IQueryHandler<SurveySearchPageQuery, SurveyListItem[]>, SurveySerachPageQueryHandler>();
         }
     }
 }

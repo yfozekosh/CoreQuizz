@@ -10,5 +10,7 @@ namespace CoreQuizz.Queries.PageQueries.Responces
         public DateTime ModifiedDate { get; set; }
         public int QuestionsCount { get; set; }
         public int Stars { get; set; }
+
+        public string CreatedBy { get; set; }
     }
 }
