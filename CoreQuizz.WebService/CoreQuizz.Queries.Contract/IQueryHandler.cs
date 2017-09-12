@@ -1,7 +1,11 @@
-﻿namespace CoreQuizz.Queries.Contract
+﻿using System.Threading.Tasks;
+
+namespace CoreQuizz.Queries.Contract
 {
-    public interface IQueryHandler<in TQuery, out TResult> where TQuery: IQuery<TResult>
+    public interface IQueryHandler<in TQuery, TResult> where TQuery: IQuery<TResult>
     {
+        Task<TResult> ExecuteAsync(TQuery query);
+
         TResult Execute(TQuery query);
     }
 }

@@ -18,6 +18,7 @@ import {ExtendableHttp} from '../../../services/extendable-http';
 import {HttpModule} from '@angular/http';
 import {ConsoleSharedModule} from './survey-tabs/shared/console-shared.module';
 import {SearchPageComponent} from './search-page/search-page/search-page.component';
+import {SurveyCreationPageComponent} from './survey-page/survey-page.component';
 
 const ROUTES: Routes = [
   {
@@ -25,7 +26,8 @@ const ROUTES: Routes = [
     children: [
       {path: '', component: ConsoleMainComponent,  canActivate: [AuthGuardService]},
       {path: 'new', component: NewSurveyComponent,  canActivate: [AuthGuardService]},
-      {path: 'search', component: SearchPageComponent}
+      {path: 'search', component: SearchPageComponent},
+      {path: 'survey/:id', component: SurveyCreationPageComponent, canActivate: [AuthGuardService]}
     ]
   }
 ];
@@ -53,6 +55,7 @@ const ROUTES: Routes = [
     ConsoleMainComponent,
     SurveysTabComponent,
     NewSurveyComponent,
+    SurveyCreationPageComponent,
     SearchPageComponent
   ],
   providers: [UserService, AuthGuardService, SurveyService, ExtendableHttp],

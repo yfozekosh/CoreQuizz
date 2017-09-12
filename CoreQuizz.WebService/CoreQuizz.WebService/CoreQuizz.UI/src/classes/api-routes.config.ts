@@ -26,13 +26,15 @@ const _account = urljoin(_api_url, 'account');
 const _survey = urljoin(_api_url, 'survey');
 
 export const ApiRoutes = {
-  account: {
-    register: urljoin(_account, 'register')
-  },
-  token: urljoin(_api_url, 'token'),
-  survey: {
-    get: urljoin(_survey, 'get-all'),
-    create: urljoin(_survey, 'create'),
-    getGlobal: urljoin(_survey, 'get-global')
+    account: {
+      register: urljoin(_account, 'register')
+    },
+    token: urljoin(_api_url, 'token'),
+    survey: {
+      getAll: urljoin(_survey, 'get-all'),
+      getGlobal: urljoin(_survey, 'get-global'),
+      get: (id: number) => urljoin(_survey, id.toString()),
+      create: urljoin(_survey, 'create'),
+    }
   }
-};
+;

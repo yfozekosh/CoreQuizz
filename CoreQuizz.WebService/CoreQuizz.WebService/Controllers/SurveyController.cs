@@ -12,6 +12,7 @@ using CoreQuizz.WebService.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace CoreQuizz.WebService.Controllers
 {
@@ -36,7 +37,7 @@ namespace CoreQuizz.WebService.Controllers
 
             if (String.IsNullOrEmpty(userIdStr) || !int.TryParse(userIdStr, out userId))
             {
-                return BadRequest(new ErrorServiceRespose("User id in token is invalid"));
+                return Ok(new ErrorServiceRespose("User id in token is invalid"));
             }
 
             var query = new SurveyListPageQuery()
@@ -81,7 +82,7 @@ namespace CoreQuizz.WebService.Controllers
         [Route("get-global")]
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Search([FromQuery]SurveySearchViewModel model)
+        public IActionResult Search([FromQuery] SurveySearchViewModel model)
         {
             if (model == null)
             {
@@ -108,6 +109,26 @@ namespace CoreQuizz.WebService.Controllers
             SurveyListItem[] result = _queryDispatcher.Execute<SurveySearchPageQuery, SurveyListItem[]>(searchQuery);
 
             return Ok(new OkServiceResponse<SurveyListItem[]>(result));
+        }
+
+        [Route("{id}")]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ServiceResponse> Survey([FromRoute] int? id)
+        {
+            if (!id.HasValue)
+            {
+                return new ErrorServiceRespose("id should be specified");
+            }
+
+            var query = new SurveyCreationPageQuery()
+            {
+                SurveyId = id.Value
+            };
+
+            SurveyPageResult result = await _queryDispatcher.ExecuteAsync<SurveyCreationPageQuery, SurveyPageResult>(query);
+            
+            return new OkServiceResponse<SurveyPageResult>(result);
         }
     }
 }

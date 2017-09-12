@@ -1,26 +1,26 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.PageQueries.Handlers.Abstract;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
 using CoreQuizz.Shared.DomainModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.Queries.PageQueries.Handlers
 {
-    public class SurveyListPageQueryHandler : IQueryHandler<SurveyListPageQuery, SurveyListItem[]>
+    public class SurveyListPageQueryHandler : EfQueryHandler<SurveyListPageQuery, SurveyListItem[]>
     {
-        private readonly SurveyContext _context;
-
-        public SurveyListPageQueryHandler(SurveyContext context)
+        public SurveyListPageQueryHandler(SurveyContext context) : base(context)
         {
-            _context = context;
         }
-
-        public SurveyListItem[] Execute(SurveyListPageQuery query)
+        
+        public override Task<SurveyListItem[]> ExecuteAsync(SurveyListPageQuery query)
         {
-            IQueryable<Survey> usersSureveys = _context.Surveys.Where(survey => survey.CreatedBy.Id == query.UserId);
+            IQueryable<Survey> usersSureveys = Context.Surveys.Where(survey => survey.CreatedBy.Id == query.UserId);
 
-            SurveyListItem[] result = usersSureveys.Select(survey => new SurveyListItem()
+            Task<SurveyListItem[]> result = usersSureveys.Select(survey => new SurveyListItem()
             {
                 SurveyId = survey.Id,
                 QuestionsCount = survey.Questions.Count,
@@ -28,7 +28,7 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
                 ModifiedDate = survey.ModifieDateTime,
                 Stars = 0,
                 SurveyName = survey.Title
-            }).ToArray();
+            }).ToArrayAsync();
 
             return result;
         }

@@ -10,6 +10,7 @@ namespace CoreQuizz.WebService
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                //.UseUrls("http://*:9000")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();

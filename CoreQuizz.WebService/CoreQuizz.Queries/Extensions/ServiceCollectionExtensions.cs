@@ -15,10 +15,14 @@ namespace CoreQuizz.Queries.Extensions
             if (serviceCollection == null) throw new ArgumentNullException(nameof(serviceCollection));
 
             serviceCollection.AddTransient<IQueryDispatcher, QueryDispatcher>();
+            
             serviceCollection.AddTransient<IQueryHandler<SurveyListPageQuery, SurveyListItem[]>,
                 SurveyListPageQueryHandler>();
             serviceCollection
                 .AddTransient<IQueryHandler<SurveySearchPageQuery, SurveyListItem[]>, SurveySerachPageQueryHandler>();
+
+            serviceCollection
+                .AddTransient<IQueryHandler<SurveyCreationPageQuery, SurveyPageResult>, SurveyCreationPageHandler>();
         }
     }
 }
