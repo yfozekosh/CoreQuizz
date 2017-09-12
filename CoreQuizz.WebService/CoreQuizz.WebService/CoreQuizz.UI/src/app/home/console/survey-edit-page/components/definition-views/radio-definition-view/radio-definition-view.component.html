@@ -1,0 +1,14 @@
+<div class="radio-definition-view">
+  <md-input-container>
+    <input mdInput type="text" placeholder="Question text"/>
+  </md-input-container>
+
+  <md-radio-group class="radio-group" [(ngModel)]="selectedValue">
+    <md-radio-button class="radio-button"
+                     *ngFor="let option of question.options"
+                     [value]="option.value"
+    >
+      {{option.value}}
+    </md-radio-button>
+  </md-radio-group>
+</div>

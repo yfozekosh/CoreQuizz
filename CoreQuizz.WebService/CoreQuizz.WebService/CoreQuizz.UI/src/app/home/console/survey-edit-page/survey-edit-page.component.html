@@ -8,7 +8,6 @@
     </div>
     <div class="survey-page-content">
       <md-card>
-        <div *ngIf="survey"> Survey : {{survey.surveyName}}</div>
         <md-tab-group>
           <md-tab label="Edit">
             <app-survey-edit-tab></app-survey-edit-tab>
@@ -23,6 +22,4 @@
       </md-card>
     </div>
   </div>
-
-  {{survey | json}}
 </div>

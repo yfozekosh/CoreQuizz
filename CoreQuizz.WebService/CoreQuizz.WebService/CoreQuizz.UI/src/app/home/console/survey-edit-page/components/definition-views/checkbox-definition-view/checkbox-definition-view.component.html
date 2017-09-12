@@ -1,0 +1,12 @@
+<div class="checkbox-definition-view">
+  <md-input-container>
+    <input mdInput type="text" placeholder="Question text"/>
+  </md-input-container>
+
+  <md-checkbox class="checkbox-button"
+               *ngFor="let option of question.options"
+
+  >
+    {{option.value}}
+  </md-checkbox>
+</div>

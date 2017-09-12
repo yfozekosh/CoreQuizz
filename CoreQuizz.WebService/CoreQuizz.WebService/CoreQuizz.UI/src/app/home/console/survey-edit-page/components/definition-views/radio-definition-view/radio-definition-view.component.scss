@@ -1,0 +1,14 @@
+.radio-definition-view{
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+
+  md-input-container{
+    width: 100%;
+  }
+}
+
+.radio-group{
+  display: flex;
+  flex-direction: column;
+}

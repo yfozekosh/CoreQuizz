@@ -1,5 +1,5 @@
-import {OptionsDefinition} from './options-definition.class';
 import {QuestionDefinition, QuestionWithOptionsDefinition} from './question-definition.abstract';
+import {OptionsDefinition} from "./options-definition.class";
 
 export class InputQuestionDefinition extends QuestionDefinition {
   defaultValue: string;
