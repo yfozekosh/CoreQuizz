@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Survey} from '../../../../classes/survey.class';
+import {Survey} from '../../../../model/survey.class';
 import {SurveyService} from '../../../../services/survey.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-survey-page',
-  templateUrl: 'survey-page.component.html',
-  styleUrls: ['survey-page.component.scss']
+  templateUrl: 'survey-edit-page.component.html',
+  styleUrls: ['survey-edit-page.component.scss']
 })
-export class SurveyCreationPageComponent implements OnInit {
+export class SurveyEditPageComponent implements OnInit {
   surveyId: number;
   survey: Survey;
 
@@ -23,9 +23,9 @@ export class SurveyCreationPageComponent implements OnInit {
       }
 
       this.surveyId = parseInt(id, 10);
-      this._surveyService.getSurvey(this.surveyId).map(d => d.value).subscribe(survey => {
-        this.survey = survey.value.survey;
-      });
+      // this._surveyService.getSurvey(this.surveyId).map(d => d.value).subscribe(survey => {
+      //   this.survey = survey.value.survey;
+      // });
     });
   }
 }

@@ -2,7 +2,7 @@ import {ExtendableHttp} from './extendable-http';
 import {ApiRoutes} from '../classes/api-routes.config';
 import {ErrorServiceResponse, OkServiceResponse, ServiceResponse} from '../classes/service-response.class';
 import {Observable} from 'rxjs/Observable';
-import {Survey} from '../classes/survey.class';
+import {Survey} from '../model/survey.class';
 import {Injectable} from '@angular/core';
 import {Headers} from '@angular/http';
 

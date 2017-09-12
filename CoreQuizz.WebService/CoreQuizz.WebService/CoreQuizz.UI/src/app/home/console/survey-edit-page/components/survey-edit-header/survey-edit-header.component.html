@@ -1,0 +1,9 @@
+<div class="survey-edit-header">
+  <md-input-container class="header-input name-input">
+    <input mdInput type="text" placeholder="Survey name" [value]="surveyName" (input)="_surveyName = $event.target.value"/>
+  </md-input-container>
+  <md-input-container class="header-input description-input">
+    <textarea mdInput type="text" placeholder="Description" [value]="description" (input)="_descriptionName = $event.target.value">
+    </textarea>
+  </md-input-container>
+</div>

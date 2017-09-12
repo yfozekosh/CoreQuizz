@@ -1,3 +1,5 @@
+import {QuestionDefinition} from './question-definition.class';
+
 export class Survey {
   surveyId: number;
   surveyName: string;
@@ -7,4 +9,8 @@ export class Survey {
   stars: number;
   access: number;
   createdBy: string;
+}
+
+export class SurveyWithDefinition extends Survey {
+  questionDefinition: QuestionDefinition[];
 }

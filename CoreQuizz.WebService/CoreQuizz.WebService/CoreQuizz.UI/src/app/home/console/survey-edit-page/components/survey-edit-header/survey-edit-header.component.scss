@@ -1,0 +1,15 @@
+.survey-edit-header {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+
+  font-size: 16px;
+
+  .header-input {
+    width: 100%;
+  }
+
+  .name-input {
+    font-size: 24px;
+  }
+}

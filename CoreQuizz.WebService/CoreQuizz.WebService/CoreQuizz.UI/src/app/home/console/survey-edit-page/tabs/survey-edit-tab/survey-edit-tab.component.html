@@ -1,0 +1,19 @@
+<div class="survey-edit-tab">
+  <app-edit-block-container
+    [isActive]="activeIndex === -1"
+    (onClick)="handleClick(-1)"
+  >
+    <app-survey-edit-header [(surveyName)]="survey.surveyName">
+    </app-survey-edit-header>
+  </app-edit-block-container>
+
+  <app-edit-block-container
+    *ngFor="let question of survey.questionDefinition; let i = index;"
+    (onClick)="handleClick(i)"
+    [isActive]="activeIndex === i"
+  >
+    <app-survey-question-definition [questionDefinition]="question" >
+
+    </app-survey-question-definition>
+  </app-edit-block-container>
+</div>

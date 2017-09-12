@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Survey} from '../../../../../../classes/survey.class';
+import {Survey} from '../../../../../../model/survey.class';
 
 @Component({
   selector: 'app-survey-card',
@@ -9,4 +9,5 @@ import {Survey} from '../../../../../../classes/survey.class';
 export class SurveyCardComponent {
   @Input() survey: Survey;
   @Input() includeAuthor: boolean;
+  @Input() canEdit: boolean;
 }

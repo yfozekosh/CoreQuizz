@@ -18,16 +18,23 @@ import {ExtendableHttp} from '../../../services/extendable-http';
 import {HttpModule} from '@angular/http';
 import {ConsoleSharedModule} from './survey-tabs/shared/console-shared.module';
 import {SearchPageComponent} from './search-page/search-page/search-page.component';
-import {SurveyCreationPageComponent} from './survey-page/survey-page.component';
+import {SurveyEditPageComponent} from './survey-edit-page/survey-edit-page.component';
+import {SurveyPassPageComponent} from './survey-pass-page/survey-pass-page.component';
+import {SurveyEditPageModule} from './survey-edit-page/survey-edit-page.module';
 
 const ROUTES: Routes = [
   {
     path: 'console', component: ConsoleComponent,
     children: [
-      {path: '', component: ConsoleMainComponent,  canActivate: [AuthGuardService]},
-      {path: 'new', component: NewSurveyComponent,  canActivate: [AuthGuardService]},
+      {path: '', component: ConsoleMainComponent, canActivate: [AuthGuardService]},
+      {path: 'new', component: NewSurveyComponent, canActivate: [AuthGuardService]},
       {path: 'search', component: SearchPageComponent},
-      {path: 'survey/:id', component: SurveyCreationPageComponent, canActivate: [AuthGuardService]}
+      {
+        path: 'survey/:id',
+        component: SurveyPassPageComponent,
+        canActivate: [AuthGuardService]
+      },
+      {path: 'survey/:id/edit', component: SurveyEditPageComponent, canActivate: [AuthGuardService]}
     ]
   }
 ];
@@ -36,15 +43,20 @@ const ROUTES: Routes = [
   imports: [
     CommonModule,
     HttpModule,
-    SharedModule,
-    ConsoleSharedModule,
     FormsModule,
     ReactiveFormsModule,
+
+
     MdButtonModule,
     MdTabsModule,
     MdInputModule,
     MdSelectModule,
     MdRadioModule,
+
+    SharedModule,
+    ConsoleSharedModule,
+    SurveyEditPageModule,
+
     RouterModule.forChild(ROUTES)
   ],
   declarations: [
@@ -55,7 +67,7 @@ const ROUTES: Routes = [
     ConsoleMainComponent,
     SurveysTabComponent,
     NewSurveyComponent,
-    SurveyCreationPageComponent,
+    SurveyPassPageComponent,
     SearchPageComponent
   ],
   providers: [UserService, AuthGuardService, SurveyService, ExtendableHttp],

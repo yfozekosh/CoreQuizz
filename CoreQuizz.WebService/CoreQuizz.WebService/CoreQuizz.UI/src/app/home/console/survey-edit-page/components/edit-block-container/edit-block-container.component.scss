@@ -1,0 +1,6 @@
+.edit-block-container {
+  width: 100%;
+  &.active {
+    border-left: solid 4px #673ab7;
+  }
+}
