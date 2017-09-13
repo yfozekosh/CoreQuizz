@@ -1,6 +1,6 @@
 <div class="radio-definition-view">
   <md-input-container>
-    <input mdInput type="text" placeholder="Question text"/>
+    <input mdInput type="text" placeholder="Question text" [(ngModel)]="question.questionLabel"/>
   </md-input-container>
 
   <md-radio-group class="radio-group" [(ngModel)]="selectedValue">
@@ -8,7 +8,18 @@
                      *ngFor="let option of question.options"
                      [value]="option.value"
     >
-      {{option.value}}
+      <md-input-container class="radio-input">
+        <input mdInput type="text" [(ngModel)]="option.value"/>
+      </md-input-container>
+      <span (click)="handleDelete(option)">X</span>
     </md-radio-button>
+
+    <div (click)="handleNew()">
+      <md-radio-button class="radio-button">
+        <md-input-container>
+          <input mdInput type="text" placeholder="new option" readonly/>
+        </md-input-container>
+      </md-radio-button>
+    </div>
   </md-radio-group>
 </div>

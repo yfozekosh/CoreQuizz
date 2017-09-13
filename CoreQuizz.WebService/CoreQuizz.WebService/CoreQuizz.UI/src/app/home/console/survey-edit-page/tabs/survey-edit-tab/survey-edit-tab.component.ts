@@ -39,4 +39,8 @@ export class SurveyEditTabComponent {
   handleClick(number: number) {
     this.activeIndex = number;
   }
+
+  handleNew() {
+    this.survey.questionDefinition.push(new InputQuestionDefinition('new question'));
+  }
 }

@@ -1,11 +1,11 @@
 <div class="checkbox-definition-view">
   <md-input-container>
-    <input mdInput type="text" placeholder="Question text"/>
+    <input mdInput type="text" placeholder="Question text" [(ngModel)]="question.questionLabel"/>
   </md-input-container>
 
   <md-checkbox class="checkbox-button"
                *ngFor="let option of question.options"
-
+               [(ngModel)]="option.isSelected"
   >
     {{option.value}}
   </md-checkbox>
