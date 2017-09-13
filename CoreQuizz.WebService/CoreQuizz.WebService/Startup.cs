@@ -89,23 +89,17 @@ namespace CoreQuizz.WebService
 
             app.UserCoreQuizzJwt(serviceProvider);
 
-
-//            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api") &&
-//                                   !context.Request.Path.StartsWithSegments("/token"), builder =>
-//            {
-//                app.UseIdentity();
-//            });
-
             app.UseSession();
             app.UseStaticFiles();
 
             app.UseMvc(builder =>
             {
-                builder.MapRoute("default", "api/{controller}/{action}", new
+                builder.MapRoute("default", "{controller}/{action}", new
                 {
-                    Controlle = "HomeController",
+                    Controller = "Home",
                     Action = "Index"
                 });
+                builder.MapRoute("api", "api/{controller}/{action}");
             });
 
             if (env.IsDevelopment())

@@ -1,6 +1,5 @@
+import {QuestionDefinition} from './question-definition.abstract';
 
-
-import {QuestionDefinition} from "./question-definition.abstract";
 export class Survey {
   surveyId: number;
   surveyName: string;

@@ -23,7 +23,7 @@ export class SurveyService {
 
     return this._http.get(ApiRoutes.survey.getAll, {params})
       .map(d => d.json())
-      .map(this.produceResponse);
+      .map(this.produceResponse(this.processSurveyDates));
   }
 
   getGlobalSurveys(searchText?: string, itemsOnPage?: number, pageNumber?: number): Observable<ServiceResponse<Survey[]>> {
@@ -40,7 +40,7 @@ export class SurveyService {
 
     return this._http.get(ApiRoutes.survey.getGlobal, {params})
       .map(d => d.json())
-      .map(this.produceResponse);
+      .map(this.produceResponse(this.processSurveyDates));
   }
 
   createSurvey(title: string, access: number, description?: string): Observable<ServiceResponse<boolean>> {
@@ -58,33 +58,16 @@ export class SurveyService {
 
     return this._http.post(ApiRoutes.survey.create, body, {headers: headers})
       .map(d => d.json())
-      .map(this.produceResponse);
+      .map(this.produceResponse(value => value));
   }
 
   getSurvey(id: number): Observable<ServiceResponse<Survey>> {
     return this._http.get(ApiRoutes.survey.get(id))
       .map(d => d.json())
-      .map(d => {
-        if (d.isCritical) {
-          throw new Error(d.error);
-        }
-
-        if (d.isSuccess) {
-          let val = d;
-          if (typeof d === 'object') {
-            val = this.processSurveyDate([d.value.survey])[0];
-          } else {
-            val = d;
-          }
-
-          return new OkServiceResponse(d);
-        } else {
-          return new ErrorServiceResponse(d.error);
-        }
-      });
+      .map(this.produceResponse(value => this.processSurveyDates([value])[0]));
   }
 
-  private processSurveyDate(args: Survey[]) {
+  private processSurveyDates(args: Survey[]) {
     return args.map(s => ({
       ...s,
       createdDate: new Date(s.createdDate),
@@ -92,23 +75,20 @@ export class SurveyService {
     }));
   }
 
-  private produceResponse(d: any) {
-    if (d.isCritical) {
-      throw new Error(d.error);
-    }
-
-    if (d.isSuccess) {
-      let val = d;
-      if (typeof d === 'object') {
-        console.log(d);
-        val = this.processSurveyDate(d.value);
-      } else {
-        val = d;
+  private produceResponse(callback: (value) => any) {
+    return (d: any) => {
+      if (d.isCritical) {
+        throw new Error(d.error);
       }
 
-      return new OkServiceResponse(val);
-    } else {
-      return new ErrorServiceResponse(d.error);
-    }
+      if (d.isSuccess) {
+        let val = d;
+        val = callback(d.value);
+
+        return new OkServiceResponse(val);
+      } else {
+        return new ErrorServiceResponse(d.error);
+      }
+    };
   }
 }

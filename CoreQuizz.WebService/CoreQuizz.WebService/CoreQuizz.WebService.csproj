@@ -64,11 +64,6 @@
     <ProjectReference Include="..\CoreQuizz.Queries\CoreQuizz.Queries.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Web">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Web.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="CoreQuizz.UI\**" />
   </ItemGroup>
   <ItemGroup>
@@ -77,4 +72,7 @@
   <ItemGroup>
     <None Remove="CoreQuizz.UI\**" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(ConfigurationName) == Release node ./build.js" />
+  </Target>
 </Project>
