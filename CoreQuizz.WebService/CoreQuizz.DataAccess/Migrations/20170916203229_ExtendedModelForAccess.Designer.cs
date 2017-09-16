@@ -9,9 +9,10 @@ using CoreQuizz.Shared.DomainModel;
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    partial class SurveyContextModelSnapshot : ModelSnapshot
+    [Migration("20170916203229_ExtendedModelForAccess")]
+    partial class ExtendedModelForAccess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

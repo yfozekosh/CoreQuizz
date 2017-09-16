@@ -16,15 +16,29 @@ namespace CoreQuizz.DataAccess.DbContext
                 entity.HasKey(user => user.Id);
                 entity.HasIndex(user => user.Email).IsUnique();
                 entity.HasMany(x => x.Surveys).WithOne(survey => survey.CreatedBy);
+                entity.HasMany(x => x.Groups);
+                entity.HasMany(x => x.Stars).WithOne(star => star.LeftBy);
             });
 
             modelBuilder.Entity<Survey>(entity =>
             {
                 entity.HasKey(survey => survey.Id);
                 entity.HasMany(survey => survey.Questions).WithOne(question => question.Survey);
+                entity.HasMany(survey => survey.Grants).WithOne(grant => grant.Survey);
+                entity.HasMany(survey => survey.Stars).WithOne(star => star.Survey);
             });
 
+            modelBuilder.Entity<CustomGroup>(entity =>
+            {
+                entity.HasKey(group => group.Id);
+                entity.HasMany(group => group.UsersInGroup);
+            });
+            
+            modelBuilder.Entity<SurveyGrant>().HasKey(grant => grant.Id);
+            //modelBuilder.Entity<CustomGroupGrant>().HasKey(grant => grant.Id);
+            
             modelBuilder.Entity<Question>().HasKey(question => question.Id);
+            
             modelBuilder.Entity<Question>().HasDiscriminator<string>("Type");
 
             modelBuilder.Entity<RadioQuestion>().HasBaseType<Question>();

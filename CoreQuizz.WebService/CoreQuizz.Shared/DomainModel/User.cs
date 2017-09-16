@@ -17,5 +17,9 @@ namespace CoreQuizz.Shared.DomainModel
         public string Email { get; set; }
 
         public IList<Survey> Surveys { get; set; }
+        
+        public IList<CustomGroup> Groups { get; set; }
+        
+        public IList<SurveyStar> Stars { get; set; }
     }
 }
