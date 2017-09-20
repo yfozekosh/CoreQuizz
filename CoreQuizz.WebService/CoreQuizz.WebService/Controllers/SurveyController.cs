@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CoreQuizz.Commands.Commands;
 using CoreQuizz.Commands.Contract;
 using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.Contract.Result;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
 using CoreQuizz.WebService.ViewModel;
@@ -45,9 +46,13 @@ namespace CoreQuizz.WebService.Controllers
                 UserId = userId
             };
 
-            SurveyListItem[] result = _queryDispatcher.Execute<SurveyListPageQuery, SurveyListItem[]>(query);
+            QueryResult<SurveyListItem[]> result = _queryDispatcher.Execute<SurveyListPageQuery, SurveyListItem[]>(query);
 
-            return Ok(new OkServiceResponse<SurveyListItem[]>(result));
+            if (result.IsSuccess)
+            {
+                return Ok(new OkServiceResponse<SurveyListItem[]>(result.Value));
+            }
+            return BadRequest(result.Error);
         }
 
         [Route("create")]
@@ -76,7 +81,7 @@ namespace CoreQuizz.WebService.Controllers
                 return Ok(new OkServiceResponse<string>(""));
             }
 
-            return Ok(new ErrorServiceRespose(result.Errors));
+            return Ok(new ErrorServiceRespose(result.Error));
         }
 
         [Route("get-global")]
@@ -106,19 +111,24 @@ namespace CoreQuizz.WebService.Controllers
                 PageNumber = model.PageNumber
             };
 
-            SurveyListItem[] result = _queryDispatcher.Execute<SurveySearchPageQuery, SurveyListItem[]>(searchQuery);
+            QueryResult<SurveyListItem[]> result = _queryDispatcher.Execute<SurveySearchPageQuery, SurveyListItem[]>(searchQuery);
 
-            return Ok(new OkServiceResponse<SurveyListItem[]>(result));
+            if (result.IsSuccess)
+            {
+                return Ok(new OkServiceResponse<SurveyListItem[]>(result.Value));
+            }
+            
+            return BadRequest(result.Error);
         }
 
         [Route("{id}")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ServiceResponse> Survey([FromRoute] int? id)
+        public async Task<ActionResult> Survey([FromRoute] int? id)
         {
             if (!id.HasValue)
             {
-                return new ErrorServiceRespose("id should be specified");
+                return BadRequest("id should be specified");
             }
 
             var query = new SurveyCreationPageQuery()
@@ -126,9 +136,13 @@ namespace CoreQuizz.WebService.Controllers
                 SurveyId = id.Value
             };
 
-            SurveyPageResult result = await _queryDispatcher.ExecuteAsync<SurveyCreationPageQuery, SurveyPageResult>(query);
-            
-            return new OkServiceResponse<SurveyPageResult>(result);
+            QueryResult<SurveyPageResult> result = await _queryDispatcher.ExecuteAsync<SurveyCreationPageQuery, SurveyPageResult>(query);
+
+            if (result.IsSuccess)
+            {
+                return Ok(new OkServiceResponse<SurveyPageResult>(result.Value));
+            }
+            return BadRequest(result.Error);
         }
     }
 }

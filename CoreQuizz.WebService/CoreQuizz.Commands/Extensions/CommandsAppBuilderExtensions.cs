@@ -14,6 +14,7 @@ namespace CoreQuizz.Commands.Extensions
     {
         public static void AddCommands(this IServiceCollection services)
         {
+            if (services == null) throw new ArgumentNullException(nameof(services));
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
 
             var assembly = typeof(CommandsAppBuilderExtensions).GetTypeInfo().Assembly;

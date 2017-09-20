@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.Queries.Contract.Result;
 using CoreQuizz.Queries.PageQueries.Handlers.Abstract;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
 using CoreQuizz.Shared.DomainModel;
+using CoreQuizz.Shared.DomainModel.Survey;
 
 namespace CoreQuizz.Queries.PageQueries.Handlers
 {
@@ -13,13 +15,14 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
         {
         }
 
-        public override async Task<SurveyPageResult> ExecuteAsync(SurveyCreationPageQuery query)
+        public override async Task<QueryResult<SurveyPageResult>> ExecuteAsync(SurveyCreationPageQuery query)
         {
             Survey survey = await Context.Surveys.FindAsync(query.SurveyId);
-            return new SurveyPageResult
+
+            return new OkQueryResult<SurveyPageResult>(new SurveyPageResult()
             {
-                Survey = survey 
-            };
+                Survey = survey
+            });
         }
     }
 }

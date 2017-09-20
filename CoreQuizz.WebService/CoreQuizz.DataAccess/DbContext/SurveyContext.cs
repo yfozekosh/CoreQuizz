@@ -1,4 +1,9 @@
 ﻿using CoreQuizz.Shared.DomainModel;
+using CoreQuizz.Shared.DomainModel.Enum;
+using CoreQuizz.Shared.DomainModel.Group;
+using CoreQuizz.Shared.DomainModel.Survey;
+using CoreQuizz.Shared.DomainModel.Survey.Question;
+using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.DataAccess.DbContext
@@ -35,7 +40,7 @@ namespace CoreQuizz.DataAccess.DbContext
             });
             
             modelBuilder.Entity<SurveyGrant>().HasKey(grant => grant.Id);
-            //modelBuilder.Entity<CustomGroupGrant>().HasKey(grant => grant.Id);
+            modelBuilder.Entity<CustomGroupGrant>().HasKey(grant => grant.Id);
             
             modelBuilder.Entity<Question>().HasKey(question => question.Id);
             

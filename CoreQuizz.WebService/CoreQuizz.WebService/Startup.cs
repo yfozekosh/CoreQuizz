@@ -102,6 +102,11 @@ namespace CoreQuizz.WebService
                 builder.MapRoute("api", "api/{controller}/{action}");
             });
 
+            SeedDbIfDevelop(env, serviceProvider);
+        }
+
+        private void SeedDbIfDevelop(IHostingEnvironment env, IServiceProvider serviceProvider)
+        {
             if (env.IsDevelopment())
             {
                 IAccountManager accountManager = serviceProvider.GetService<IAccountManager>();
@@ -116,9 +121,9 @@ namespace CoreQuizz.WebService
                     {
                         Claims =
                         {
-                           AccessClaim(Accessess.QuestionCreation),
-                           AccessClaim(Accessess.SurveyCreation),
-                           AccessClaim(Accessess.SurveyStatistic)
+                            AccessClaim(Accessess.QuestionCreation),
+                            AccessClaim(Accessess.SurveyCreation),
+                            AccessClaim(Accessess.SurveyStatistic)
                         }
                     };
                     var roleResult = roleManager.CreateAsync(role).GetAwaiter().GetResult();
@@ -139,7 +144,6 @@ namespace CoreQuizz.WebService
                     roleResult = roleManager.CreateAsync(role).GetAwaiter().GetResult();
                     if (!roleResult.Succeeded)
                         throw new NotImplementedException(string.Join(",", roleResult.Errors));
-
                 }
 
                 var user = userManager.FindByEmailAsync("yfozekosh@gmail.com").GetAwaiter().GetResult();

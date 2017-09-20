@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.Contract.Result;
 using CoreQuizz.Queries.PageQueries.Handlers.Abstract;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
 using CoreQuizz.Shared.DomainModel;
+using CoreQuizz.Shared.DomainModel.Survey;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.Queries.PageQueries.Handlers
@@ -16,11 +18,11 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
         {
         }
         
-        public override Task<SurveyListItem[]> ExecuteAsync(SurveyListPageQuery query)
+        public override async Task<QueryResult<SurveyListItem[]>> ExecuteAsync(SurveyListPageQuery query)
         {
             IQueryable<Survey> usersSureveys = Context.Surveys.Where(survey => survey.CreatedBy.Id == query.UserId);
 
-            Task<SurveyListItem[]> result = usersSureveys.Select(survey => new SurveyListItem()
+            SurveyListItem[] result = await usersSureveys.Select(survey => new SurveyListItem()
             {
                 SurveyId = survey.Id,
                 QuestionsCount = survey.Questions.Count,
@@ -30,7 +32,7 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
                 SurveyName = survey.Title
             }).ToArrayAsync();
 
-            return result;
+            return new OkQueryResult<SurveyListItem[]>(result);
         }
     }
 }

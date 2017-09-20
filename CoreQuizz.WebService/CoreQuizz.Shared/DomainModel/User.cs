@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CoreQuizz.Shared.DomainModel.Abstract;
+using CoreQuizz.Shared.DomainModel.Group;
+using CoreQuizz.Shared.DomainModel.Survey;
 
 namespace CoreQuizz.Shared.DomainModel
 {
-    public class User : BaseEntity
+    public class User : ModifiableBaseEntity
     {
         public string Name { get; set; }
 
@@ -16,7 +19,7 @@ namespace CoreQuizz.Shared.DomainModel
         [Required]
         public string Email { get; set; }
 
-        public IList<Survey> Surveys { get; set; }
+        public IList<Survey.Survey> Surveys { get; set; }
         
         public IList<CustomGroup> Groups { get; set; }
         

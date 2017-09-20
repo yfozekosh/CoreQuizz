@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace CoreQuizz.Shared.DomainModel
+namespace CoreQuizz.Shared.DomainModel.Survey.Question
 {
-    public class RadioQuestion : Question
+    public class CheckboxQuestion : Abstract.Question
     {
         public IList<QuestionOption> Options { get; set; }
     }

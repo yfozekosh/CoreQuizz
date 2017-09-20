@@ -1,4 +1,5 @@
 ﻿using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.Contract.Result;
 using CoreQuizz.Queries.PageQueries.Responces;
 
 namespace CoreQuizz.Queries.PageQueries.Queries

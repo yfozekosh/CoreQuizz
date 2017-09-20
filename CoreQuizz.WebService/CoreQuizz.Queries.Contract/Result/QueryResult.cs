@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CoreQuizz.Commands.Contract
+namespace CoreQuizz.Queries.Contract.Result
 {
-    public class CommandResult
+    public class QueryResult<TResult>
     {
-        public CommandResult(bool isSuccess)
+        public QueryResult(bool isSucccess)
         {
-            IsSuccess = isSuccess;
+            IsSuccess = isSucccess;
         }
 
         /// <summary>
-        /// Is command was succefully executed.
+        /// Is query was succefully executed.
         /// </summary>
         public bool IsSuccess { get; set; }
+
+        /// <summary>
+        /// Result of query execution.
+        /// </summary>
+        public TResult Value { get; set; }
 
         /// <summary>
         /// Enumerable of exception occured durring command execution. For internal use only.
