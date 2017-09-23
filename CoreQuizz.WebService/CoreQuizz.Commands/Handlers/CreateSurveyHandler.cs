@@ -33,7 +33,8 @@ namespace CoreQuizz.Commands.Handlers
             SurveyContext.Surveys.Add(new Survey()
             {
                 Title = command.Title,
-                CreatedBy = user
+                CreatedBy = user,
+                Description = command.Description
             });
 
             await SurveyContext.SaveChangesAsync();

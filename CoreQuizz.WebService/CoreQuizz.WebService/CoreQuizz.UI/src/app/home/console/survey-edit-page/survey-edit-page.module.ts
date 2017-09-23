@@ -15,6 +15,8 @@ import {EditBlockContainerComponent} from './components/edit-block-container/edi
 import {SurveyQuestionDefinitionComponent} from './components/survey-question-definition/survey-question-definition.component';
 import {DefinitionViewComponents, DefinitionViewsModule} from './components/definition-views/definition-views.module';
 import {DefinitionHostDirective} from './components/survey-question-definition/definition-host.directive';
+import {AsideNavigationComponent} from './components/aside-navigation/aside-navigation.component';
+import { QuestionTypeSelectComponent } from './components/definition-views/question-type-select/question-type-select.component';
 
 const ROUTES: Routes = [
   {path: 'survey/:id/edit', component: SurveyEditPageComponent, canActivate: [AuthGuardService]}
@@ -45,7 +47,8 @@ const ROUTES: Routes = [
     EditBlockContainerComponent,
     SurveyQuestionDefinitionComponent,
 
-    DefinitionHostDirective
+    DefinitionHostDirective,
+    AsideNavigationComponent,
   ],
   providers: [
     {provide: 'QuestionDefinitions', useValue: DefinitionViewComponents}

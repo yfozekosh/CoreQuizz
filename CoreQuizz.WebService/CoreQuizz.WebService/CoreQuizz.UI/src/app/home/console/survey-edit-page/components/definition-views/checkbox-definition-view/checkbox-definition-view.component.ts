@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {DefinitionComponent} from '../definition-component';
 import {CheckboxQuestionDefinition} from '../../../../../../../model/question-definition.class';
+import {OptionsDefinition} from '../../../../../../../model/options-definition.class';
 
 @Component({
   selector: 'app-checkbox-definition-view',
@@ -9,4 +10,21 @@ import {CheckboxQuestionDefinition} from '../../../../../../../model/question-de
 })
 export class CheckboxDefinitionViewComponent implements DefinitionComponent {
   @Input() question: CheckboxQuestionDefinition;
+  CheckboxDefinitionViewComponent = CheckboxDefinitionViewComponent;
+
+  static getDisplay() {
+    return 'Checkboxes';
+  }
+
+
+  handleNew(e) {
+    this.question.options.push(new OptionsDefinition('', false));
+  }
+
+  handleDelete(option: OptionsDefinition) {
+    const index = this.question.options.indexOf(option);
+    if (index !== -1) {
+      this.question.options.splice(index, 1);
+    }
+  }
 }

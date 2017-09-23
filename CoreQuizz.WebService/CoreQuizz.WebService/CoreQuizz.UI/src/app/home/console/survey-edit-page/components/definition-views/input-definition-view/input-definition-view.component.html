@@ -1,7 +1,14 @@
 <div class="input-definition-view">
-  <md-input-container>
-    <input mdInput type="text" placeholder="Question text" [(ngModel)]="question.questionLabel"/>
-  </md-input-container>
+  <div class="question-text-type">
+    <md-input-container>
+      <input mdInput type="text" placeholder="Question text" [(ngModel)]="question.questionLabel"/>
+    </md-input-container>
+
+    <app-question-type-select
+      [value]="InputDefinitionViewComponent"
+    >
+    </app-question-type-select>
+  </div>
   <md-input-container>
     <input mdInput type="text" placeholder="Default value" [(ngModel)]="question.defaultValue"/>
   </md-input-container>

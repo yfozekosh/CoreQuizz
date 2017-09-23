@@ -6,5 +6,15 @@
 
   md-input-container {
     width: 100%;
+    margin-right: 16px;
+  }
+
+  .question-text-type {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  app-question-type-select {
+    min-width: 200px;
   }
 }

@@ -1,13 +1,18 @@
 import {InputDefinitionViewComponent} from './input-definition-view/input-definition-view.component';
-import {Injectable, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {
-  MdButtonModule, MdCheckboxModule, MdInputModule, MdRadioModule, MdSelectModule,
+  MdButtonModule,
+  MdCheckboxModule,
+  MdInputModule,
+  MdRadioModule,
+  MdSelectModule,
   MdTabsModule
 } from '@angular/material';
 import {CheckboxDefinitionViewComponent} from './checkbox-definition-view/checkbox-definition-view.component';
 import {RadioDefinitionViewComponent} from './radio-definition-view/radio-definition-view.component';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {QuestionTypeSelectComponent} from './question-type-select/question-type-select.component';
 
 export const DefinitionViewComponents = [
   InputDefinitionViewComponent,
@@ -28,9 +33,8 @@ export const DefinitionViewComponents = [
     MdRadioModule
   ],
   declarations: [
-    InputDefinitionViewComponent,
-    CheckboxDefinitionViewComponent,
-    RadioDefinitionViewComponent
+    ...DefinitionViewComponents,
+    QuestionTypeSelectComponent
   ],
   entryComponents: DefinitionViewComponents,
   exports: DefinitionViewComponents

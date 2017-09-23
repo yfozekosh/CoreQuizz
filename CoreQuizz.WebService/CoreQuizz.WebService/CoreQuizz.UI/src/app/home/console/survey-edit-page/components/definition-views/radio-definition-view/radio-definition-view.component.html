@@ -1,25 +1,32 @@
 <div class="radio-definition-view">
-  <md-input-container>
-    <input mdInput type="text" placeholder="Question text" [(ngModel)]="question.questionLabel"/>
-  </md-input-container>
+  <div class="question-text-type">
+    <md-input-container>
+      <input mdInput type="text" placeholder="Question text" [(ngModel)]="question.questionLabel"/>
+    </md-input-container>
+
+    <app-question-type-select
+      [value]="RadioDefinitionViewComponent"
+    >
+    </app-question-type-select>
+  </div>
 
   <md-radio-group class="radio-group" [(ngModel)]="selectedValue">
-    <md-radio-button class="radio-button"
-                     *ngFor="let option of question.options"
-                     [value]="option.value"
-    >
-      <md-input-container class="radio-input">
-        <input mdInput type="text" [(ngModel)]="option.value"/>
-      </md-input-container>
-      <span (click)="handleDelete(option)">X</span>
-    </md-radio-button>
-
-    <div (click)="handleNew()">
-      <md-radio-button class="radio-button">
-        <md-input-container>
-          <input mdInput type="text" placeholder="new option" readonly/>
-        </md-input-container>
+    <div *ngFor="let option of question.options" class="radio-container">
+      <md-radio-button class="radio-button"
+                       [value]="option.value"
+      >
       </md-radio-button>
+      <md-input-container class="radio-input">
+        <input mdInput type="text" [(ngModel)]="option.value" #optionRef/>
+      </md-input-container>
+      <span (click)="handleDelete(option)"><i class="fa fa-times" aria-hidden="true"></i></span>
+    </div>
+    <div class="radio-container">
+      <md-radio-button class="radio-button" disabled>
+      </md-radio-button>
+      <md-input-container (click)="handleNew($event)">
+        <input mdInput type="text" placeholder="new option" readonly disabled/>
+      </md-input-container>
     </div>
   </md-radio-group>
 </div>

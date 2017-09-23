@@ -5,6 +5,8 @@
 
   md-input-container {
     width: 100%;
+    margin-bottom: 8px;
+    margin-right: 16px;
   }
 }
 
@@ -12,7 +14,23 @@
   display: flex;
   flex-direction: column;
 
-  .radio-input {
-    width: 100%;
+  md-input-container {
+    width: 80%;
   }
 }
+
+.radio-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.question-text-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+app-question-type-select {
+  min-width: 200px;
+}
+

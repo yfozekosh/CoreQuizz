@@ -26,8 +26,9 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
                 QuestionsCount = survey.Questions.Count,
                 CreatedDate = survey.CreatedDate,
                 ModifiedDate = survey.ModifieDateTime,
-                Stars = 0,
-                SurveyName = survey.Title
+                Stars = survey.Stars.Count,
+                SurveyName = survey.Title,
+                Description = survey.Description
             }).ToArrayAsync();
 
             return result;

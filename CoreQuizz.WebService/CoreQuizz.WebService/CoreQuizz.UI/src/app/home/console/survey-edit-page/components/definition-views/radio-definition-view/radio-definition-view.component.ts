@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {DefinitionComponent} from '../definition-component';
 import {RadioQuestionDefinition} from '../../../../../../../model/question-definition.class';
 import {OptionsDefinition} from '../../../../../../../model/options-definition.class';
@@ -10,7 +10,14 @@ import {OptionsDefinition} from '../../../../../../../model/options-definition.c
 })
 export class RadioDefinitionViewComponent implements DefinitionComponent, OnInit {
   @Input() question: RadioQuestionDefinition;
+  @ViewChildren('optionRef') optionsRef: QueryList<ElementRef>;
+
   selectedValue: string;
+  RadioDefinitionViewComponent = RadioDefinitionViewComponent;
+
+  static getDisplay() {
+    return 'Radio Buttons';
+  }
 
   ngOnInit(): void {
     const checked = this.question.options.find(x => x.isSelected);
@@ -19,12 +26,11 @@ export class RadioDefinitionViewComponent implements DefinitionComponent, OnInit
     }
   }
 
-  handleNew() {
+  handleNew(e) {
     this.question.options.push(new OptionsDefinition('', false));
   }
 
   handleDelete(option: OptionsDefinition) {
-    console.log('delete');
     const index = this.question.options.indexOf(option);
     if (index !== -1) {
       this.question.options.splice(index, 1);

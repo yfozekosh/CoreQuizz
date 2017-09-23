@@ -4,5 +4,27 @@
   padding: 32px;
   md-input-container{
     width: 100%;
+    margin-right: 16px;
+  }
+
+  .question-text-type {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  app-question-type-select {
+    min-width: 200px;
+  }
+
+  .checkbox-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    md-input-container{
+      width: 80%;
+      margin-bottom: 8px;
+      margin-left: 8px;
+    }
   }
 }
