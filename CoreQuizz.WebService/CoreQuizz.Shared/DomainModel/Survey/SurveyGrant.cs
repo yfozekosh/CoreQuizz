@@ -1,6 +1,9 @@
-namespace CoreQuizz.Shared.DomainModel
+using CoreQuizz.Shared.DomainModel.Abstract;
+using CoreQuizz.Shared.DomainModel.Enum;
+
+namespace CoreQuizz.Shared.DomainModel.Survey
 {
-    public class SurveyGrant: BaseEntity
+    public class SurveyGrant: ModifiableBaseEntity
     {
         public Survey Survey { get; set; }
         

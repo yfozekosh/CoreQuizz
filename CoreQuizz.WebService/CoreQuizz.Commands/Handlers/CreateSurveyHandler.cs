@@ -6,6 +6,7 @@ using CoreQuizz.Commands.Contract;
 using CoreQuizz.Commands.Handlers.Abstract;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.Shared.DomainModel;
+using CoreQuizz.Shared.DomainModel.Survey;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.Commands.Handlers
@@ -25,7 +26,7 @@ namespace CoreQuizz.Commands.Handlers
             {
                 return new CommandResult(false)
                 {
-                    Errors = $"Survey with name {command.Title} allready Exists"
+                    Error = $"Survey with name {command.Title} allready Exists"
                 };
             }
 

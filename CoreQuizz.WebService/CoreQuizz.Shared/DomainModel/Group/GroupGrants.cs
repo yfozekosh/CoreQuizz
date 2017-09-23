@@ -1,4 +1,4 @@
-namespace CoreQuizz.Shared.DomainModel
+namespace CoreQuizz.Shared.DomainModel.Group
 {
     public enum GroupGrants
     {

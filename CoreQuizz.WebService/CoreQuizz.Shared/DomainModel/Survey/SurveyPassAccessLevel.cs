@@ -1,4 +1,4 @@
-namespace CoreQuizz.Shared.DomainModel
+namespace CoreQuizz.Shared.DomainModel.Survey
 {
     public enum SurveyPassAccessLevel
     {

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using CoreQuizz.Shared.DomainModel.Abstract;
 
-namespace CoreQuizz.Shared.DomainModel
+namespace CoreQuizz.Shared.DomainModel.Group
 {
-    public class CustomGroup : BaseEntity
+    public class CustomGroup : ModifiableBaseEntity
     {
         public List<User> UsersInGroup { get; set; }
         

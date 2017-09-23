@@ -1,17 +1,15 @@
 ﻿using System;
 
-namespace CoreQuizz.Shared.DomainModel
+namespace CoreQuizz.Shared.DomainModel.Abstract
 {
     public class BaseEntity
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime ModifieDateTime { get; set; }
 
         public BaseEntity()
         {
-            CreatedDate = DateTime.Now;
-            ModifieDateTime = DateTime.Now;
+            CreatedDate = DateTime.Now;            
         }
     }
 }
