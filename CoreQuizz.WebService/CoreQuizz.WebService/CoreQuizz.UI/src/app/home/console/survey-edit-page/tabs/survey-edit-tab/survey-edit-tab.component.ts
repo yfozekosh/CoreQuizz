@@ -1,39 +1,50 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SurveyWithDefinition} from '../../../../../../model/survey.class';
-import {
-  CheckboxQuestionDefinition,
-  InputQuestionDefinition,
-  RadioQuestionDefinition
-} from '../../../../../../model/question-definition.class';
-import {OptionsDefinition} from '../../../../../../model/options-definition.class';
+import {InputQuestionDefinition} from '../../../../../../model/question-definition.class';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import {Subscription} from 'rxjs/Subscription';
+import {SurveyService} from '../../../../../../services/survey.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-survey-edit-tab',
   templateUrl: 'survey-edit-tab.component.html',
   styleUrls: ['survey-edit-tab.component.scss']
 })
-export class SurveyEditTabComponent {
+export class SurveyEditTabComponent implements OnInit, OnDestroy {
   survey: SurveyWithDefinition;
+  saveObservable: Subscription;
+  surveyId: number;
   activeIndex = -1;
 
-  constructor() {
-    this.survey = new SurveyWithDefinition();
-    this.survey.surveyName = 'example';
-    this.survey.description = 'descr';
-    this.survey.surveyId = 1;
+  constructor(private surveyService: SurveyService, private route: ActivatedRoute) {
+    route.params.subscribe(p => this.surveyId = p.id);
+  }
 
-    this.survey.questionDefinition = [
-      new InputQuestionDefinition('input1'),
-      new RadioQuestionDefinition('radio', [
-        new OptionsDefinition('option1', false),
-        new OptionsDefinition('option2', true)
-      ]),
-      new CheckboxQuestionDefinition('checkox1', [
-        new OptionsDefinition('coption1', true),
-        new OptionsDefinition('coption2', true),
-        new OptionsDefinition('coption3', false)
-      ])
-    ];
+  ngOnInit() {
+    this.surveyService.getSurveyForEdit(this.surveyId).toPromise().then(d => {
+      if (d.isSuccess) {
+        this.survey = d.value;
+        let isSending = false;
+        this.saveObservable = Observable.interval(5000).subscribe(() => {
+          if (!isSending) {
+            isSending = true;
+            this.surveyService.saveSurvey(this.survey).do(null, null, () => isSending = false).subscribe(s => {
+              console.log(s);
+            });
+          }
+        });
+      } else {
+        // TODO: call error service;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.saveObservable) {
+      this.saveObservable.unsubscribe();
+    }
   }
 
   handleClick(number: number) {

@@ -1,27 +1,35 @@
 <div class="survey-edit-tab">
-  <app-edit-block-container
-    [isActive]="activeIndex === -1"
-    (onClick)="handleClick(-1)"
-  >
-    <app-survey-edit-header [(surveyName)]="survey.surveyName">
-    </app-survey-edit-header>
-  </app-edit-block-container>
-
-  <app-edit-block-container
-    *ngFor="let question of survey.questionDefinition; let i = index;"
-    (onClick)="handleClick(i)"
-    [isActive]="activeIndex === i"
-  >
-    <app-survey-question-definition [(questionDefinition)]="survey.questionDefinition[i]">
-
-    </app-survey-question-definition>
-  </app-edit-block-container>
-
-  <app-edit-block-container>
-    <div class="add-new-btn">
-      <button md-raised-button type="button" (click)="handleNew()">
-        Add new
-      </button>
+  <ng-container *ngIf="!survey">
+    <div style="display: flex;justify-content: center">
+      <md-spinner></md-spinner>
     </div>
-  </app-edit-block-container>
+  </ng-container>
+
+  <ng-container *ngIf="survey">
+    <app-edit-block-container
+      [isActive]="activeIndex === -1"
+      (onClick)="handleClick(-1)"
+    >
+      <app-survey-edit-header [(surveyName)]="survey.surveyName">
+      </app-survey-edit-header>
+    </app-edit-block-container>
+
+    <app-edit-block-container
+      *ngFor="let question of survey.questionDefinition; let i = index;"
+      (onClick)="handleClick(i)"
+      [isActive]="activeIndex === i"
+    >
+      <app-survey-question-definition [(questionDefinition)]="survey.questionDefinition[i]">
+
+      </app-survey-question-definition>
+    </app-edit-block-container>
+
+    <app-edit-block-container>
+      <div class="add-new-btn">
+        <button md-raised-button type="button" (click)="handleNew()">
+          Add new
+        </button>
+      </div>
+    </app-edit-block-container>
+  </ng-container>
 </div>

@@ -8,16 +8,13 @@ using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.Shared.DomainModel;
 using CoreQuizz.Shared.DomainModel.Survey;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CoreQuizz.Commands.Handlers
 {
     public class CreateSurveyHandler : EfCommandHandler<CreateSurveyCommand>
     {
-        public CreateSurveyHandler(SurveyContext surveyContext) : base(surveyContext)
-        {
-        }
-
-        public override async Task<CommandResult> ExecuteAsync(CreateSurveyCommand command)
+        protected override async Task<CommandResult> _ExecuteAsync(CreateSurveyCommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
 
@@ -41,6 +38,10 @@ namespace CoreQuizz.Commands.Handlers
             await SurveyContext.SaveChangesAsync();
 
             return new CommandResult(true);
+        }
+
+        public CreateSurveyHandler(SurveyContext surveyContext, ILogger<EfCommandHandler<CreateSurveyCommand>> logger) : base(surveyContext, logger)
+        {
         }
     }
 }

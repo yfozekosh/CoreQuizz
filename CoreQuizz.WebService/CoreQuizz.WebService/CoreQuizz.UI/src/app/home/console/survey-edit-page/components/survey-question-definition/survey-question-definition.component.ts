@@ -49,12 +49,22 @@ export class SurveyQuestionDefinitionComponent implements OnInit, OnChanges {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(questionDefinitionComponent);
 
     const component = this.definitionHost.viewContainerRef.createComponent(componentFactory);
-    (<DefinitionComponent>component.instance).question = this.questionDefinition;
-
-    const subscriber = (<DefinitionComponent>component.instance).onTypeChange.subscribe((newType) => {
-      this.questionDefinition = new newType();
+    const instance: DefinitionComponent = (<DefinitionComponent>component.instance);
+    instance.question = this.questionDefinition;
+    instance.questionChange.subscribe((newQuestion) => {
+      instance.question = newQuestion;
+      this.questionDefinition = newQuestion;
       this.questionDefinitionChange.emit(this.questionDefinition);
-      subscriber.unsubscribe();
+    });
+
+    const subscriber = instance.onTypeChange.subscribe((newType) => {
+      if (newType) {
+        const prevDefinition = this.questionDefinition;
+        this.questionDefinition = new newType();
+        this.questionDefinition.questionLabel = prevDefinition.questionLabel;
+        this.questionDefinitionChange.emit(this.questionDefinition);
+        subscriber.unsubscribe();
+      }
     });
   }
 }

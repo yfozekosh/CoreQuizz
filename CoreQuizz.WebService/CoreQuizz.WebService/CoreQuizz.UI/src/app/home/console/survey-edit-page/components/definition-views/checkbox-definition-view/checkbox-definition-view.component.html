@@ -14,11 +14,12 @@
 
   <div *ngFor="let option of question.options" class="checkbox-container">
     <md-checkbox class="checkbox-button"
-                     [value]="option.value"
+                     [(ngModel)]="option.isSelected"
+                     (change)="handleInput(option)"
     >
     </md-checkbox>
     <md-input-container class="checkbox-input">
-      <input mdInput type="text" [(ngModel)]="option.value" #optionRef/>
+      <input mdInput type="text" [(ngModel)]="option.value" (input)="handleInput(option)" #optionRef/>
     </md-input-container>
     <span (click)="handleDelete(option)"><i class="fa fa-times" aria-hidden="true"></i></span>
   </div>

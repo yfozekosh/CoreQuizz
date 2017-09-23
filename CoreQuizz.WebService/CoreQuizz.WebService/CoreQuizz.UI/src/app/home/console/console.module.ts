@@ -21,7 +21,7 @@ import {SearchPageComponent} from './search-page/search-page/search-page.compone
 import {SurveyEditPageComponent} from './survey-edit-page/survey-edit-page.component';
 import {SurveyPassPageComponent} from './survey-pass-page/survey-pass-page.component';
 import {SurveyEditPageModule} from './survey-edit-page/survey-edit-page.module';
-import * as QuestionDefinitionModel from '../../../model/index';
+import {ModelDefinition} from '../../../model/index';
 
 const ROUTES: Routes = [
   {
@@ -39,12 +39,6 @@ const ROUTES: Routes = [
     ]
   }
 ];
-
-const objToArr = (obj: object) => {
-  const r = [];
-  Object.keys(obj).forEach(k => r.push(obj[k]));
-  return r;
-};
 
 @NgModule({
   imports: [
@@ -82,7 +76,7 @@ const objToArr = (obj: object) => {
     AuthGuardService,
     SurveyService,
     ExtendableHttp,
-    {provide: 'QuestionDefinitionModel', useValue: objToArr(QuestionDefinitionModel)}
+    {provide: 'QuestionDefinitionModel', useValue: ModelDefinition}
   ],
   exports: [RouterModule]
 })

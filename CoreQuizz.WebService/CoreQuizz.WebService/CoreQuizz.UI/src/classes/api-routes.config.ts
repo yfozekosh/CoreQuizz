@@ -37,7 +37,9 @@ export const ApiRoutes = {
       getAll: urljoin(_survey, 'get-all'),
       getGlobal: urljoin(_survey, 'get-global'),
       get: (id: number) => urljoin(_survey, id.toString()),
-      create: urljoin(_survey, 'create')
+      edit: (id: number) => urljoin(_survey, id.toString(), 'edit'),
+      create: urljoin(_survey, 'create'),
+      save: urljoin(_survey, 'save'),
     }
   }
 ;

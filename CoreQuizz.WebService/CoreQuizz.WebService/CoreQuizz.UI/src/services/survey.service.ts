@@ -2,12 +2,14 @@ import {ExtendableHttp} from './extendable-http';
 import {ApiRoutes} from '../classes/api-routes.config';
 import {ErrorServiceResponse, OkServiceResponse, ServiceResponse} from '../classes/service-response.class';
 import {Observable} from 'rxjs/Observable';
-import {Survey} from '../model/survey.class';
+import {Survey, SurveyWithDefinition} from '../model/survey.class';
 import {Injectable} from '@angular/core';
 import {Headers} from '@angular/http';
 
 @Injectable()
 export class SurveyService {
+  lastSaved: Survey;
+
   constructor(private _http: ExtendableHttp) {
     this.produceResponse = this.produceResponse.bind(this);
   }
@@ -65,6 +67,31 @@ export class SurveyService {
     return this._http.get(ApiRoutes.survey.get(id))
       .map(d => d.json())
       .map(this.produceResponse(value => this.processSurveyDates([value])[0]));
+  }
+
+  getSurveyForEdit(id: number): Observable<ServiceResponse<SurveyWithDefinition>> {
+    return this._http.get(ApiRoutes.survey.edit(id))
+      .map(d => d.json())
+      .map(this.produceResponse(value => this.processSurveyDates([value])[0]));
+  }
+
+
+  saveSurvey(survey: Survey) {
+    if (JSON.stringify(this.lastSaved) !== JSON.stringify(survey)) {
+      console.log('saving survey');
+
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+
+      const body = survey;
+      return this._http.post(ApiRoutes.survey.save, body, {headers})
+        .map(d => d.json())
+        .map(this.produceResponse(value => value))
+        .do(() => {
+          this.lastSaved = survey;
+        });
+    }
+    return new Observable(subscriber => subscriber.next('not saved'));
   }
 
   private processSurveyDates(args: Survey[]) {

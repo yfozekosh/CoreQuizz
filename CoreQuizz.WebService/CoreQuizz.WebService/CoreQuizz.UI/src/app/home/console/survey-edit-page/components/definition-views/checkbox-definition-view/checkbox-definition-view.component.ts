@@ -22,4 +22,8 @@ export class CheckboxDefinitionViewComponent extends DefinitionComponent {
       this.question.options.splice(index, 1);
     }
   }
+
+  handleInput(option: OptionsDefinition) {
+    this.questionChange.emit(this.question);
+  }
 }

@@ -15,18 +15,6 @@ using Newtonsoft.Json.Serialization;
 
 namespace CoreQuizz.WebService.Identity
 {
-    public class TokenModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class TokenResponce
-    {
-        public string AccessToken { get; set; }
-        public int ExpiresIn { get; set; }
-    }
-
     public class TokenProviderMiddleware
     {
         private readonly RequestDelegate _next;

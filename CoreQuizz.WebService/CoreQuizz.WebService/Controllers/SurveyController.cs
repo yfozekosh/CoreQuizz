@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CoreQuizz.Commands.Commands;
@@ -9,11 +10,13 @@ using CoreQuizz.Queries.Contract;
 using CoreQuizz.Queries.Contract.Result;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
+using CoreQuizz.Shared.DomainModel.Survey;
 using CoreQuizz.WebService.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Extensions.Logging;
 
 namespace CoreQuizz.WebService.Controllers
 {
@@ -23,11 +26,14 @@ namespace CoreQuizz.WebService.Controllers
     {
         private readonly IQueryDispatcher _queryDispatcher;
         private readonly ICommandDispatcher _commandDispatcher;
+        private readonly ILogger<SurveyController> _logger;
 
-        public SurveyController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+        public SurveyController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher,
+            ILogger<SurveyController> logger)
         {
             _queryDispatcher = queryDispatcher;
             _commandDispatcher = commandDispatcher;
+            _logger = logger;
         }
 
         [Route("get-all")]
@@ -46,7 +52,8 @@ namespace CoreQuizz.WebService.Controllers
                 UserId = userId
             };
 
-            QueryResult<SurveyListItem[]> result = _queryDispatcher.Execute<SurveyListPageQuery, SurveyListItem[]>(query);
+            QueryResult<SurveyListItem[]> result =
+                _queryDispatcher.Execute<SurveyListPageQuery, SurveyListItem[]>(query);
 
             if (result.IsSuccess)
             {
@@ -111,13 +118,14 @@ namespace CoreQuizz.WebService.Controllers
                 PageNumber = model.PageNumber
             };
 
-            QueryResult<SurveyListItem[]> result = _queryDispatcher.Execute<SurveySearchPageQuery, SurveyListItem[]>(searchQuery);
+            QueryResult<SurveyListItem[]> result =
+                _queryDispatcher.Execute<SurveySearchPageQuery, SurveyListItem[]>(searchQuery);
 
             if (result.IsSuccess)
             {
                 return Ok(new OkServiceResponse<SurveyListItem[]>(result.Value));
             }
-            
+
             return BadRequest(result.Error);
         }
 
@@ -136,12 +144,68 @@ namespace CoreQuizz.WebService.Controllers
                 SurveyId = id.Value
             };
 
-            QueryResult<SurveyPageResult> result = await _queryDispatcher.ExecuteAsync<SurveyCreationPageQuery, SurveyPageResult>(query);
+            QueryResult<SurveyPageResult> result =
+                await _queryDispatcher.ExecuteAsync<SurveyCreationPageQuery, SurveyPageResult>(query);
 
             if (result.IsSuccess)
             {
                 return Ok(new OkServiceResponse<SurveyPageResult>(result.Value));
             }
+            return BadRequest(result.Error);
+        }
+
+        [Route("save")]
+        [HttpPost]
+        public async Task<ActionResult> SaveSurvey([FromBody] Survey survey)
+        {
+            if (survey == null) return BadRequest("survey not specified");
+            var command = new UpdateSurveyCommand()
+            {
+                Survey = survey
+            };
+
+            CommandResult result = await _commandDispatcher.ExecuteAsync(command);
+
+            if (result.IsSuccess)
+            {
+                return Ok(new OkServiceResponse<string>("saved"));
+            }
+
+            if (result.Error != null)
+            {
+                return BadRequest(new ErrorServiceRespose(result.Error));
+            }
+
+            return BadRequest(new ErrorServiceRespose("Unexpected error"));
+        }
+
+        [Route("{id}/edit")]
+        [HttpGet]
+        public async Task<ActionResult> GetSurveyForEdit([FromRoute] int id)
+        {
+            Claim userClaim = User.FindFirst(CustomClaimType.UserId);
+            if (userClaim == null || String.IsNullOrWhiteSpace(userClaim.Value))
+            {
+                _logger.LogError($"Request edit survey {id}.Api token missing userID");
+                throw new AuthenticationException("Api token not contains userID");
+            }
+
+            int userId;
+            if (!int.TryParse(userClaim.Value, out userId))
+            {
+                return NotFound($"No user with id {id}");
+            }
+
+            var query = new GetSurveyForEditQuery(id, userId);
+
+            QueryResult<SurveyDefinitionViewModel> result =
+                await _queryDispatcher.ExecuteAsync<GetSurveyForEditQuery, SurveyDefinitionViewModel>(query);
+
+            if (result.IsSuccess)
+            {
+                return Ok(new OkServiceResponse<SurveyDefinitionViewModel>(result.Value));
+            }
+
             return BadRequest(result.Error);
         }
     }

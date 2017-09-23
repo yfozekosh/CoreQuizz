@@ -5,8 +5,8 @@ import {
 } from './question-definition.class';
 
 
-export {
+export const ModelDefinition = [
   CheckboxQuestionDefinition,
   InputQuestionDefinition,
   RadioQuestionDefinition
-}
+];
