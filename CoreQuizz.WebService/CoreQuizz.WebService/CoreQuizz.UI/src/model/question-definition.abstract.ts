@@ -1,4 +1,4 @@
-import {OptionsDefinition} from "./options-definition.class";
+import {OptionsDefinition} from './options-definition.class';
 
 export abstract class QuestionDefinition {
   questionLabel: string;

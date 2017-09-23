@@ -1,6 +1,6 @@
 <md-select placeholder="type"
            [value]="value"
-           (change)="valueChange.emit($event)"
+           (change)="valueChange.emit($event.value)"
 >
   <md-option *ngFor="let def of definitions" [value]="def">
     {{ def.getDisplay? def.getDisplay(): def.name }}

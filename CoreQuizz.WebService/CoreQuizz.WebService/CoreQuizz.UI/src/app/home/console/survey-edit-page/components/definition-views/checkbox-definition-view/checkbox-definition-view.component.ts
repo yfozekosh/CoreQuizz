@@ -8,14 +8,9 @@ import {OptionsDefinition} from '../../../../../../../model/options-definition.c
   templateUrl: 'checkbox-definition-view.component.html',
   styleUrls: ['checkbox-definition-view.component.scss']
 })
-export class CheckboxDefinitionViewComponent implements DefinitionComponent {
+export class CheckboxDefinitionViewComponent extends DefinitionComponent {
   @Input() question: CheckboxQuestionDefinition;
-  CheckboxDefinitionViewComponent = CheckboxDefinitionViewComponent;
-
-  static getDisplay() {
-    return 'Checkboxes';
-  }
-
+  definition = CheckboxQuestionDefinition;
 
   handleNew(e) {
     this.question.options.push(new OptionsDefinition('', false));

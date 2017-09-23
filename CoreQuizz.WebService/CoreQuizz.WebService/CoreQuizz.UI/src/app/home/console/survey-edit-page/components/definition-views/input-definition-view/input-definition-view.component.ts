@@ -7,11 +7,7 @@ import {InputQuestionDefinition} from '../../../../../../../model/question-defin
   templateUrl: 'input-definition-view.component.html',
   styleUrls: ['input-definition-view.component.scss']
 })
-export class InputDefinitionViewComponent implements DefinitionComponent {
+export class InputDefinitionViewComponent extends DefinitionComponent {
   @Input() question: InputQuestionDefinition;
-  InputDefinitionViewComponent = InputDefinitionViewComponent;
-
-  static getDisplay() {
-    return 'Input';
-  }
+  definition = InputQuestionDefinition;
 }

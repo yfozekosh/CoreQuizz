@@ -5,7 +5,8 @@
     </md-input-container>
 
     <app-question-type-select
-      [value]="RadioDefinitionViewComponent"
+      [value]="definition"
+      (valueChange)="onTypeChange.emit($event)"
     >
     </app-question-type-select>
   </div>

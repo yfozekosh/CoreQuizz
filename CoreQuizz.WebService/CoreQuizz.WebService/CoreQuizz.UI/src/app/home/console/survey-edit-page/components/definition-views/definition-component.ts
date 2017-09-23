@@ -1,6 +1,8 @@
-// noinspection TsLint
 import {QuestionDefinition} from '../../../../../../model/question-definition.abstract';
+import {EventEmitter, Output} from '@angular/core';
 
-export interface DefinitionComponent {
-  question: QuestionDefinition;
+export abstract class DefinitionComponent {
+  @Output() onTypeChange = new EventEmitter<any>();
+  abstract question: QuestionDefinition;
+  abstract definition: any;
 }

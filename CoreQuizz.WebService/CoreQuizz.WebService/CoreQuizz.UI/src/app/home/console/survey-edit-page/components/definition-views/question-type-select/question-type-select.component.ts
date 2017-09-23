@@ -9,6 +9,6 @@ export class QuestionTypeSelectComponent {
   @Input() value: any;
   @Output() valueChange = new EventEmitter();
 
-  constructor(@Inject('QuestionDefinitions') public definitions: { name: string, getDisplay: () => string }[]) {
+  constructor(@Inject('QuestionDefinitionModel') public definitions: { name: string, getDisplay: () => string }[]) {
   }
 }

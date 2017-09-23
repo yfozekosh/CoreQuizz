@@ -1,4 +1,14 @@
-import {Component, ComponentFactoryResolver, Inject, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import * as QuestionDefinitions from '../../../../../../model/question-definition.class';
 import {QuestionDefinition} from '../../../../../../model/question-definition.abstract';
 import {DefinitionComponent} from '../definition-views/definition-component';
@@ -9,8 +19,10 @@ import {DefinitionHostDirective} from './definition-host.directive';
   templateUrl: 'survey-question-definition.component.html',
   styleUrls: ['survey-question-definition.component.scss']
 })
-export class SurveyQuestionDefinitionComponent implements OnInit {
+export class SurveyQuestionDefinitionComponent implements OnInit, OnChanges {
   @Input() questionDefinition: QuestionDefinition;
+  @Output() questionDefinitionChange: EventEmitter<QuestionDefinition> = new EventEmitter();
+
   @ViewChild(DefinitionHostDirective) definitionHost: DefinitionHostDirective;
 
   private definitions;
@@ -21,6 +33,9 @@ export class SurveyQuestionDefinitionComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
     const regex = /^[A-Z, a-z][a-z]+/g;
     let questionDefinitionComponent;
 
@@ -34,6 +49,12 @@ export class SurveyQuestionDefinitionComponent implements OnInit {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(questionDefinitionComponent);
 
     const component = this.definitionHost.viewContainerRef.createComponent(componentFactory);
-    (<any>component.instance).question = this.questionDefinition;
+    (<DefinitionComponent>component.instance).question = this.questionDefinition;
+
+    const subscriber = (<DefinitionComponent>component.instance).onTypeChange.subscribe((newType) => {
+      this.questionDefinition = new newType();
+      this.questionDefinitionChange.emit(this.questionDefinition);
+      subscriber.unsubscribe();
+    });
   }
 }

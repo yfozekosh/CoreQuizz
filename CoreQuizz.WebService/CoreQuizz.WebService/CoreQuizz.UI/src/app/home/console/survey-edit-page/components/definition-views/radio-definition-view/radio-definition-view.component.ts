@@ -8,12 +8,12 @@ import {OptionsDefinition} from '../../../../../../../model/options-definition.c
   templateUrl: 'radio-definition-view.component.html',
   styleUrls: ['radio-definition-view.component.scss']
 })
-export class RadioDefinitionViewComponent implements DefinitionComponent, OnInit {
+export class RadioDefinitionViewComponent extends DefinitionComponent implements OnInit {
   @Input() question: RadioQuestionDefinition;
   @ViewChildren('optionRef') optionsRef: QueryList<ElementRef>;
 
   selectedValue: string;
-  RadioDefinitionViewComponent = RadioDefinitionViewComponent;
+  definition = RadioQuestionDefinition;
 
   static getDisplay() {
     return 'Radio Buttons';
