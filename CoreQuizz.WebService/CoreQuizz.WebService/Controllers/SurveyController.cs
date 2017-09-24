@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Authentication;
 using System.Security.Claims;
@@ -78,6 +79,7 @@ namespace CoreQuizz.WebService.Controllers
             var createSurveyCommand = new CreateSurveyCommand
             {
                 Title = model.Title,
+                Description = model.Description,
                 UserEmail = user
             };
 
@@ -156,12 +158,18 @@ namespace CoreQuizz.WebService.Controllers
 
         [Route("save")]
         [HttpPost]
-        public async Task<ActionResult> SaveSurvey([FromBody] Survey survey)
+        public async Task<ActionResult> SaveSurvey([FromBody] SurveyViewModel survey)
         {
             if (survey == null) return BadRequest("survey not specified");
+            
             var command = new UpdateSurveyCommand()
             {
-                Survey = survey
+                Survey = new Survey()
+                {
+                    Id = survey.SurveyId,
+                    Title = survey.SurveyName,
+                    Description = survey.Description
+                }
             };
 
             CommandResult result = await _commandDispatcher.ExecuteAsync(command);

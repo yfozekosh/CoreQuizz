@@ -22,6 +22,7 @@
     <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

@@ -12,5 +12,5 @@ export class Survey {
 }
 
 export class SurveyWithDefinition extends Survey {
-  questionDefinition: QuestionDefinition[];
+  questionDefinitions: QuestionDefinition[];
 }

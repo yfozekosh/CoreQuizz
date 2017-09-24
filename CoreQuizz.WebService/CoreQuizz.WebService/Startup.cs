@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Buffers;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 using CoreQuizz.BAL.Contracts;
 using CoreQuizz.BAL.Managers.Extensions;
 using CoreQuizz.DataAccess.Extensions;
@@ -17,9 +19,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using CoreQuizz.Commands.Extensions;
+using CoreQuizz.DataAccess.DbContext;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NLog.Internal;
 using NLog.Web;
 
 namespace CoreQuizz.WebService
@@ -32,8 +37,8 @@ namespace CoreQuizz.WebService
         {
             env.ConfigureNLog("nlog.config");
             var builder = new ConfigurationBuilder()
-                           .SetBasePath(env.ContentRootPath)
-                           .AddJsonFile("appconfig.json", optional: true, reloadOnChange: true);
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appconfig.json", optional: true, reloadOnChange: true);
 
 
             Configuration = builder.Build();
@@ -53,8 +58,16 @@ namespace CoreQuizz.WebService
             services.AddCommands();
             services.AddQueries();
 
-            services.AddDbContext<IdentityContext>(options =>
-                options.UseSqlServer(Configuration["survey_connection"]));
+            if (Configuration["db"] == "mssql")
+            {
+                services.AddDbContext<IdentityContext>(options =>
+                    options.UseSqlServer(Configuration["survey_connection"]));
+            }
+            else if (Configuration["db"] == "sqlite")
+            {
+                services.AddDbContext<IdentityContext>(options =>
+                    options.UseSqlite(Configuration["sqlite_connection"]));
+            }
 
             services.AddIdentity<AuthenticationUser, IdentityRole>(options =>
                 {
@@ -75,9 +88,9 @@ namespace CoreQuizz.WebService
             services.AddSession();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            IServiceProvider serviceProvider)
         {
-
             loggerFactory.AddConsole();
             loggerFactory.AddNLog();
 
@@ -91,6 +104,18 @@ namespace CoreQuizz.WebService
 
             app.UseSession();
             app.UseStaticFiles();
+
+            if (env.IsDevelopment())
+            {
+                app.Use(async (context, func) =>
+                {
+                    context.Request.EnableRewind();
+                    var sr = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024 * 100, true);
+                    Console.WriteLine(await sr.ReadToEndAsync());
+                    context.Request.Body.Position = 0;
+                    await func.Invoke();
+                });
+            }
 
             app.UseMvc(builder =>
             {
@@ -109,6 +134,16 @@ namespace CoreQuizz.WebService
         {
             if (env.IsDevelopment())
             {
+                var surveyc = serviceProvider.GetService<SurveyContext>();
+
+                surveyc.Database.Migrate();
+
+
+                var identc = serviceProvider.GetService<IdentityContext>();
+
+                identc.Database.Migrate();
+
+
                 IAccountManager accountManager = serviceProvider.GetService<IAccountManager>();
 
                 UserManager<AuthenticationUser> userManager =
@@ -166,7 +201,8 @@ namespace CoreQuizz.WebService
                     if (!res.Succeeded)
                         throw new NotImplementedException(string.Join("\r\n", res.Errors));
 
-                    var quizzUser = accountManager.RegisterUserAsync("yfozekosh@gmail.com").GetAwaiter().GetResult().Result;
+                    var quizzUser = accountManager.RegisterUserAsync("yfozekosh@gmail.com").GetAwaiter().GetResult()
+                        .Result;
                     user.CoreQuizzUserId = quizzUser.Id;
                     userManager.UpdateAsync(user).GetAwaiter().GetResult();
                 }

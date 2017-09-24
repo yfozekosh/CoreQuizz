@@ -10,16 +10,17 @@
       [isActive]="activeIndex === -1"
       (onClick)="handleClick(-1)"
     >
-      <app-survey-edit-header [(surveyName)]="survey.surveyName">
+      <app-survey-edit-header [(surveyName)]="survey.surveyName"
+                              [(description)]="survey.description">
       </app-survey-edit-header>
     </app-edit-block-container>
 
     <app-edit-block-container
-      *ngFor="let question of survey.questionDefinition; let i = index;"
+      *ngFor="let question of survey.questionDefinitions; let i = index;"
       (onClick)="handleClick(i)"
       [isActive]="activeIndex === i"
     >
-      <app-survey-question-definition [(questionDefinition)]="survey.questionDefinition[i]">
+      <app-survey-question-definition [(questionDefinition)]="survey.questionDefinitions[i]">
 
       </app-survey-question-definition>
     </app-edit-block-container>

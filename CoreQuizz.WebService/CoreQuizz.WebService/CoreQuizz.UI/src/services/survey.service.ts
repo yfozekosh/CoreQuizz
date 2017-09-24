@@ -8,7 +8,7 @@ import {Headers} from '@angular/http';
 
 @Injectable()
 export class SurveyService {
-  lastSaved: Survey;
+  lastSaved: string;
 
   constructor(private _http: ExtendableHttp) {
     this.produceResponse = this.produceResponse.bind(this);
@@ -77,7 +77,7 @@ export class SurveyService {
 
 
   saveSurvey(survey: Survey) {
-    if (JSON.stringify(this.lastSaved) !== JSON.stringify(survey)) {
+    if (this.lastSaved !== JSON.stringify(survey)) {
       console.log('saving survey');
 
       const headers = new Headers();
@@ -88,7 +88,7 @@ export class SurveyService {
         .map(d => d.json())
         .map(this.produceResponse(value => value))
         .do(() => {
-          this.lastSaved = survey;
+          this.lastSaved = JSON.stringify(survey);
         });
     }
     return new Observable(subscriber => subscriber.next('not saved'));

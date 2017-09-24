@@ -30,8 +30,9 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy {
         this.saveObservable = Observable.interval(5000).subscribe(() => {
           if (!isSending) {
             isSending = true;
-            this.surveyService.saveSurvey(this.survey).do(null, null, () => isSending = false).subscribe(s => {
+            this.surveyService.saveSurvey(this.survey).do(null, () => isSending = false).subscribe(s => {
               console.log(s);
+              isSending = false;
             });
           }
         });
@@ -52,6 +53,9 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy {
   }
 
   handleNew() {
-    this.survey.questionDefinition.push(new InputQuestionDefinition('new question'));
+    if (!this.survey.questionDefinitions){
+      this.survey.questionDefinitions = [];
+    }
+    this.survey.questionDefinitions.push(new InputQuestionDefinition('new question'));
   }
 }

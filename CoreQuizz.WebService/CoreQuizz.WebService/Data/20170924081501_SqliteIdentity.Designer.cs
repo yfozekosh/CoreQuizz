@@ -5,19 +5,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CoreQuizz.WebService.Identity;
 
-namespace CoreQuizz.WebService.Data.Migrations
+namespace CoreQuizz.WebService.Data
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20170902131019_InitialIdentity")]
-    partial class InitialIdentity
+    [Migration("20170924081501_SqliteIdentity")]
+    partial class SqliteIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "1.1.2");
 
-            modelBuilder.Entity("CoreQuizz.WebService.Identity.User", b =>
+            modelBuilder.Entity("CoreQuizz.WebService.Identity.AuthenticationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -28,6 +27,8 @@ namespace CoreQuizz.WebService.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<int>("CoreQuizzUserId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -186,7 +187,7 @@ namespace CoreQuizz.WebService.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CoreQuizz.WebService.Identity.User")
+                    b.HasOne("CoreQuizz.WebService.Identity.AuthenticationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -194,7 +195,7 @@ namespace CoreQuizz.WebService.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CoreQuizz.WebService.Identity.User")
+                    b.HasOne("CoreQuizz.WebService.Identity.AuthenticationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -207,7 +208,7 @@ namespace CoreQuizz.WebService.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("CoreQuizz.WebService.Identity.User")
+                    b.HasOne("CoreQuizz.WebService.Identity.AuthenticationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

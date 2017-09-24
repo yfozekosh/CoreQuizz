@@ -1,5 +1,8 @@
 ﻿{
-  "survey_connection": "Server=tcp:corequizz-server.database.windows.net,1433;Initial Catalog=CoreQuizz;Persist Security Info=False;User ID=yfozekosh;Password=H25mc1bb;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-  "authority": "https://localhost:44316/",
-  "FrontendHostingUrl": "http://localhost:4200"
+    "survey_connection":
+        "Server=tcp:corequizz-server.database.windows.net,1433;Initial Catalog=CoreQuizz;Persist Security Info=False;User ID=yfozekosh;Password=H25mc1bb;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+    "sqlite_connection": "Data Source = corequizz.db",
+    "authority": "https://localhost:44316/",
+    "FrontendHostingUrl": "http://localhost:4200",
+    "db": "sqlite"
 }

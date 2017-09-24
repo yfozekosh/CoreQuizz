@@ -1,1 +1,1 @@
-dotnet ef migrations add ExtendedModelForAccess --context %1 --startup-project=..\CoreQuizz.WebService\CoreQuizz.WebService.csproj
+dotnet ef migrations add %1 --context %2 --startup-project=..\CoreQuizz.WebService\CoreQuizz.WebService.csproj

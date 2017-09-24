@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {SurveyEditHeaderComponent} from './components/survey-edit-header/survey-edit-header.component';
 import {
-  MatProgressSpinnerModule,
+  MdProgressSpinnerModule,
   MdButtonModule,
   MdCheckboxModule,
   MdInputModule,
@@ -35,7 +35,7 @@ const ROUTES: Routes = [
     MdSelectModule,
     MdRadioModule,
     MdCheckboxModule,
-    MatProgressSpinnerModule,
+    MdProgressSpinnerModule,
 
     DefinitionViewsModule,
 
