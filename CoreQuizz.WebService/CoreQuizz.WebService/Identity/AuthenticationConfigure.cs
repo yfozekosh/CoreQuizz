@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using CoreQuizz.WebService.Identity.JWT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

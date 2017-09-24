@@ -1,0 +1,14 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using CoreQuizz.WebService.Communication.ViewModel
+@model CoreQuizz.WebService.Communication.ViewModel.LoginViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<form asp-controller="Identity" asp-action="Login">
+    <input type="email" name="Email" placeholder="Email"/>
+    <input type="password" name="Password" placeholder="Password"/>
+    <input type="submit" value="Login"/>
+</form>

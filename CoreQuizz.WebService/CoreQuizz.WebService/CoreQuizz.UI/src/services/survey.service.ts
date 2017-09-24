@@ -66,13 +66,23 @@ export class SurveyService {
   getSurvey(id: number): Observable<ServiceResponse<Survey>> {
     return this._http.get(ApiRoutes.survey.get(id))
       .map(d => d.json())
-      .map(this.produceResponse(value => this.processSurveyDates([value])[0]));
+      .map(this.produceResponse(value => {
+        const newValue: any = {...this.processSurveyDates([value])[0]};
+        newValue.questionDefinitions = newValue.questions;
+        delete newValue.questions;
+        return newValue;
+      }));
   }
 
   getSurveyForEdit(id: number): Observable<ServiceResponse<SurveyWithDefinition>> {
     return this._http.get(ApiRoutes.survey.edit(id))
       .map(d => d.json())
-      .map(this.produceResponse(value => this.processSurveyDates([value])[0]));
+      .map(this.produceResponse(value => {
+        const newValue: any = {...this.processSurveyDates([value])[0]};
+        newValue.questionDefinitions = newValue.questions;
+        delete newValue.questions;
+        return newValue;
+      }));
   }
 
 

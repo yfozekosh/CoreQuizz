@@ -20,11 +20,13 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using CoreQuizz.Commands.Extensions;
 using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.WebService.Identity.JWT;
+using CoreQuizz.WebService.ModelContract;
+using CoreQuizz.WebService.ModelContract.Contracts;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using NLog.Internal;
 using NLog.Web;
 
 namespace CoreQuizz.WebService
@@ -76,6 +78,8 @@ namespace CoreQuizz.WebService
                 })
                 .AddEntityFrameworkStores<IdentityContext>();
 
+            services.AddTransient<IQuestionRecognizer, QuestionRecognizer>();
+
             services.AddMvc(options =>
             {
                 options.OutputFormatters.Add(new JsonOutputFormatter(new JsonSerializerSettings()
@@ -84,8 +88,6 @@ namespace CoreQuizz.WebService
                     ContractResolver = new CamelCasePropertyNamesContractResolver()
                 }, ArrayPool<char>.Shared));
             });
-
-            services.AddSession();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
@@ -101,8 +103,7 @@ namespace CoreQuizz.WebService
             }
 
             app.UserCoreQuizzJwt(serviceProvider);
-
-            app.UseSession();
+            
             app.UseStaticFiles();
 
             if (env.IsDevelopment())

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 
 namespace CoreQuizz.Queries.PageQueries.Responces
 {
@@ -10,6 +12,6 @@ namespace CoreQuizz.Queries.PageQueries.Responces
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public int Stars { get; set; }
-        public string CreatedBy { get; set; }
+        public string CreatedBy { get; set; } 
     }
 }

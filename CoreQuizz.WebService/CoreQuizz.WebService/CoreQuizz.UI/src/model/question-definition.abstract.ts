@@ -2,6 +2,7 @@ import {OptionsDefinition} from './options-definition.class';
 
 export abstract class QuestionDefinition {
   questionLabel: string;
+  abstract type: string;
 
   constructor(label?: string) {
     this.questionLabel = label;
