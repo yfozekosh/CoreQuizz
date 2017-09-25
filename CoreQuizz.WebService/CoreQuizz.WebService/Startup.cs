@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -20,11 +21,13 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using CoreQuizz.Commands.Extensions;
 using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.WebService.Communication.ModelBinders;
 using CoreQuizz.WebService.Identity.JWT;
-using CoreQuizz.WebService.ModelContract;
 using CoreQuizz.WebService.ModelContract.Contracts;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NLog.Web;
@@ -79,13 +82,25 @@ namespace CoreQuizz.WebService
                 .AddEntityFrameworkStores<IdentityContext>();
 
             services.AddTransient<IQuestionRecognizer, QuestionRecognizer>();
-
+            
             services.AddMvc(options =>
             {
+                
+//                options.InputFormatters.Add(new JsonInputFormatter(NullLogger.Instance, new JsonSerializerSettings
+//                {
+//                    Converters = new List<JsonConverter>()
+//                    {
+//                        new QuestionJsonConverter()
+//                    }
+//                }, ArrayPool<char>.Shared,new DefaultObjectPoolProvider()));
                 options.OutputFormatters.Add(new JsonOutputFormatter(new JsonSerializerSettings()
                 {
                     Formatting = Formatting.Indented,
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    Converters = new List<JsonConverter>()
+                    {
+                        new QuestionJsonConverter()
+                    }
                 }, ArrayPool<char>.Shared));
             });
         }

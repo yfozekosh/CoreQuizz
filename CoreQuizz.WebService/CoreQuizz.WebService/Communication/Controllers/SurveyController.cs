@@ -158,14 +158,16 @@ namespace CoreQuizz.WebService.Communication.Controllers
         public async Task<ActionResult> SaveSurvey([FromBody] SaveSurveyViewModel survey)
         {
             if (survey == null) return BadRequest("survey not specified");
-
+            
             var command = new UpdateSurveyCommand()
             {
                 Survey = new Survey()
                 {
                     Id = survey.SurveyId,
                     Title = survey.SurveyName,
-                    Description = survey.Description
+                    Description = survey.Description,
+                    Questions = survey.QuestionDefinitions,
+                    SurveyPassAccessLevel = (SurveyPassAccessLevel) survey.Access
                 }
             };
 

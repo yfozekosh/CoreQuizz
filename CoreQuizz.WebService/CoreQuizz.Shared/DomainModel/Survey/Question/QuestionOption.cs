@@ -1,4 +1,5 @@
-﻿using CoreQuizz.Shared.DomainModel.Abstract;
+﻿using System.Runtime.Serialization;
+using CoreQuizz.Shared.DomainModel.Abstract;
 
 namespace CoreQuizz.Shared.DomainModel.Survey.Question
 {
@@ -8,6 +9,7 @@ namespace CoreQuizz.Shared.DomainModel.Survey.Question
         
         public bool? IsSelected { get; set; }
 
+        [IgnoreDataMember]
         public Abstract.Question Question { get; set; }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 using CoreQuizz.WebService.Communication.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoreQuizz.WebService.Communication.ViewModel
 {
-    [ModelBinder(BinderType = typeof(SurveyViewModelBinder))] 
+    [ModelBinder(BinderType = typeof(SurveyViewModelBinder))]
     public class SaveSurveyViewModel
     {
         public int SurveyId { get; set; }
