@@ -1,5 +1,11 @@
 ﻿using CoreQuizz.Shared.DomainModel;
+using CoreQuizz.Shared.DomainModel.Enum;
+using CoreQuizz.Shared.DomainModel.Group;
+using CoreQuizz.Shared.DomainModel.Survey;
+using CoreQuizz.Shared.DomainModel.Survey.Question;
+using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoreQuizz.DataAccess.DbContext
 {
@@ -16,15 +22,29 @@ namespace CoreQuizz.DataAccess.DbContext
                 entity.HasKey(user => user.Id);
                 entity.HasIndex(user => user.Email).IsUnique();
                 entity.HasMany(x => x.Surveys).WithOne(survey => survey.CreatedBy);
+                entity.HasMany(x => x.Groups);
+                entity.HasMany(x => x.Stars).WithOne(star => star.LeftBy);
             });
 
             modelBuilder.Entity<Survey>(entity =>
             {
                 entity.HasKey(survey => survey.Id);
-                entity.HasMany(survey => survey.Questions).WithOne(question => question.Survey);
+                entity.HasMany(survey => survey.Questions).WithOne(question => question.Survey).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(survey => survey.Grants).WithOne(grant => grant.Survey).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(survey => survey.Stars).WithOne(star => star.Survey).OnDelete(DeleteBehavior.Cascade);
             });
 
+            modelBuilder.Entity<CustomGroup>(entity =>
+            {
+                entity.HasKey(group => group.Id);
+                entity.HasMany(group => group.UsersInGroup);
+            });
+            
+            modelBuilder.Entity<SurveyGrant>().HasKey(grant => grant.Id);
+            modelBuilder.Entity<CustomGroupGrant>().HasKey(grant => grant.Id);
+            
             modelBuilder.Entity<Question>().HasKey(question => question.Id);
+            
             modelBuilder.Entity<Question>().HasDiscriminator<string>("Type");
 
             modelBuilder.Entity<RadioQuestion>().HasBaseType<Question>();
@@ -32,22 +52,22 @@ namespace CoreQuizz.DataAccess.DbContext
             modelBuilder.Entity<RadioQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasMany(question => question.Options).WithOne(option => (RadioQuestion)option.Question);
+                entity.HasMany(question => question.Options).WithOne(option => (RadioQuestion)option.Question).OnDelete(DeleteBehavior.Cascade);
                 
-                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Radio.ToString());
+                entity.HasDiscriminator<string>("Type").HasValue("radio");
             });
 
             modelBuilder.Entity<CheckboxQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasMany(question => question.Options).WithOne(option => (CheckboxQuestion) option.Question);
-                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Checkbox.ToString());
+                entity.HasMany(question => question.Options).WithOne(option => (CheckboxQuestion) option.Question).OnDelete(DeleteBehavior.Cascade);
+                entity.HasDiscriminator<string>("Type").HasValue("checkbox");
             });
 
             modelBuilder.Entity<InputQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Input.ToString());
+                entity.HasDiscriminator<string>("Type").HasValue("input");
             });
 
             modelBuilder.Entity<QuestionOption>(entity =>

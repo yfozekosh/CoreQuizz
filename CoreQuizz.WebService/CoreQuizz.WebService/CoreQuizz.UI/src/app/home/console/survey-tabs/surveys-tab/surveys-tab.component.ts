@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SurveyService} from '../../../../../services/survey.service';
-import {Survey} from '../../../../../classes/survey.class';
+import {Survey} from '../../../../../model/survey.class';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 

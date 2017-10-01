@@ -21,8 +21,8 @@ namespace CoreQuizz.Commands.Contract
         public IEnumerable<Exception> Exceptions { get; set; }
 
         /// <summary>
-        /// Errors occured durring command execution. Can be shown to user.
+        /// Error occured durring command execution. Can be shown to user.
         /// </summary>
-        public string Errors { get; set; }
+        public string Error { get; set; }
     }
 }

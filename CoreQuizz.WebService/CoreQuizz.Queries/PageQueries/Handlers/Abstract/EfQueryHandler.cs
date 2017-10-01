@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.Queries.Contract;
+using CoreQuizz.Queries.Contract.Result;
 
 namespace CoreQuizz.Queries.PageQueries.Handlers.Abstract
 {
@@ -14,9 +15,9 @@ namespace CoreQuizz.Queries.PageQueries.Handlers.Abstract
             Context = context;
         }
 
-        public abstract Task<TResult> ExecuteAsync(TQuery query);
+        public abstract Task<QueryResult<TResult>> ExecuteAsync(TQuery query);
 
-        public TResult Execute(TQuery query)
+        public QueryResult<TResult> Execute(TQuery query)
         {
             return ExecuteAsync(query).GetAwaiter().GetResult();
         }

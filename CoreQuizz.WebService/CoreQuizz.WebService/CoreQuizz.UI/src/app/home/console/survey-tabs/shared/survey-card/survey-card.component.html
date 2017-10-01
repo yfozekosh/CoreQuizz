@@ -3,9 +3,13 @@
     <a [routerLink]="['console/profile/',survey.createdBy]">{{survey.createdBy}}</a>
   </div>
   <div class="survey-card-header">
-    <div>
+    <div class="header">
       <a [routerLink]="['survey/'+survey.surveyId]">
         <h1>{{survey.surveyName}}</h1>
+      </a>
+      <a class="survey-edit" *ngIf="canEdit" [routerLink]="['survey/'+survey.surveyId+'/edit']">
+        (edit)
+        <i class="fa fa-pencil" aria-hidden="true"></i>
       </a>
     </div>
     <div class="controlls">

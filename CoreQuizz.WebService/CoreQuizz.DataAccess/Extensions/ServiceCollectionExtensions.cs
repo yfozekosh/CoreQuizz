@@ -15,7 +15,15 @@ namespace CoreQuizz.DataAccess.Extensions
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            services.AddDbContext<SurveyContext>(options => options.UseSqlServer(configuration["survey_connection"]));
+            if (configuration["db"] == "mssql")
+            {
+                services.AddDbContext<SurveyContext>(
+                    options => options.UseSqlServer(configuration["survey_connection"]));
+            } else if (configuration["db"] == "sqlite")
+            {
+                services.AddDbContext<SurveyContext>(
+                    options => options.UseSqlite(configuration["sqlite_connection"]));
+            }
 
             services.AddTransient<Microsoft.EntityFrameworkCore.DbContext, SurveyContext>();
             services.AddTransient<IUnitOfWork, EfUnitOfWork>();

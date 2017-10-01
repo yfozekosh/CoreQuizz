@@ -7,5 +7,7 @@ namespace CoreQuizz.Commands.Commands
         public string Title { get; set; }
 
         public string UserEmail { get; set; }
+        
+        public string Description { get; set; }
     }
 }

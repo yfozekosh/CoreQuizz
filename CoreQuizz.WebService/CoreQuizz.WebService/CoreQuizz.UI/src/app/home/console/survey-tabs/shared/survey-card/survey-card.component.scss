@@ -27,10 +27,6 @@
   }
 
   .survey-card-header {
-    a {
-      //color: #673ab7;
-    }
-
     h1 {
       font-size: 22px;
       font-weight: 300;
@@ -41,6 +37,18 @@
     font-size: 12px;
     a {
       color: black;
+    }
+  }
+
+  .header {
+    //display: flex;
+    //justify-content: center;
+    //flex-direction: column;
+    //align-items: center;
+
+    .survey-edit {
+      margin-bottom: 8px;
+      font-size: 12px;
     }
   }
 }

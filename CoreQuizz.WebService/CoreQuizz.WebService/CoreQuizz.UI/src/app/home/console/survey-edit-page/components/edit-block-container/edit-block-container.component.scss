@@ -1,0 +1,7 @@
+.edit-block-container {
+  width: 100%;
+  &.active {
+    border-left: solid 4px #673ab7;
+    box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.1), 2px 4px 6px 0 rgba(0,0,0,0.2);//, 1 0px 2px 0 rgba(0,0,0,0.1);
+  }
+}

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {SurveyService} from '../../../../../services/survey.service';
 import {Observable} from 'rxjs/Observable';
-import {Survey} from '../../../../../classes/survey.class';
+import {Survey} from '../../../../../model/survey.class';
 
 @Component({
   selector: 'app-search-page',
