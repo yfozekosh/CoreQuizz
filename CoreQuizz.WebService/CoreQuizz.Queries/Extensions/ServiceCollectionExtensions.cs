@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
+using CoreQuizz.Queries.Additional;
+using CoreQuizz.Queries.Additional.Contracts;
 using CoreQuizz.Queries.Contract;
 using CoreQuizz.Queries.Exceptions;
 using CoreQuizz.Queries.PageQueries;
@@ -21,6 +23,13 @@ namespace CoreQuizz.Queries.Extensions
 
             serviceCollection.AddTransient<IQueryDispatcher, QueryDispatcher>();
 
+            RegisterQueries(serviceCollection);
+
+            serviceCollection.AddTransient<IQuestionFetcherFactory, QuestionFetcherFactory>();
+        }
+
+        private static void RegisterQueries(IServiceCollection serviceCollection)
+        {
             var assembly = typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly;
             IList<Type> handlerTypes;
             IList<Tuple<Type, Type>> queryQueryResultList = new List<Tuple<Type, Type>>();
@@ -66,10 +75,9 @@ namespace CoreQuizz.Queries.Extensions
 
             foreach (Tuple<Type, Type> tuple in queryQueryResultList)
             {
-
                 Type handlerRealizationType;
                 Type constructedQueryHandler = typeof(IQueryHandler<,>).MakeGenericType(tuple.Item1, tuple.Item2);
-                
+
                 try
                 {
                     handlerRealizationType = handlerTypes.Single(t => t.GetInterfaces().Contains(constructedQueryHandler));
@@ -86,6 +94,7 @@ namespace CoreQuizz.Queries.Extensions
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     throw new QueryTypeNotRegisteredException(constructedQueryHandler);
                 }
             }

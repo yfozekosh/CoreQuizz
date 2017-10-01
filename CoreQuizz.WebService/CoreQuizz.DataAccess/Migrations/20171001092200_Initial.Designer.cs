@@ -10,8 +10,8 @@ using CoreQuizz.Shared.DomainModel.Enum;
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    [Migration("20170924083412_SqliteInitial")]
-    partial class SqliteInitial
+    [Migration("20171001092200_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,7 +224,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("CheckboxQuestion");
 
-                    b.HasDiscriminator().HasValue("Checkbox");
+                    b.HasDiscriminator().HasValue("checkbox");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Survey.Question.InputQuestion", b =>
@@ -235,7 +235,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("InputQuestion");
 
-                    b.HasDiscriminator().HasValue("Input");
+                    b.HasDiscriminator().HasValue("input");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Survey.Question.RadioQuestion", b =>
@@ -245,7 +245,7 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.ToTable("RadioQuestion");
 
-                    b.HasDiscriminator().HasValue("Radio");
+                    b.HasDiscriminator().HasValue("radio");
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Group.CustomGroup", b =>
@@ -270,14 +270,16 @@ namespace CoreQuizz.DataAccess.Migrations
                 {
                     b.HasOne("CoreQuizz.Shared.DomainModel.Survey.Survey", "Survey")
                         .WithMany("Questions")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Survey.Question.QuestionOption", b =>
                 {
                     b.HasOne("CoreQuizz.Shared.DomainModel.Survey.Question.CheckboxQuestion", "Question")
                         .WithMany("Options")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CoreQuizz.Shared.DomainModel.Survey.Question.RadioQuestion")
                         .WithMany("Options")
@@ -303,7 +305,8 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.HasOne("CoreQuizz.Shared.DomainModel.Survey.Survey", "Survey")
                         .WithMany("Grants")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Survey.SurveyStar", b =>
@@ -314,7 +317,8 @@ namespace CoreQuizz.DataAccess.Migrations
 
                     b.HasOne("CoreQuizz.Shared.DomainModel.Survey.Survey", "Survey")
                         .WithMany("Stars")
-                        .HasForeignKey("SurveyId");
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.User", b =>

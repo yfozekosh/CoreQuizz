@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {DefinitionComponent} from '../definition-component';
 import {RadioQuestionDefinition} from '../../../../../../../model/question-definition.class';
 import {OptionsDefinition} from '../../../../../../../model/options-definition.class';
@@ -20,6 +20,9 @@ export class RadioDefinitionViewComponent extends DefinitionComponent implements
   }
 
   ngOnInit(): void {
+    if (!this.question.options) {
+      this.question.options = [];
+    }
     const checked = this.question.options.find(x => x.isSelected);
     if (checked) {
       this.selectedValue = checked.value;

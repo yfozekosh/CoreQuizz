@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreQuizz.DataAccess.DbContext;
+using CoreQuizz.Queries.Additional.Contracts;
 using CoreQuizz.Queries.Contract.Result;
-using CoreQuizz.Queries.Exceptions;
 using CoreQuizz.Queries.PageQueries.Handlers.Abstract;
 using CoreQuizz.Queries.PageQueries.Queries;
 using CoreQuizz.Queries.PageQueries.Responces;
@@ -14,8 +15,12 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
 {
     public class GetSurveyForEditQueryHandler : EfQueryHandler<GetSurveyForEditQuery, SurveyDefinitionViewModel>
     {
-        public GetSurveyForEditQueryHandler(SurveyContext context) : base(context)
+        private readonly IQuestionFetcherFactory _fetcherFactory;
+
+        public GetSurveyForEditQueryHandler(SurveyContext context, IQuestionFetcherFactory fetcherFactory) :
+            base(context)
         {
+            _fetcherFactory = fetcherFactory;
         }
 
         public override async Task<QueryResult<SurveyDefinitionViewModel>> ExecuteAsync(GetSurveyForEditQuery query)
@@ -49,7 +54,8 @@ namespace CoreQuizz.Queries.PageQueries.Handlers
                 Description = survey.Description,
                 ModifiedDate = survey.ModifieDateTime,
                 Stars = survey.Stars.Count,
-                Questions = survey.Questions
+                Questions = await Task.WhenAll(survey.Questions.Select(q =>
+                    _fetcherFactory.GetFetcher(q.GetType()).FetchQuestionAsync(q.Id)))
             };
             return new OkQueryResult<SurveyDefinitionViewModel>(result);
         }

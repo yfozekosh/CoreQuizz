@@ -10,5 +10,7 @@ namespace CoreQuizz.Shared.DomainModel.Survey.Question.Abstract
         
         [IgnoreDataMember]
         public virtual Survey Survey {get; set; }
+
+        public virtual string Type { get; set; }
     }
 }

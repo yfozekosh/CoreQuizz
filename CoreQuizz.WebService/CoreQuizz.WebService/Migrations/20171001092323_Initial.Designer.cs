@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CoreQuizz.WebService.Identity;
 
-namespace CoreQuizz.WebService.Data
+namespace CoreQuizz.WebService.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20170924081501_SqliteIdentity")]
-    partial class SqliteIdentity
+    [Migration("20171001092323_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

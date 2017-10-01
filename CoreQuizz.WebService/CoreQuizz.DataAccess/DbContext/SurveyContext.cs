@@ -5,6 +5,7 @@ using CoreQuizz.Shared.DomainModel.Survey;
 using CoreQuizz.Shared.DomainModel.Survey.Question;
 using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoreQuizz.DataAccess.DbContext
 {
@@ -28,9 +29,9 @@ namespace CoreQuizz.DataAccess.DbContext
             modelBuilder.Entity<Survey>(entity =>
             {
                 entity.HasKey(survey => survey.Id);
-                entity.HasMany(survey => survey.Questions).WithOne(question => question.Survey);
-                entity.HasMany(survey => survey.Grants).WithOne(grant => grant.Survey);
-                entity.HasMany(survey => survey.Stars).WithOne(star => star.Survey);
+                entity.HasMany(survey => survey.Questions).WithOne(question => question.Survey).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(survey => survey.Grants).WithOne(grant => grant.Survey).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(survey => survey.Stars).WithOne(star => star.Survey).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<CustomGroup>(entity =>
@@ -51,22 +52,22 @@ namespace CoreQuizz.DataAccess.DbContext
             modelBuilder.Entity<RadioQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasMany(question => question.Options).WithOne(option => (RadioQuestion)option.Question);
+                entity.HasMany(question => question.Options).WithOne(option => (RadioQuestion)option.Question).OnDelete(DeleteBehavior.Cascade);
                 
-                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Radio.ToString());
+                entity.HasDiscriminator<string>("Type").HasValue("radio");
             });
 
             modelBuilder.Entity<CheckboxQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasMany(question => question.Options).WithOne(option => (CheckboxQuestion) option.Question);
-                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Checkbox.ToString());
+                entity.HasMany(question => question.Options).WithOne(option => (CheckboxQuestion) option.Question).OnDelete(DeleteBehavior.Cascade);
+                entity.HasDiscriminator<string>("Type").HasValue("checkbox");
             });
 
             modelBuilder.Entity<InputQuestion>(entity =>
             {
                 entity.HasBaseType<Question>();
-                entity.HasDiscriminator<string>("Type").HasValue(QuestionType.Input.ToString());
+                entity.HasDiscriminator<string>("Type").HasValue("input");
             });
 
             modelBuilder.Entity<QuestionOption>(entity =>

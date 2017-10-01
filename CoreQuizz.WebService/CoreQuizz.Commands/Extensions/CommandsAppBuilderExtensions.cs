@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using CoreQuizz.Commands.Additional.Contracts;
+using CoreQuizz.Commands.Additional.QuestionSavers;
 using CoreQuizz.Commands.Contract;
 using CoreQuizz.Commands.Exceptions;
 using CoreQuizz.Commands.Handlers.Abstract;
@@ -16,7 +18,15 @@ namespace CoreQuizz.Commands.Extensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
             services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            
+            RegisterCommands(services);
 
+            services.AddTransient<IQuestionSaverFactory, QuestionSaverFactory>();
+
+        }
+
+        public static void RegisterCommands(IServiceCollection services)
+        {
             var assembly = typeof(CommandsAppBuilderExtensions).GetTypeInfo().Assembly;
             IList<Type> commandTypes;
             IList<Type> handlerTypes;
@@ -25,10 +35,10 @@ namespace CoreQuizz.Commands.Extensions
             try
             {
                 commandTypes = assembly.GetTypes().Where(type =>
-                 {
-                     var isCommand = type.GetInterfaces().Contains(typeof(ICommand));
-                     return isCommand && !type.GetTypeInfo().IsAbstract;
-                 }).ToList();
+                {
+                    var isCommand = type.GetInterfaces().Contains(typeof(ICommand));
+                    return isCommand && !type.GetTypeInfo().IsAbstract;
+                }).ToList();
 
                 handlerTypes = assembly.GetTypes().Where(type =>
                 {
@@ -76,6 +86,7 @@ namespace CoreQuizz.Commands.Extensions
                     throw new CommandTypeNotRegisteredException(typeTuple.GetType(), e);
                 }
             }
+   
         }
     }
 }

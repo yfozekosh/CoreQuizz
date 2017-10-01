@@ -5,5 +5,6 @@ namespace CoreQuizz.Shared.DomainModel.Survey.Question
     public class CheckboxQuestion : Abstract.Question
     {
         public IList<QuestionOption> Options { get; set; }
+        public override string Type => "checkbox";
     }
 }

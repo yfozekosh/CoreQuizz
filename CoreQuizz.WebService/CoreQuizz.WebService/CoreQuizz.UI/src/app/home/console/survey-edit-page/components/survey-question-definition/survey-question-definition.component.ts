@@ -40,7 +40,7 @@ export class SurveyQuestionDefinitionComponent implements OnInit, OnChanges {
     let questionDefinitionComponent;
 
     for (const key of Object.keys(QuestionDefinitions)) {
-      if (this.questionDefinition instanceof QuestionDefinitions[key]) {
+      if (this.questionDefinition.type === new QuestionDefinitions[key]().type) {
         const questionType = regex.exec(key)[0];
         questionDefinitionComponent = this.definitions.find(d => d.name.startsWith(questionType));
       }

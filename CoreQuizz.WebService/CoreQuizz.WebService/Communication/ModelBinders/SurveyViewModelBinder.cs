@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using CoreQuizz.Queries.PageQueries.Responces;
 using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 using CoreQuizz.WebService.Communication.ViewModel;
-using CoreQuizz.WebService.ModelContract.Contracts;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

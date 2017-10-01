@@ -23,7 +23,6 @@ using CoreQuizz.Commands.Extensions;
 using CoreQuizz.DataAccess.DbContext;
 using CoreQuizz.WebService.Communication.ModelBinders;
 using CoreQuizz.WebService.Identity.JWT;
-using CoreQuizz.WebService.ModelContract.Contracts;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -81,8 +80,6 @@ namespace CoreQuizz.WebService
                 })
                 .AddEntityFrameworkStores<IdentityContext>();
 
-            services.AddTransient<IQuestionRecognizer, QuestionRecognizer>();
-            
             services.AddMvc(options =>
             {
                 
