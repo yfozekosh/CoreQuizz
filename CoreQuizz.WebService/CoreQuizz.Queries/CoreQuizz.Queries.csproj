@@ -8,12 +8,4 @@
     <ProjectReference Include="..\CoreQuizz.Queries.Contract\CoreQuizz.Queries.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.Shared\CoreQuizz.Shared.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.EntityFrameworkCore">
-      <HintPath>C:\Users\yurii.fozekosh\.nuget\packages\microsoft.entityframeworkcore\1.1.2\lib\netstandard1.3\Microsoft.EntityFrameworkCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>C:\Users\yurii.fozekosh\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>

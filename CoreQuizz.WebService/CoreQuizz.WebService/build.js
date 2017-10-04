@@ -32,7 +32,12 @@ function execShell(command, ifSucess) {
 }
 
 //if (process.platform !== "linux") {
-    execShell("cd CoreQuizz.UI && npm i && npm run build", function () {
-        console.log('copied');
+    execShell("cd ../CoreQuizz.UI && npm i && npm run build", function () {
+        console.log('builded frontend');
+		execShell("rm -rf wwwroot/", function(){
+			execShell("cd ../CoreQuizz.UI && mv wwwroot/ ../CoreQuizz.WebService/", function() {
+				console.log('copied frontend');
+			});
+		});
     });
 //}

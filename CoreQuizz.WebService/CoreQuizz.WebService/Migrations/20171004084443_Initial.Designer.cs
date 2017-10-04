@@ -8,13 +8,14 @@ using CoreQuizz.WebService.Identity;
 namespace CoreQuizz.WebService.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20171001092323_Initial")]
+    [Migration("20171004084443_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2");
+                .HasAnnotation("ProductVersion", "1.1.2")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CoreQuizz.WebService.Identity.AuthenticationUser", b =>
                 {

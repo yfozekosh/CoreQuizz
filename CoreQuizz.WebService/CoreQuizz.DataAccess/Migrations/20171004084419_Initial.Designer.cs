@@ -10,13 +10,14 @@ using CoreQuizz.Shared.DomainModel.Enum;
 namespace CoreQuizz.DataAccess.Migrations
 {
     [DbContext(typeof(SurveyContext))]
-    [Migration("20171001092200_Initial")]
+    [Migration("20171004084419_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2");
+                .HasAnnotation("ProductVersion", "1.1.2")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CoreQuizz.Shared.DomainModel.Group.CustomGroup", b =>
                 {

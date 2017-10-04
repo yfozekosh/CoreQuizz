@@ -4,5 +4,5 @@
     "sqlite_connection": "Data Source = corequizz.db",
     "authority": "https://localhost:44316/",
     "FrontendHostingUrl": "http://localhost:4200",
-    "db": "sqlite"
+    "db": "mssql"
 }

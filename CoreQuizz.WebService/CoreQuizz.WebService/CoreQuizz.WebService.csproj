@@ -60,6 +60,7 @@
     <ProjectReference Include="..\CoreQuizz.DataAccess\CoreQuizz.DataAccess.csproj" />
     <ProjectReference Include="..\CoreQuizz.Queries.Contract\CoreQuizz.Queries.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.Queries\CoreQuizz.Queries.csproj" />
+    <ProjectReference Include="..\CoreQuizz.Shared\CoreQuizz.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="CoreQuizz.UI\**" />
@@ -70,7 +71,4 @@
   <ItemGroup>
     <None Remove="CoreQuizz.UI\**" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if $(ConfigurationName) == Release node ./build.js" />
-  </Target>
 </Project>

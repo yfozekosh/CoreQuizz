@@ -82,14 +82,6 @@ namespace CoreQuizz.WebService
 
             services.AddMvc(options =>
             {
-                
-//                options.InputFormatters.Add(new JsonInputFormatter(NullLogger.Instance, new JsonSerializerSettings
-//                {
-//                    Converters = new List<JsonConverter>()
-//                    {
-//                        new QuestionJsonConverter()
-//                    }
-//                }, ArrayPool<char>.Shared,new DefaultObjectPoolProvider()));
                 options.OutputFormatters.Add(new JsonOutputFormatter(new JsonSerializerSettings()
                 {
                     Formatting = Formatting.Indented,

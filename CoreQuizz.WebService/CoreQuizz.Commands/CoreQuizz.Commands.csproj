@@ -6,9 +6,4 @@
     <ProjectReference Include="..\CoreQuizz.Commands.Contract\CoreQuizz.Commands.Contract.csproj" />
     <ProjectReference Include="..\CoreQuizz.DataAccess\CoreQuizz.DataAccess.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>C:\Users\yurii.fozekosh\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\1.1.0\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 </Project>
