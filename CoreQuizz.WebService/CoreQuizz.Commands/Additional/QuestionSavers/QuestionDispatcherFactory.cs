@@ -8,20 +8,20 @@ using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 
 namespace CoreQuizz.Commands.Additional.QuestionSavers
 {
-    public class QuestionSaverFactory : IQuestionSaverFactory
+    public class QuestionDispatcherFactory : IQuestionDispatcherFactory
     {
         private readonly SurveyContext _context;
 
-        public QuestionSaverFactory(SurveyContext context)
+        public QuestionDispatcherFactory(SurveyContext context)
         {
             _context = context;
         }
         
-        public IQuestionSaver GetSaver(Question question)
+        public IQuestionDispatcher GetDispatcher(Question question)
         {
-            Assembly assembly = typeof(QuestionSaverFactory).GetTypeInfo().Assembly;
+            Assembly assembly = typeof(QuestionDispatcherFactory).GetTypeInfo().Assembly;
             IEnumerable<Type> saverTypes = assembly.GetTypes()
-                .Where(t => t.GetInterfaces().Contains(typeof(IQuestionSaver)))
+                .Where(t => t.GetInterfaces().Contains(typeof(IQuestionDispatcher)))
                 .Where(t => !t.GetTypeInfo().IsAbstract);
 
             Dictionary<Type, Type> questionTypeDisctionary =
@@ -36,7 +36,7 @@ namespace CoreQuizz.Commands.Additional.QuestionSavers
             Type result = questionTypeDisctionary.FirstOrDefault(t => t.Key.IsInstanceOfType(question)).Value;
             
             // TODO: check for constructor parameters
-            return (IQuestionSaver) Activator.CreateInstance(result, _context);
+            return (IQuestionDispatcher) Activator.CreateInstance(result, _context);
         }
     }
 }

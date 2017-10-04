@@ -21,7 +21,7 @@ namespace CoreQuizz.Commands.Extensions
             
             RegisterCommands(services);
 
-            services.AddTransient<IQuestionSaverFactory, QuestionSaverFactory>();
+            services.AddTransient<IQuestionDispatcherFactory, QuestionDispatcherFactory>();
 
         }
 

@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.Commands.Additional.QuestionSavers
 {
-    public class InputQuestionSaver : EfQuestionSaver<InputQuestion>
+    public class InputQuestionDispatcher : EfQuestionDispatcher<InputQuestion>
     {
-        public InputQuestionSaver(SurveyContext surveyContext) : base(surveyContext)
+        public InputQuestionDispatcher(SurveyContext surveyContext) : base(surveyContext)
         {
         }
 
@@ -38,6 +38,21 @@ namespace CoreQuizz.Commands.Additional.QuestionSavers
                 inputDbQuestion.ModifieDateTime = DateTime.Now;
                 inputDbQuestion.QuestionLabel = question.QuestionLabel;
             }
+
+            return new CommandResult(true);
+        }
+
+        public override async Task<CommandResult> DeleteAsync(Survey survey, InputQuestion question)
+        {
+            if (question == null) throw new ArgumentNullException(nameof(question));
+            InputQuestion dbQuestion = SurveyContext.Find<InputQuestion>(question.Id);
+
+            if (dbQuestion == null)
+            {
+                throw new ArgumentException("Question do not exists");
+            }
+
+            SurveyContext.Entry(dbQuestion).State = EntityState.Deleted;
 
             return new CommandResult(true);
         }

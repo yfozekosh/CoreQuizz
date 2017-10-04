@@ -12,9 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreQuizz.Commands.Additional.QuestionSavers
 {
-    public class CheckboxQuestionSaver : EfQuestionSaver<CheckboxQuestion>
+    public class CheckboxQuestionDispatcher : EfQuestionDispatcher<CheckboxQuestion>
     {
-        public CheckboxQuestionSaver(SurveyContext surveyContext) : base(surveyContext)
+        public CheckboxQuestionDispatcher(SurveyContext surveyContext) : base(surveyContext)
         {
         }
 
@@ -79,6 +79,27 @@ namespace CoreQuizz.Commands.Additional.QuestionSavers
                     checkboxQuestion.Options.Add(questionOption);                    
                 }
             }
+
+            return new CommandResult(true);
+        }
+
+        public override async Task<CommandResult> DeleteAsync(Survey survey, CheckboxQuestion question)
+        {
+            if (question == null) throw new ArgumentNullException(nameof(question));
+            CheckboxQuestion dbQuestion = SurveyContext.Find<CheckboxQuestion>(question.Id);
+
+            if (dbQuestion == null)
+            {
+                throw new ArgumentException("Question do not exists");
+            }
+
+            await SurveyContext.Entry(dbQuestion).Collection(q => q.Options).LoadAsync();
+            foreach (var option in dbQuestion.Options)
+            {
+                SurveyContext.Entry(option).State = EntityState.Deleted;
+            }
+
+            SurveyContext.Entry(dbQuestion).State = EntityState.Deleted;
 
             return new CommandResult(true);
         }

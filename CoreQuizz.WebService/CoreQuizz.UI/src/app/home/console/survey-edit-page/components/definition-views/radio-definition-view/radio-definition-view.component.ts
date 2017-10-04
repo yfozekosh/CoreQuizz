@@ -39,4 +39,8 @@ export class RadioDefinitionViewComponent extends DefinitionComponent implements
       this.question.options.splice(index, 1);
     }
   }
+
+  get isSomeSelected(): boolean {
+    return this.question.options.some(o => o.isSelected);
+  }
 }

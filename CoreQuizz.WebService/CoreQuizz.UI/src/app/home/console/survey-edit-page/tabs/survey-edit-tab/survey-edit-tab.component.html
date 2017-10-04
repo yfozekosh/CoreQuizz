@@ -17,11 +17,17 @@
 
     <app-edit-block-container
       *ngFor="let question of survey.questionDefinitions; let i = index;"
-      (onClick)="handleClick(i)"
       [isActive]="activeIndex === i"
+      [isCanDelete]="activeIndex!==0"
+      [isCanClone]="true"
+      [isCanMove]="false"
+      (onClick)="handleClick(i)"
+      (onDelete)="handleDelete(i)"
+      (onClone)="handleClone(i)"
+      (onDown)="handleDown(i)"
+      (onUp)="handleUp(i)"
     >
       <app-survey-question-definition [(questionDefinition)]="survey.questionDefinitions[i]">
-
       </app-survey-question-definition>
     </app-edit-block-container>
 

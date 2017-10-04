@@ -2,6 +2,29 @@
   width: 100%;
   &.active {
     border-left: solid 4px #673ab7;
-    box-shadow: 0 -2px 2px 0 rgba(0,0,0,0.1), 2px 4px 6px 0 rgba(0,0,0,0.2);//, 1 0px 2px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.1), 2px 4px 6px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  footer {
+    padding: 8px 32px;
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 1px rgba(0, 0, 0, 0.1);
+
+    font-size: 24px;
+
+    .right-action {
+      div {
+        display: inline-block;
+        margin-left: 4px;
+      }
+    }
+
+    .left-action {
+    }
+
+    i {
+      cursor: pointer;
+    }
   }
 }

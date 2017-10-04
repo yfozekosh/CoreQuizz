@@ -1,4 +1,21 @@
 <section class="edit-block-container" [ngClass]="{active: isActive}" (click)="onClick.emit()">
   <ng-content></ng-content>
-
+  <footer *ngIf="isActive && isCanSomething">
+    <div class="left-action">
+      <div>
+        <i class="fa fa-trash-o" aria-hidden="true" (click)="onDelete.emit()"></i>
+      </div>
+    </div>
+    <div class="right-action">
+      <div>
+        <i class="fa fa-clone" aria-hidden="true" (click)="onClone.emit()"></i>
+      </div>
+      <div>
+        <i class="fa fa-arrow-circle-o-up" aria-hidden="true" (click)="onUp.emit()"></i>
+      </div>
+      <div>
+        <i class="fa fa-arrow-circle-o-down" aria-hidden="true" (click)="onDown.emit()"></i>
+      </div>
+    </div>
+  </footer>
 </section>

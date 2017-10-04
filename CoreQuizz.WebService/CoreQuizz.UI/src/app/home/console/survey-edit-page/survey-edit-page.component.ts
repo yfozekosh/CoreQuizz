@@ -23,9 +23,6 @@ export class SurveyEditPageComponent implements OnInit {
       }
 
       this.surveyId = parseInt(id, 10);
-      // this._surveyService.getSurvey(this.surveyId).map(d => d.value).subscribe(survey => {
-      //   this.survey = survey.value.survey;
-      // });
     });
   }
 }

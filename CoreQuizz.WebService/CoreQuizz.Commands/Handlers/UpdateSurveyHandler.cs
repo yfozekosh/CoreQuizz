@@ -16,13 +16,13 @@ namespace CoreQuizz.Commands.Handlers
 {
     public class UpdateSurveyHandler : EfCommandHandler<UpdateSurveyCommand>
     {
-        private readonly IQuestionSaverFactory _saverFactory;
+        private readonly IQuestionDispatcherFactory _dispatcherFactory;
 
-        public UpdateSurveyHandler(SurveyContext surveyContext, IQuestionSaverFactory saverFactory,
+        public UpdateSurveyHandler(SurveyContext surveyContext, IQuestionDispatcherFactory dispatcherFactory,
             ILogger<EfCommandHandler<UpdateSurveyCommand>> logger) :
             base(surveyContext, logger)
         {
-            _saverFactory = saverFactory;
+            _dispatcherFactory = dispatcherFactory;
         }
 
         protected override async Task<CommandResult> _ExecuteAsync(UpdateSurveyCommand command)
@@ -42,16 +42,15 @@ namespace CoreQuizz.Commands.Handlers
             await SurveyContext.Entry(dbSurvey).Collection(x => x.Questions).LoadAsync();
 
             var newIds = survey.Questions.Select(q => q.Id).ToArray();
-            var dbQuestionIds = dbSurvey.Questions?.Select(q => q.Id).ToArray();
-            var newQuestions = survey.Questions?.Where(q => dbQuestionIds == null || !dbQuestionIds.Contains(q.Id));
-            var questionToUpdate = survey.Questions?.Where(q => dbQuestionIds != null && dbQuestionIds.Contains(q.Id));
+
             if (dbSurvey.Questions != null)
             {
                 foreach (var dbSurveyQuestion in dbSurvey.Questions)
                 {
                     if (!newIds.Contains(dbSurveyQuestion.Id))
                     {
-                        SurveyContext.Entry(dbSurveyQuestion).State = EntityState.Deleted;
+                        await this._dispatcherFactory.GetDispatcher(dbSurveyQuestion)
+                            .DeleteAsync(dbSurvey, dbSurveyQuestion);
                     }
                 }
             }
@@ -60,28 +59,19 @@ namespace CoreQuizz.Commands.Handlers
             dbSurvey.Description = survey.Description;
             dbSurvey.SurveyPassAccessLevel = survey.SurveyPassAccessLevel;
             dbSurvey.ModifieDateTime = DateTime.Now;
-            if (newQuestions != null)
+            if (dbSurvey.Questions == null)
             {
-                if (dbSurvey.Questions == null)
+                dbSurvey.Questions = new List<Question>();
+            }
+            foreach (var question in survey.Questions)
+            {
+                CommandResult res = await this._dispatcherFactory.GetDispatcher(question).SaveAsync(dbSurvey, question);
+                if (!res.IsSuccess)
                 {
-                    dbSurvey.Questions = new List<Question>();
-                }
-
-                foreach (var newQuestion in newQuestions)
-                {
-                    dbSurvey.Questions.Add(newQuestion);
-                }
-                
-                foreach (var question in questionToUpdate)
-                {
-                    CommandResult res = await this._saverFactory.GetSaver(question).SaveAsync(dbSurvey, question);
-                    if (!res.IsSuccess)
+                    return new CommandResult(false)
                     {
-                        return new CommandResult(false)
-                        {
-                            Error = "Something went wrong while updating question"
-                        };
-                    }
+                        Error = "Something went wrong while updating question"
+                    };
                 }
             }
 

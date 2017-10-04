@@ -2,8 +2,8 @@ using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 
 namespace CoreQuizz.Commands.Additional.Contracts
 {
-    public interface IQuestionSaverFactory
+    public interface IQuestionDispatcherFactory
     {
-        IQuestionSaver GetSaver(Question question);
+        IQuestionDispatcher GetDispatcher(Question question);
          }
 }

@@ -7,12 +7,29 @@ using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 
 namespace CoreQuizz.Commands.Additional.QuestionSavers.Abstract
 {
-    public abstract class QuestionSaver<TQuestion> : IQuestionSaver, IQuestionSaver<TQuestion>
+    public abstract class QuestionDispatcher<TQuestion> : IQuestionDispatcher, IQuestionDispatcher<TQuestion>
         where TQuestion : Question
     {
         public Task<CommandResult> SaveAsync(Survey survey, Question question)
         {
             if (survey == null) throw new ArgumentNullException(nameof(survey));
+
+            TQuestion castedQuestion = CastToitsType(question);
+
+            return SaveAsync(survey, castedQuestion);
+        }
+
+        public Task<CommandResult> DeleteAsync(Survey survey, Question question)
+        {
+            if (survey == null) throw new ArgumentNullException(nameof(survey));
+
+            TQuestion castedQuestion = CastToitsType(question);
+
+            return DeleteAsync(survey, castedQuestion);
+        }
+
+        private static TQuestion CastToitsType(Question question)
+        {
             if (question == null) throw new ArgumentNullException(nameof(question));
 
             TQuestion castedQuestion = question as TQuestion;
@@ -23,9 +40,11 @@ namespace CoreQuizz.Commands.Additional.QuestionSavers.Abstract
                     $"Question should be of type {typeof(TQuestion)} but got type {question.GetType()}");
             }
 
-            return SaveAsync(survey, castedQuestion);
+            return castedQuestion;
         }
 
         public abstract Task<CommandResult> SaveAsync(Survey survey, TQuestion question);
+
+        public abstract Task<CommandResult> DeleteAsync(Survey survey, TQuestion question);
     }
 }

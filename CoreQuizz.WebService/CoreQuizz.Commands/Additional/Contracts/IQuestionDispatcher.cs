@@ -5,13 +5,17 @@ using CoreQuizz.Shared.DomainModel.Survey.Question.Abstract;
 
 namespace CoreQuizz.Commands.Additional.Contracts
 {
-    public interface IQuestionSaver
+    public interface IQuestionDispatcher
     {
         Task<CommandResult> SaveAsync(Survey survey, Question question);
+
+        Task<CommandResult> DeleteAsync(Survey survey, Question question);
     }
 
-    public interface IQuestionSaver<in TQuestion> where TQuestion : Question
+    public interface IQuestionDispatcher<in TQuestion> where TQuestion : Question
     {
         Task<CommandResult> SaveAsync(Survey survey, TQuestion question);
+
+        Task<CommandResult> DeleteAsync(Survey survey, TQuestion question);
     }
 }

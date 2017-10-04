@@ -17,9 +17,9 @@
     <div class="access">
       <p>Please, select acces level for your survey (can be changed later)</p>
       <md-radio-group formControlName="access">
-        <md-radio-button value="1">Public</md-radio-button>
-        <md-radio-button value="2">Private (by url)</md-radio-button>
-        <md-radio-button value="2">Private (by grant)</md-radio-button>
+        <md-radio-button [value]="1">Public</md-radio-button>
+        <md-radio-button [value]="2">Private (by url)</md-radio-button>
+        <md-radio-button [value]="2">Private (by grant)</md-radio-button>
       </md-radio-group>
     </div>
 

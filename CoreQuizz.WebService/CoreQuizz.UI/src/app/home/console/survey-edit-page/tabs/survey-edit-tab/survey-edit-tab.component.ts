@@ -26,6 +26,10 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy {
     this.surveyService.getSurveyForEdit(this.surveyId).toPromise().then(d => {
       if (d.isSuccess) {
         this.survey = d.value;
+        if (!this.survey.questionDefinitions) {
+          this.survey.questionDefinitions = [];
+        }
+
         let isSending = false;
         this.saveObservable = Observable.interval(5000).subscribe(() => {
           if (!isSending) {
@@ -45,6 +49,7 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.saveObservable) {
       this.saveObservable.unsubscribe();
+      this.surveyService.saveSurvey(this.survey).subscribe();
     }
   }
 
@@ -53,9 +58,39 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy {
   }
 
   handleNew() {
-    if (!this.survey.questionDefinitions){
+    if (!this.survey.questionDefinitions) {
       this.survey.questionDefinitions = [];
     }
     this.survey.questionDefinitions.push(new InputQuestionDefinition('new question'));
+  }
+
+  handleClone(index: number) {
+    const cloned = JSON.parse(JSON.stringify(this.survey.questionDefinitions[index]));
+
+    this.survey.questionDefinitions.splice(index, 0, cloned);
+  }
+
+  handleUp(index: number) {
+    if (index === 0) {
+      return;
+    }
+
+    const prevQ = this.survey.questionDefinitions[index - 1];
+    this.survey.questionDefinitions[index - 1] = this.survey.questionDefinitions[index];
+    this.survey.questionDefinitions[index] = prevQ;
+  }
+
+  handleDown(index: number) {
+    if (index === this.survey.questionDefinitions.length - 1) {
+      return;
+    }
+
+    const nextQ = this.survey.questionDefinitions[index + 1];
+    this.survey.questionDefinitions[index + 1] = this.survey.questionDefinitions[index];
+    this.survey.questionDefinitions[index] = nextQ;
+  }
+
+  handleDelete(index: number) {
+    this.survey.questionDefinitions.splice(index, 1);
   }
 }
