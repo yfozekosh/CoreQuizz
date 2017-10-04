@@ -1,3 +1,10 @@
-<p>
-  checkbox-question-view works!
-</p>
+<div class="checkbox-view">
+  <div class="label">{{question.questionLabel}}</div>
+  <div class="option-container">
+    <md-checkbox *ngFor="let radio of question.options"
+                 [value]="radio"
+                 [checked]="radio.isSelected">
+      {{radio.value}}
+    </md-checkbox>
+  </div>
+</div>

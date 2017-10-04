@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Survey, SurveyWithDefinition} from '../../../../model/survey.class';
+import {SurveyWithDefinition} from '../../../../model/survey.class';
 import {SurveyService} from '../../../../services/survey.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-survey-page',
@@ -36,5 +35,9 @@ export class SurveyEditPageComponent implements OnInit {
         // TODO: call error service;
       }
     });
+  }
+
+  handleAccessChange(access: number) {
+    this.survey.access = access;
   }
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QuestionView} from '../question-view.abstract-component';
+import {InputQuestionDefinition} from '../../../../../../model/question-definition.class';
 
 @Component({
   selector: 'app-input-question-view',
@@ -7,6 +8,7 @@ import {QuestionView} from '../question-view.abstract-component';
   styleUrls: ['./input-question-view.component.scss']
 })
 export class InputQuestionViewComponent extends QuestionView implements OnInit {
+  question: InputQuestionDefinition;
 
   constructor() {
     super();

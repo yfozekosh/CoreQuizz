@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
+import {AccessTypes} from '../../../../../../model/survey-access-type';
 
 @Component({
   selector: 'app-surveys-toolbox',
@@ -10,11 +11,7 @@ export class SurveysToolboxComponent implements OnInit {
   @Input() searchBox: string;
   @Output() searchBoxChange: EventEmitter<string> = new EventEmitter<string>();
 
-  accessTypes = [
-    {code: 0, display: 'All'},
-    {code: 1, display: 'Public'},
-    {code: 2, display: 'Private (Not implemented)'}
-  ];
+  accessTypes = [{code: 0, display: 'All'}, ...AccessTypes];
 
   selectedType = this.accessTypes[0].code;
 
@@ -31,7 +28,6 @@ export class SurveysToolboxComponent implements OnInit {
 
   handleChange() {
     this.searchBox = this.searchText.value;
-    console.log('emiting');
     this.searchBoxChange.emit(this.searchText.value);
   }
 }

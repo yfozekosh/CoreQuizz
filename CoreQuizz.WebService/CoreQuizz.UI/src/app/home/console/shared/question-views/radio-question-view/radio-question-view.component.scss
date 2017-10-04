@@ -1,3 +1,14 @@
-del {
+.radio-view {
+  padding: 16px 0px;
 
+  .label {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  md-radio-group {
+    display: flex;
+    flex-direction: column;
+  }
 }

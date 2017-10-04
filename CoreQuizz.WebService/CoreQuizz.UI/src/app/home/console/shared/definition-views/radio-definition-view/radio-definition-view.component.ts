@@ -15,6 +15,10 @@ export class RadioDefinitionViewComponent extends DefinitionComponent implements
   selectedValue: string;
   definition = RadioQuestionDefinition;
 
+  get isSomeSelected(): boolean {
+    return this.question.options.some(o => o.isSelected);
+  }
+
   static getDisplay() {
     return 'Radio Buttons';
   }
@@ -40,7 +44,7 @@ export class RadioDefinitionViewComponent extends DefinitionComponent implements
     }
   }
 
-  get isSomeSelected(): boolean {
-    return this.question.options.some(o => o.isSelected);
+  handleSelect(option: OptionsDefinition) {
+    this.question.options.forEach(o => o.isSelected = o === option ? !o.isSelected : false);
   }
 }

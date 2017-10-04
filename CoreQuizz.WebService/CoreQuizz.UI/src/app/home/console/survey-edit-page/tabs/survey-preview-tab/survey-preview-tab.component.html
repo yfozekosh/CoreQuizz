@@ -1,8 +1,16 @@
-<div>
+<section class="survey-preview">
   <ng-container *ngIf="survey">
-    <app-question-view
-      *ngFor="let question of survey.questionDefinitions"
-      [questionDefinition]="question">
-    </app-question-view>
+    <header>
+      <h1>{{survey.surveyName}}</h1>
+      <p>
+        {{survey.description}}
+      </p>
+    </header>
+    <div class="preview-content">
+      <app-question-view
+        *ngFor="let question of survey.questionDefinitions"
+        [questionDefinition]="question">
+      </app-question-view>
+    </div>
   </ng-container>
-</div>
+</section>

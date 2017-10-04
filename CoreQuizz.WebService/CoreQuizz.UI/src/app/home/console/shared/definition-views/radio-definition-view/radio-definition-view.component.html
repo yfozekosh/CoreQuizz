@@ -13,7 +13,7 @@
 
   <md-radio-group class="radio-group" [(ngModel)]="selectedValue">
     <div *ngFor="let option of question.options" class="radio-container"
-         (click)="option.isSelected = !option.isSelected">
+         (click)="handleSelect(option)">
       <md-radio-button class="radio-button"
                        [value]="option.value"
                        [checked]="option.isSelected"

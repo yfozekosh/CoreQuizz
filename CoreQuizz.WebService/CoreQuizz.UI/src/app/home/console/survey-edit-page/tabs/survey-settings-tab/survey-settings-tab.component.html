@@ -1,1 +1,12 @@
-Settings
+<div class="settings">
+  <div class="access">
+    <md-select [(ngModel)]="selectedAccess">
+      <md-option *ngFor="let access of accessTypes" [value]="access.code">
+        {{access.display}}
+      </md-option>
+    </md-select>
+  </div>
+  <div>
+    <button md-raised-button (click)="handleDelete()">Delete</button>
+  </div>
+</div>

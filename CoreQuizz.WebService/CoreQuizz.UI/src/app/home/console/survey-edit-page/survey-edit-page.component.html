@@ -8,7 +8,7 @@
     </div>
     <div class="survey-page-content">
       <md-card>
-        <md-tab-group>
+        <md-tab-group [@.disabled]="true">
           <md-tab label="Edit">
             <app-survey-edit-tab
               [survey]="survey"
@@ -21,7 +21,9 @@
             ></app-survey-preview-tab>
           </md-tab>
           <md-tab label="Settings">
-            <app-survey-settings-tab></app-survey-settings-tab>
+            <app-survey-settings-tab
+              (onAccessChange)="handleAccessChange($event)"
+            ></app-survey-settings-tab>
           </md-tab>
         </md-tab-group>
       </md-card>

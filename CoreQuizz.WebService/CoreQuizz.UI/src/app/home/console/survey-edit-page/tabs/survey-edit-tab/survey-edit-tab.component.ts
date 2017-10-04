@@ -58,7 +58,7 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.survey.questionDefinitions) {
       this.survey.questionDefinitions = [];
     }
-    this.survey.questionDefinitions.push(new InputQuestionDefinition('new question'));
+    this.survey.questionDefinitions.push(new InputQuestionDefinition('New question'));
   }
 
   handleClone(index: number) {

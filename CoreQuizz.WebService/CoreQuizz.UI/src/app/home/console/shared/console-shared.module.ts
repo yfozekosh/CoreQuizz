@@ -6,6 +6,10 @@ import {RadioQuestionViewComponent} from './question-views/radio-question-view/r
 import {DefinitionViewsModule} from './definition-views/definition-views.module';
 import {QuestionViewComponent} from './question-views/question-view/question-view.component';
 import {DefinitionHostDirective} from '../survey-edit-page/components/survey-question-definition/definition-host.directive';
+import {
+  MdButtonModule, MdCheckboxModule, MdInputModule, MdRadioModule, MdSelectModule,
+  MdTabsModule
+} from '@angular/material';
 
 export const QuestionViews = [
   InputQuestionViewComponent,
@@ -16,7 +20,14 @@ export const QuestionViews = [
 @NgModule({
   imports: [
     CommonModule,
-    DefinitionViewsModule
+    DefinitionViewsModule,
+
+    MdCheckboxModule,
+    MdButtonModule,
+    MdTabsModule,
+    MdInputModule,
+    MdSelectModule,
+    MdRadioModule
   ],
   declarations: [
     ...QuestionViews,

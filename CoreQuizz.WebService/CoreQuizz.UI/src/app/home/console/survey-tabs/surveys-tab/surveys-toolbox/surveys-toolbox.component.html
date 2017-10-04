@@ -1,11 +1,12 @@
 <form class="surveys-toolbox">
 
   <md-input-container>
-    <input mdInput type="text" placeholder="Search surveys..." [formControl]="searchText" (input)="handleChange($event)"/>
+    <input mdInput type="text" placeholder="Search surveys..." [formControl]="searchText"
+           (input)="handleChange($event)"/>
   </md-input-container>
 
   <div class="right-controlls">
-    <md-select ([ngModel])="selectedType" placeholder="Access Type">
+    <md-select [(ngModel)]="selectedType" [placeholder]="'Access Type'" name="acces-type">
       <md-option *ngFor="let type of accessTypes" [value]="type.code">{{type.display}}</md-option>
     </md-select>
 

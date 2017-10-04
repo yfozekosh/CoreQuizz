@@ -1,3 +1,10 @@
-<p>
-  radio-question-view works!
-</p>
+<div class="radio-view">
+  <div class="label">{{question.questionLabel}}</div>
+  <md-radio-group>
+    <md-radio-button *ngFor="let radio of question.options"
+                     [value]="radio"
+                     [checked]="radio.isSelected">
+      {{radio.value}}
+    </md-radio-button>
+  </md-radio-group>
+</div>
