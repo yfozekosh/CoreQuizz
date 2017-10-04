@@ -18,9 +18,9 @@ import {SurveyPrevireTabComponent} from './tabs/survey-preview-tab/survey-previe
 import {SurveySettingsTabComponent} from './tabs/survey-settings-tab/survey-settings-tab.component';
 import {EditBlockContainerComponent} from './components/edit-block-container/edit-block-container.component';
 import {SurveyQuestionDefinitionComponent} from './components/survey-question-definition/survey-question-definition.component';
-import {DefinitionViewComponents, DefinitionViewsModule} from './components/definition-views/definition-views.module';
 import {DefinitionHostDirective} from './components/survey-question-definition/definition-host.directive';
 import {AsideNavigationComponent} from './components/aside-navigation/aside-navigation.component';
+import {ConsoleSharedModule} from '../shared/console-shared.module';
 
 const ROUTES: Routes = [
   {path: 'survey/:id/edit', component: SurveyEditPageComponent, canActivate: [AuthGuardService]}
@@ -37,7 +37,7 @@ const ROUTES: Routes = [
     MdCheckboxModule,
     MdProgressSpinnerModule,
 
-    DefinitionViewsModule,
+    ConsoleSharedModule,
 
     RouterModule.forChild(ROUTES),
   ],
@@ -52,11 +52,7 @@ const ROUTES: Routes = [
     EditBlockContainerComponent,
     SurveyQuestionDefinitionComponent,
 
-    DefinitionHostDirective,
     AsideNavigationComponent,
-  ],
-  providers: [
-    {provide: 'QuestionDefinitions', useValue: DefinitionViewComponents}
   ],
 
   exports: [

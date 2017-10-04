@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {DefinitionComponent} from '../definition-component';
-import {InputQuestionDefinition} from '../../../../../../../model/question-definition.class';
+import {InputQuestionDefinition} from '../../../../../../model/question-definition.class';
 
 @Component({
   selector: 'app-input-definition-view',

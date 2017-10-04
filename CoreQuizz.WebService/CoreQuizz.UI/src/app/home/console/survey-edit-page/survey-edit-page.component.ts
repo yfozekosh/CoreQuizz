@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Survey} from '../../../../model/survey.class';
+import {Survey, SurveyWithDefinition} from '../../../../model/survey.class';
 import {SurveyService} from '../../../../services/survey.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-survey-page',
@@ -10,7 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class SurveyEditPageComponent implements OnInit {
   surveyId: number;
-  survey: Survey;
+  survey: SurveyWithDefinition;
 
   constructor(private _surveyService: SurveyService, private _route: ActivatedRoute, private _router: Router) {
   }
@@ -23,6 +24,17 @@ export class SurveyEditPageComponent implements OnInit {
       }
 
       this.surveyId = parseInt(id, 10);
+    });
+
+    this._surveyService.getSurveyForEdit(this.surveyId).toPromise().then(d => {
+      if (d.isSuccess) {
+        this.survey = d.value;
+        if (!this.survey.questionDefinitions) {
+          this.survey.questionDefinitions = [];
+        }
+      } else {
+        // TODO: call error service;
+      }
     });
   }
 }

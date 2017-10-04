@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {DefinitionComponent} from '../definition-component';
-import {RadioQuestionDefinition} from '../../../../../../../model/question-definition.class';
-import {OptionsDefinition} from '../../../../../../../model/options-definition.class';
+import {RadioQuestionDefinition} from '../../../../../../model/question-definition.class';
+import {OptionsDefinition} from '../../../../../../model/options-definition.class';
 
 @Component({
   selector: 'app-radio-definition-view',

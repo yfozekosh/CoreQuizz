@@ -18,6 +18,6 @@ import {RouterModule} from '@angular/router';
     SurveyCardComponent
   ]
 })
-export class ConsoleSharedModule {
+export class SurveyTabsSharedModule {
 
 }

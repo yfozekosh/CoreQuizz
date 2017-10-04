@@ -10,10 +10,15 @@
       <md-card>
         <md-tab-group>
           <md-tab label="Edit">
-            <app-survey-edit-tab></app-survey-edit-tab>
+            <app-survey-edit-tab
+              [survey]="survey"
+            >
+            </app-survey-edit-tab>
           </md-tab>
           <md-tab label="Preview">
-            <app-survey-previre-tab></app-survey-previre-tab>
+            <app-survey-preview-tab
+              [survey]="survey"
+            ></app-survey-preview-tab>
           </md-tab>
           <md-tab label="Settings">
             <app-survey-settings-tab></app-survey-settings-tab>

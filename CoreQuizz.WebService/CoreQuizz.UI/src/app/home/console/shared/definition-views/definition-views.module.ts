@@ -37,7 +37,10 @@ export const DefinitionViewComponents = [
     QuestionTypeSelectComponent
   ],
   entryComponents: DefinitionViewComponents,
-  exports: DefinitionViewComponents
+  exports: DefinitionViewComponents,
+  providers: [
+    {provide: 'QuestionDefinitions', useValue: DefinitionViewComponents}
+  ]
 })
 export class DefinitionViewsModule {
 }

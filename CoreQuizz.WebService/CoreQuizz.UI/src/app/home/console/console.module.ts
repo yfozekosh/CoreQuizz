@@ -16,12 +16,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SurveyService} from '../../../services/survey.service';
 import {ExtendableHttp} from '../../../services/extendable-http';
 import {HttpModule} from '@angular/http';
-import {ConsoleSharedModule} from './survey-tabs/shared/console-shared.module';
+import {SurveyTabsSharedModule} from './survey-tabs/shared/survey-tabs-shared.module';
 import {SearchPageComponent} from './search-page/search-page/search-page.component';
 import {SurveyEditPageComponent} from './survey-edit-page/survey-edit-page.component';
-import {SurveyPassPageComponent} from './survey-pass-page/survey-pass-page.component';
 import {SurveyEditPageModule} from './survey-edit-page/survey-edit-page.module';
 import {ModelDefinition} from '../../../model/index';
+import {SurveyPageModule} from './survey-page/survey-page.module';
+import {SurveyPageComponent} from './survey-page/survey-page.component';
 
 const ROUTES: Routes = [
   {
@@ -32,7 +33,7 @@ const ROUTES: Routes = [
       {path: 'search', component: SearchPageComponent},
       {
         path: 'survey/:id',
-        component: SurveyPassPageComponent,
+        component: SurveyPageComponent,
         canActivate: [AuthGuardService]
       },
       {path: 'survey/:id/edit', component: SurveyEditPageComponent, canActivate: [AuthGuardService]}
@@ -55,8 +56,10 @@ const ROUTES: Routes = [
     MdRadioModule,
 
     SharedModule,
-    ConsoleSharedModule,
+    SurveyTabsSharedModule,
     SurveyEditPageModule,
+
+    SurveyPageModule,
 
     RouterModule.forChild(ROUTES)
   ],
@@ -68,7 +71,6 @@ const ROUTES: Routes = [
     ConsoleMainComponent,
     SurveysTabComponent,
     NewSurveyComponent,
-    SurveyPassPageComponent,
     SearchPageComponent
   ],
   providers: [

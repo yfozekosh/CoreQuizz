@@ -101,7 +101,7 @@ export class SurveyService {
           this.lastSaved = JSON.stringify(survey);
         });
     }
-    return new Observable(subscriber => subscriber.next('not saved'));
+    return new Observable(subscriber => subscriber.next('nothing to save'));
   }
 
   private processSurveyDates(args: Survey[]) {

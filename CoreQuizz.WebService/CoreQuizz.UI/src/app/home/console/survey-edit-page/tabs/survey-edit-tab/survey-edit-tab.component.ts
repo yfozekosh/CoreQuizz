@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {SurveyWithDefinition} from '../../../../../../model/survey.class';
 import {InputQuestionDefinition} from '../../../../../../model/question-definition.class';
 import {Observable} from 'rxjs/Observable';
@@ -12,8 +12,8 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: 'survey-edit-tab.component.html',
   styleUrls: ['survey-edit-tab.component.scss']
 })
-export class SurveyEditTabComponent implements OnInit, OnDestroy {
-  survey: SurveyWithDefinition;
+export class SurveyEditTabComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() survey: SurveyWithDefinition;
   saveObservable: Subscription;
   surveyId: number;
   activeIndex = -1;
@@ -23,25 +23,22 @@ export class SurveyEditTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.surveyService.getSurveyForEdit(this.surveyId).toPromise().then(d => {
-      if (d.isSuccess) {
-        this.survey = d.value;
-        if (!this.survey.questionDefinitions) {
-          this.survey.questionDefinitions = [];
-        }
 
-        let isSending = false;
-        this.saveObservable = Observable.interval(5000).subscribe(() => {
-          if (!isSending) {
-            isSending = true;
-            this.surveyService.saveSurvey(this.survey).do(null, () => isSending = false).subscribe(s => {
-              console.log(s);
-              isSending = false;
-            });
-          }
+  }
+
+  ngOnChanges() {
+    if (this.saveObservable) {
+      this.saveObservable.unsubscribe();
+    }
+
+    let isSending = false;
+    this.saveObservable = Observable.interval(5000).subscribe(() => {
+      if (!isSending) {
+        isSending = true;
+        this.surveyService.saveSurvey(this.survey).do(null, () => isSending = false).subscribe(s => {
+          console.log(s);
+          isSending = false;
         });
-      } else {
-        // TODO: call error service;
       }
     });
   }

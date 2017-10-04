@@ -1,1 +1,8 @@
-preview
+<div>
+  <ng-container *ngIf="survey">
+    <app-question-view
+      *ngFor="let question of survey.questionDefinitions"
+      [questionDefinition]="question">
+    </app-question-view>
+  </ng-container>
+</div>

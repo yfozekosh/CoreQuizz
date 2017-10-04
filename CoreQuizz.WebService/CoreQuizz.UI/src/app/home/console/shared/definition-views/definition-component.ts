@@ -1,5 +1,5 @@
-import {QuestionDefinition} from '../../../../../../model/question-definition.abstract';
 import {EventEmitter, Output} from '@angular/core';
+import {QuestionDefinition} from '../../../../../model/question-definition.abstract';
 
 export abstract class DefinitionComponent {
   @Output() onTypeChange = new EventEmitter<any>();

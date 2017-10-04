@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import * as QuestionDefinitions from '../../../../../../model/question-definition.class';
 import {QuestionDefinition} from '../../../../../../model/question-definition.abstract';
-import {DefinitionComponent} from '../definition-views/definition-component';
+import {DefinitionComponent} from '../../../shared/definition-views/definition-component';
 import {DefinitionHostDirective} from './definition-host.directive';
 
 @Component({
