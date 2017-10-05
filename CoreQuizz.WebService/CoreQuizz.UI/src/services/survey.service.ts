@@ -74,7 +74,7 @@ export class SurveyService {
       }));
   }
 
-  getSurveyForEdit(id: number): Observable<ServiceResponse<SurveyWithDefinition>> {
+  getSurveyWithDefinitions(id: number): Observable<ServiceResponse<SurveyWithDefinition>> {
     return this._http.get(ApiRoutes.survey.edit(id))
       .map(d => d.json())
       .map(this.produceResponse(value => {

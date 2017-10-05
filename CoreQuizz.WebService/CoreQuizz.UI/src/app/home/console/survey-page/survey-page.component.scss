@@ -1,5 +1,31 @@
-.survey-page-content{
-  md-card{
+.survey-page-content {
+  display: flex;
+  justify-content: center;
 
+  padding-top: 32px;
+  .card {
+    width: 720px;
+
+    .survey-preview {
+      h1 {
+        text-align: center;
+      }
+
+      header {
+        font-size: 12px;
+      }
+
+      .preview-content {
+        padding-top: 16px;
+      }
+
+      font-size: 16px;
+      padding: 16px;
+
+      .submit {
+        display: flex;
+        justify-content: center;
+      }
+    }
   }
 }

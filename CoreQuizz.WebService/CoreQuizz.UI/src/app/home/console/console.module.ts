@@ -30,7 +30,11 @@ const ROUTES: Routes = [
     children: [
       {path: '', component: ConsoleMainComponent, canActivate: [AuthGuardService]},
       {path: 'new', component: NewSurveyComponent, canActivate: [AuthGuardService]},
-      {path: 'search', component: SearchPageComponent},
+      {
+        path: 'search',
+        component: SearchPageComponent
+      },
+      {path: 'search/survey/:id', redirectTo: 'survey/:id', pathMatch: 'full'},
       {
         path: 'survey/:id',
         component: SurveyPageComponent,

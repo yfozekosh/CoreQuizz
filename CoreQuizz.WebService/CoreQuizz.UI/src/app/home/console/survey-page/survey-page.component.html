@@ -1,7 +1,25 @@
 <div class="survey-page-content">
   <div class="card">
     <md-card>
-      Works!
+      <section class="survey-preview">
+        <ng-container *ngIf="survey">
+          <header>
+            <h1>{{survey.surveyName}}</h1>
+            <p>
+              {{survey.description}}
+            </p>
+          </header>
+          <div class="preview-content">
+            <app-question-view
+              *ngFor="let question of survey.questionDefinitions"
+              [questionDefinition]="question">
+            </app-question-view>
+          </div>
+          <div class="submit">
+            <button md-raised-button (click)="handleSubmit()">Submit</button>
+          </div>
+        </ng-container>
+      </section>
     </md-card>
   </div>
 </div>

@@ -45,6 +45,6 @@ export class RadioDefinitionViewComponent extends DefinitionComponent implements
   }
 
   handleSelect(option: OptionsDefinition) {
-    this.question.options.forEach(o => o.isSelected = o === option ? !o.isSelected : false);
+    this.question.options.forEach(o => o.isSelected = o === option);
   }
 }

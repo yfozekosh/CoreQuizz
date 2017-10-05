@@ -25,7 +25,7 @@ export class SurveyEditPageComponent implements OnInit {
       this.surveyId = parseInt(id, 10);
     });
 
-    this._surveyService.getSurveyForEdit(this.surveyId).toPromise().then(d => {
+    this._surveyService.getSurveyWithDefinitions(this.surveyId).toPromise().then(d => {
       if (d.isSuccess) {
         this.survey = d.value;
         if (!this.survey.questionDefinitions) {

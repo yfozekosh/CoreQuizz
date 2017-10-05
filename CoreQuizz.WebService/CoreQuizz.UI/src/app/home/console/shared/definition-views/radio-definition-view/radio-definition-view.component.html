@@ -27,7 +27,8 @@
     <div class="radio-container">
       <md-radio-button class="radio-button"
                        [value]="'none'"
-                       disabled
+                       [checked]="!isSomeSelected"
+                       (change)="handleSelect(null)"
       >
       </md-radio-button>
       <md-input-container (click)="handleNew($event)">
