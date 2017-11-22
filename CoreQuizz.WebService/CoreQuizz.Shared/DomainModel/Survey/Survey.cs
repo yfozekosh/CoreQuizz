@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using CoreQuizz.Shared.DomainModel.Abstract;
 using CoreQuizz.Shared.DomainModel.Group;
 
@@ -6,6 +7,7 @@ namespace CoreQuizz.Shared.DomainModel.Survey
 {
     public class Survey : ModifiableBaseEntity
     {
+        [ConcurrencyCheck]
         public string Title { get; set; }
 
         public string Description { get; set; }

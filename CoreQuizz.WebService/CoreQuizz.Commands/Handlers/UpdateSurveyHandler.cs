@@ -28,6 +28,7 @@ namespace CoreQuizz.Commands.Handlers
         protected override async Task<CommandResult> _ExecuteAsync(UpdateSurveyCommand command)
         {
             if (command == null) throw new ArgumentNullException(nameof(command));
+            return new CommandResult(true);
             Survey survey = command.Survey;
 
             Survey dbSurvey = await SurveyContext.Surveys.FindAsync(survey.Id);

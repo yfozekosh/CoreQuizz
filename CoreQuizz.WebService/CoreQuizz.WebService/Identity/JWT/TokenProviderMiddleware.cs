@@ -18,6 +18,7 @@ namespace CoreQuizz.WebService.Identity.JWT
 {
     public class TokenProviderMiddleware
     {
+        private static object _sync = new Object();
         private readonly RequestDelegate _next;
         private readonly UserManager<AuthenticationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -44,7 +45,7 @@ namespace CoreQuizz.WebService.Identity.JWT
             }
 
             if (!context.Request.Method.Equals("POST")
-                || context.Request.ContentType != "application/json")
+                || !context.Request.ContentType.Contains("application/json"))
             {
                 context.Response.StatusCode = 400;
                 return context.Response.WriteAsync(SeriaizeErrorResponse("Only application/json"));

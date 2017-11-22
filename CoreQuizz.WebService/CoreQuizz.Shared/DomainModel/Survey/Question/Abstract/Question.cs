@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using CoreQuizz.Shared.DomainModel.Abstract;
 
 namespace CoreQuizz.Shared.DomainModel.Survey.Question.Abstract
@@ -6,6 +7,7 @@ namespace CoreQuizz.Shared.DomainModel.Survey.Question.Abstract
     public abstract class Question : ModifiableBaseEntity
     {
         public int? ResultId { get; set; }
+        [ConcurrencyCheck]
         public string QuestionLabel { get; set; }
         
         [IgnoreDataMember]
